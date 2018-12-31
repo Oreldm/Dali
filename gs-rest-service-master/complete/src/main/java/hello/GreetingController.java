@@ -16,4 +16,11 @@ public class GreetingController {
         return new Greeting(counter.incrementAndGet(),
                             String.format(template, name));
     }
+    
+    public boolean checkPassword(String username, String Passsword) {
+    	return false;
+    }
+    
+    public boolean updateUserG
+    
 }
