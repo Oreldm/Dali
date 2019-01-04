@@ -18,7 +18,7 @@ public class ArtistAuthController {
 		password = addBrackets(password);
 		String command = "INSERT INTO ARTIST (ARTISTID,PASS) VALUES (" + id + "," + password + ")";
 		System.out.println(command);
-		boolean response = DALService.INSTANCE.sendCommandDoneRecieve(command);
+		boolean response = DALService.INSTANCE.sendCommandDontRecieve(command);
 		return response;
 	}
 

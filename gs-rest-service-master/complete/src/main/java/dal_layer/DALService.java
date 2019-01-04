@@ -23,7 +23,7 @@ public class DALService {
 		}
 	}
 
-	public static boolean sendCommandDoneRecieve(String command) {
+	public static boolean sendCommandDontRecieve(String command) {
 		DALService.INSTANCE.LAST_RESULT=null;
 		try {
 			openConnection();
