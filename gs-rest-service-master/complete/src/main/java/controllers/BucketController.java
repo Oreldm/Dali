@@ -26,14 +26,17 @@ public class BucketController {
 
     @PostMapping("/uploadFile")
     public boolean uploadFile(@RequestPart(value = "file") MultipartFile file, @RequestPart String artid,
-    		@RequestPart String artistid, @RequestPart String tags) {
+    		@RequestPart String artistid, @RequestPart String tags, @RequestPart String xPosition , @RequestPart String yPosition) {
     	String response= this.amazonClient.uploadFile(file);
     	response=addBrackets(response);
     	artid=addBrackets(artid);
     	tags=addBrackets(tags);
     	artistid=addBrackets(artistid);
+    	Double xPos = Double.parseDouble(xPosition);
+    	Double yPos = Double.parseDouble(yPosition);
     	//INSERT INTO ART (ARTID, URL, ARTISTID, TAGS) VALUES ('name','name','orel','name')
-    	String command="insert into ART (ARTID, URL, ARTISTID, TAGS) VALUES ("+artid+","+response+","+artistid+","+tags+")";
+    	String command="insert into ART (ARTID, URL, ARTISTID, TAGS, xPosition, yPosition) VALUES ("+artid+","+response+
+    			","+artistid+","+tags+ ",+"+xPos+","+yPos+")";
     	System.out.println(command);
     	
     	return DALService.sendCommandDontRecieve(command);
