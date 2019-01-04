@@ -29,9 +29,9 @@ public class AmazonClient {
 //	@Value("${amazonProperties.bucketName}")
 	private String bucketName="daliproj";
 //	@Value("${amazonProperties.accessKey}")
-	private String accessKey="AKIAICLVW5JYEMGTUBCA";
+	private String accessKey="xxxxxx";
 //	@Value("${amazonProperties.secretKey}")
-	private String secretKey="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";
+	private String secretKey="xxxxxx";
 
 	@PostConstruct
 	private void initializeAmazon() {
