@@ -42,25 +42,20 @@ public class DALService {
 		return true;
 	}
 
-	public static boolean sendCommand(String command) {
+	public static ResultSet sendCommand(String command) {
 		// create the statement object
 		try {
 			openConnection();
 			Statement stmt = con.createStatement();
 
 			// execute query
-			ResultSet rs = stmt.executeQuery("select * from artist where ARTISTID='orel'");
-			// HOW TO GET FROM STATEMENT:
-			rs.next();
-			LAST_RESULT=rs.getString(2);
-			
-			closeConnection();
+			ResultSet rs = stmt.executeQuery(command);
+			return rs;
 
 			// close the connection object
-			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
 	}
 	

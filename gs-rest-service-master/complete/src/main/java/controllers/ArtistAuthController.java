@@ -27,12 +27,22 @@ public class ArtistAuthController {
 		// TODO: make it like that select * from artist where ARTISTID='' AND PASS=''
 		user = addBrackets(user);
 
-		String command = "SELECT * FROM ARTIST WHERE user=" + user;
+		String command = "SELECT * FROM ARTIST WHERE ARTISTID=" + user;
 		System.out.println(command);
-		DALService.sendCommand(command);
-		if (DALService.LAST_RESULT.equals(password)) {
-			return true;
+		ResultSet rs = DALService.sendCommand(command);
+		if (rs == null) {
+			DALService.closeConnection();
+			return false;
 		}
+		try {
+			rs.next();
+			if (rs.getString(2).equals(password)) {
+				DALService.closeConnection();
+				return true;
+			}
+		} catch (Exception e) {
+		}
+		DALService.closeConnection();
 		return false;
 
 	}
