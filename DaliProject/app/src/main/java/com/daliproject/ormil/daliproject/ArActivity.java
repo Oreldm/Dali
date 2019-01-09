@@ -2,6 +2,7 @@ package com.daliproject.ormil.daliproject;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
@@ -11,14 +12,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import com.google.ar.core.Anchor;
+import com.google.ar.core.Frame;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
+import com.google.ar.core.Trackable;
 import com.google.ar.sceneform.AnchorNode;
+import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
+import com.google.ar.sceneform.rendering.Renderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
+import android.graphics.Point;
+
+import java.util.List;
 
 
 /**
@@ -29,7 +39,12 @@ public class ArActivity extends AppCompatActivity {
     private static final double MIN_OPENGL_VERSION = 3.0;
 
     private ArFragment arFragment;
-    private ModelRenderable andyRenderable;
+
+    private Uri mModel;
+
+    private ImageButton mImageButton;
+
+    private boolean isShowing = false;
 
     @Override
     @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
@@ -44,14 +59,46 @@ public class ArActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_ux);
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
+        mImageButton = findViewById(R.id.imageBtn);
 
-        // When you build a Renderable, Sceneform loads its resources in the background while returning
-        // a CompletableFuture. Call thenAccept(), handle(), or check isDone() before calling get().
+        String modelPath = getIntent().getExtras().getString(KeyManager.BUNDLE_MARKER_STRING);
 
+        if(!modelPath.equals(""))
+            mModel = Uri.parse(modelPath);
+        else
+            mModel = Uri.parse("https://s3.eu-west-1.amazonaws.com/daliproj/1546976406611-Mesh_Beagle.sfb");
+
+
+        mImageButton.setOnClickListener(v -> {
+            if(!isShowing) {
+                addObject();
+                isShowing = true;
+            }
+        });
+    }
+
+    private void addObject(){
+        Frame frame = arFragment.getArSceneView().getArFrame();
+        Point point = getCenterOfScreen();
+
+        if(frame != null){
+            List<HitResult> hits = frame.hitTest((float)point.x, (float)point.y);
+            for (HitResult hit : hits) {
+                Trackable trackable = hit.getTrackable();
+                if(trackable instanceof Plane){
+                    if(((Plane)trackable).isPoseInPolygon(hit.getHitPose())){
+                        placeObject(hit.createAnchor(), mModel);
+                    }
+                }
+            }
+        }
+    }
+
+    private void placeObject(Anchor anchor, Uri model){
         ModelRenderable.builder()
-                .setSource(this, Uri.parse("https://s3-eu-west-1.amazonaws.com/daliproj/1546620345371-andy.sfb"))
+                .setSource(this, model)
                 .build()
-                .thenAccept(renderable -> andyRenderable = renderable)
+                .thenAccept(renderable -> addNodeToScene(arFragment, anchor, renderable))
                 .exceptionally(
                         throwable -> {
                             Log.d("ARDownload", throwable.toString());
@@ -61,24 +108,27 @@ public class ArActivity extends AppCompatActivity {
                             toast.show();
                             return null;
                         });
+    }
 
-        arFragment.setOnTapArPlaneListener(
-                (HitResult hitResult, Plane plane, MotionEvent motionEvent) -> {
-                    if (andyRenderable == null) {
-                        return;
-                    }
+    private void addNodeToScene(ArFragment arFragment, Anchor anchor, Renderable renderable){
+        if (renderable == null) {
+            return;
+        }
 
-                    // Create the Anchor.
-                    Anchor anchor = hitResult.createAnchor();
-                    AnchorNode anchorNode = new AnchorNode(anchor);
-                    anchorNode.setParent(arFragment.getArSceneView().getScene());
+        AnchorNode anchorNode = new AnchorNode(anchor);
 
-                    // Create the transformable andy and add it to the anchor.
-                    TransformableNode andy = new TransformableNode(arFragment.getTransformationSystem());
-                    andy.setParent(anchorNode);
-                    andy.setRenderable(andyRenderable);
-                    andy.select();
-                });
+        // Create the transformable model and add it to the anchor.
+        TransformableNode modelTransform = new TransformableNode(arFragment.getTransformationSystem());
+        modelTransform.setParent(anchorNode);
+        modelTransform.setRenderable(renderable);
+        arFragment.getArSceneView().getScene().addChild(anchorNode);
+        modelTransform.select();
+        modelTransform.setLocalScale(new Vector3(0.25f, 0.25f, 0.25f));
+    }
+
+    private Point getCenterOfScreen(){
+        View view = findViewById(android.R.id.content);
+        return new Point(view.getWidth() / 2, view.getHeight() / 2);
     }
 
     /**
