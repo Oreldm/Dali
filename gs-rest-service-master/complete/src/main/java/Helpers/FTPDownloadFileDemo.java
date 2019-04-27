@@ -17,7 +17,7 @@ import org.apache.commons.net.ftp.FTPClient;
  * @author www.codejava.net
  */
 public class FTPDownloadFileDemo {
- 
+	//IF YOU WANT PICTURES THEY CAN BE IN /var/www
     public static void main(String[] args) {
         String server = "www.myserver.com";
         int port = 21;
