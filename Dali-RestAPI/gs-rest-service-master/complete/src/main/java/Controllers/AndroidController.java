@@ -233,6 +233,7 @@ public class AndroidController implements QueryHelper, TableNames {
 		String path = rs.getString("path");
 		String artName = rs.getString("name");
 		int artistId = rs.getInt("artistId");
+		artwork.setDt_created(rs.getString("dt_created"));
 		artwork.setId(artId);
 		artwork.setPath(path);
 		artwork.setName(artName);

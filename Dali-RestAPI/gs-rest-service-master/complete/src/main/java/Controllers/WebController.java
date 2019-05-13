@@ -75,7 +75,7 @@ public class WebController implements TableNames, QueryHelper {
 			, @RequestParam("artistId") int artistId) {
 		try {
 		int id=QueryHelper.getHighestIdFromTable("Artwork") +1;
-		String pathToFile="/data/files/"+artistId+"/";
+		String pathToFile="/var/www/data/files/"+artistId+"/";
 		
 		String command="INSERT INTO Artwork (id, path, name, artistId) VALUES ("+
 		id+",'"+pathToFile+file.getOriginalFilename()+"','"+name+"',"+artistId+");";
