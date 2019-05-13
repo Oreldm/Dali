@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +49,25 @@ public class WebController implements TableNames, QueryHelper {
 		DALService.closeConnection();
 
 		return null;
+	}
+	
+	@RequestMapping("/deleteArt")
+	public boolean deleteArtById(@RequestParam(value = "id") int id) {
+		String command=QueryHelper.selectIdFromTable("Artwork", id);
+		ResultSet st= DALService.sendCommand(command);
+		String path="";
+		try {
+			while(st.next()) {
+				path=st.getString("path");
+			}
+		} catch (SQLException e) {
+			return false;
+		}
+		
+		command = "Delete from Artwork where id="+id;
+		DALService.sendCommandDataManipulation(command);
+		File file = new File(path);
+		return file.delete();
 	}
 
 	@PostMapping("/uploadArtwork")
