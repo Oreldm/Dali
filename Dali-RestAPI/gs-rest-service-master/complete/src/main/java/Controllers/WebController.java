@@ -55,14 +55,13 @@ public class WebController implements TableNames, QueryHelper {
 			, @RequestParam("artistId") int artistId) {
 		try {
 		int id=QueryHelper.getHighestIdFromTable("Artwork") +1;
-		String pathToFile="/data/files/"+artistId+"/"+file.getOriginalFilename();
-//		String pathToFile="C:\\www\\"+file.getOriginalFilename();
+		String pathToFile="/data/files/"+artistId+"/";
 		
-//		String command="INSERT INTO Artwork (id, path, name, artistId) VALUES ("+
-//		id+",'"+path+"','"+name+"',"+artistId+");";
-//		DALService.sendCommandDataManipulation(command);
-//		createDirectoryIfNotExists(path);
-		writeFileToServer(file,pathToFile);
+		String command="INSERT INTO Artwork (id, path, name, artistId) VALUES ("+
+		id+",'"+pathToFile+file.getOriginalFilename()+"','"+name+"',"+artistId+");";
+		DALService.sendCommandDataManipulation(command);
+		createDirectoryIfNotExists(pathToFile);
+		writeFileToServer(file,pathToFile+file.getOriginalFilename());
 		}catch(Exception e) {return false;}
 		return true;
 	}
