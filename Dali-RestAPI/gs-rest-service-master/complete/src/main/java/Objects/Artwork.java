@@ -46,8 +46,8 @@ public class Artwork {
 		return path;
 	}
 	public void setPath(String path) {
-		if(path.contains("/var/www/")){
-			path = path.replace("/var/www/", "www.project-dali.com/");
+		if(path.contains("/var/www/html/")){
+			path = path.replace("/var/www/html/", "www.project-dali.com/");
 		}
 		this.path = path;
 	}

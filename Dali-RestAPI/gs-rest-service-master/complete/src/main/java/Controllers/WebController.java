@@ -50,60 +50,60 @@ public class WebController implements TableNames, QueryHelper {
 
 		return null;
 	}
-	
+
 	@RequestMapping("/deleteArt")
 	public boolean deleteArtById(@RequestParam(value = "id") int id) {
-		String command=QueryHelper.selectIdFromTable("Artwork", id);
-		ResultSet st= DALService.sendCommand(command);
-		String path="";
+		String command = QueryHelper.selectIdFromTable("Artwork", id);
+		ResultSet st = DALService.sendCommand(command);
+		String path = "";
 		try {
-			while(st.next()) {
-				path=st.getString("path");
+			while (st.next()) {
+				path = st.getString("path");
 			}
 		} catch (SQLException e) {
 			return false;
 		}
-		
-		command = "Delete from Artwork where id="+id;
+
+		command = "Delete from Artwork where id=" + id;
 		DALService.sendCommandDataManipulation(command);
 		File file = new File(path);
 		return file.delete();
 	}
-	
+
 	@PostMapping("/uploadArtwork")
-	public boolean upload(@RequestParam("file") MultipartFile file, @RequestParam("name") String name
-			, @RequestParam("artistId") int artistId) {
+	public boolean upload(@RequestParam("file") MultipartFile file, @RequestParam("name") String name,
+			@RequestParam("artistId") int artistId) {
 		try {
-		int id=QueryHelper.getHighestIdFromTable("Artwork") +1;
-		String pathToFile="/var/www/data/files/"+artistId+"/";
-		
-		String command="INSERT INTO Artwork (id, path, name, artistId) VALUES ("+
-		id+",'"+pathToFile+file.getOriginalFilename()+"','"+name+"',"+artistId+");";
-		DALService.sendCommandDataManipulation(command);
-		createDirectoryIfNotExists(pathToFile);
-		writeFileToServer(file,pathToFile+file.getOriginalFilename());
-		}catch(Exception e) {return false;}
+			int id = QueryHelper.getHighestIdFromTable("Artwork") + 1;
+			String pathToFile = "/var/www/html/data/files/" + artistId + "/";
+
+			String command = "INSERT INTO Artwork (id, path, name, artistId) VALUES (" + id + ",'" + pathToFile
+					+ file.getOriginalFilename() + "','" + name + "'," + artistId + ");";
+			DALService.sendCommandDataManipulation(command);
+			createDirectoryIfNotExists(pathToFile);
+			writeFileToServer(file, pathToFile + file.getOriginalFilename());
+		} catch (Exception e) {
+			return false;
+		}
 		return true;
 	}
-	
-	
-	
-	
+
 	private static boolean createDirectoryIfNotExists(String directory) {
-	    File dir = new File(directory);
-	    if (!dir.exists()) dir.mkdirs();
-	    return true;
+		File dir = new File(directory);
+		if (!dir.exists())
+			dir.mkdirs();
+		return true;
 	}
-	
-	private boolean writeFileToServer(MultipartFile file,String pathToFile) {
+
+	private boolean writeFileToServer(MultipartFile file, String pathToFile) {
 		try {
 			byte data[] = convertFileToByte(convertMultiPartToFile(file));
 			Path path = Paths.get(pathToFile);
 			Files.write(path, data);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
-			}
+		}
 		return true;
 	}
 
