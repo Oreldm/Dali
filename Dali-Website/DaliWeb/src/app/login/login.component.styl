@@ -1,0 +1,36 @@
+soft-shadow(args) //args = (horizontal, vertical, blur, spread, color)
+    -webkit-box-shadow: args
+    -moz-box-shadow: args
+    box-shadow: args
+
+gradient()
+    grad = unquote(join(', ', arguments))
+    background: -moz-linear-gradient(grad)
+    background: -webkit-linear-gradient(grad)
+    background: linear-gradient(grad)
+
+.login-window
+    width: 70%
+    height: 65%
+    top: 50%
+    left: 50%
+    position: absolute
+    transform: translate(-50%, -50%)
+    border-radius: 0.4em
+    overflow: hidden;
+    soft-shadow(0px 0px 50px -20px rgba(0,0,0,0.3))
+    gradient(-45deg, #007FCB 0%, #37B3FF 50%, #83EBFF 100%)
+
+    .login-box
+        width: 50%
+        height: 100%
+        padding: 1em
+        top: 0%
+        left: 50%
+        position: absolute
+        //transform: translate(-50%, -50%)
+        background-color: #FFFFFF
+
+        //.app-google-button
+
+

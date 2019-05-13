@@ -1,0 +1,39 @@
+<div class="upload-window">
+  <div class="form-warpper">
+    <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()" class="form-container">
+      <mat-form-field>
+        <input matInput placeholder="Artwork name" formControlName="name" (input)=onNameChange($event.target.value)>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput placeholder="Artwork info" formControlName="info"></textarea>
+      </mat-form-field>
+
+      <div *ngIf="!files.length" class="dropzone" appDragFile (files)="filesDropped($event)">
+        <div class="text-wrapper">
+          <div class="centered">Drop file here</div>
+        </div>
+        <br>
+      </div>
+
+      <div *ngFor="let file of files">
+        <img *ngIf="file" [src]="file.url" width="100px" height="100px">
+        <br>
+      </div>
+
+      <div>
+        <br>
+        <app-tags-chips-autocomplete></app-tags-chips-autocomplete>
+      </div>
+      <input type="submit" value="Upload Art" class="cta">
+    </form>
+  </div>
+
+  <div class="map-warpper">
+      <agm-map [latitude]="59.326242" [longitude]="17.8419719" (mapClick)='placeMarker($event.coords.lat, $event.coords.lng)' >
+          <agm-marker *ngIf="placedMarker" [latitude]="placedMarker.lat" [longitude]="placedMarker.lng">
+            <agm-info-window *ngIf="markerInfo != ''">{{ markerInfo }}</agm-info-window>
+          </agm-marker>
+        </agm-map>
+  </div>
+</div>
