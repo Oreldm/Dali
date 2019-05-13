@@ -56,6 +56,19 @@ public class AndroidController implements QueryHelper, TableNames {
 
 		return true;
 	}
+	
+	@RequestMapping("/unlikeArtwork")
+	public boolean unLikeArtwork(@RequestParam(value = "artworkId") int artworkId,
+			@RequestParam(value = "userId") int userId) {
+		if (!isLikedArtwork(artworkId, userId)) {
+			return false;
+		}
+		
+		String command="DELETE from ViewerLikedArtwork WHERE artworkId="+artworkId+" AND viewerId="+userId;
+		DALService.sendCommandDataManipulation(command);
+		
+		return true;
+	}
 
 	@RequestMapping("/isLikeArtwork")
 	public boolean isLikedArtwork(@RequestParam(value = "artworkId") int artworkId,
