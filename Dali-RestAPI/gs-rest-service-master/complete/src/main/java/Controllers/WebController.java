@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import Helpers.ArtistHelper;
 import Helpers.QueryHelper;
 import Helpers.TableNames;
 import Objects.Artist;
@@ -29,7 +30,7 @@ public class WebController implements TableNames, QueryHelper{
 		try {
 			Artist artist=new Artist();
 			while (rs.next()) {
-//				artist = requestToArtworkCasting(rs);
+				artist=ArtistHelper.requestToArtistCasting(rs);
 			}
 			DALService.closeConnection();
 			return artist;

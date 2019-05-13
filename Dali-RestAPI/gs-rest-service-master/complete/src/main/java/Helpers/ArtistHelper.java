@@ -42,7 +42,7 @@ public class ArtistHelper implements QueryHelper, TableNames {
 	}
 	
 	public static List<Artist>getFollowing(Artist artist) throws Exception{
-		String command=QueryHelper.selectAllByIdFromTable("ARTIST_ARTIST", "ArtistId1", artist.getId());
+		String command=QueryHelper.selectAllByIdFromTable("Artist_Artist", "ArtistId1", artist.getId());
 		ResultSet rs=DALService.sendCommand(command);
 		List<Artist>ret=new ArrayList<Artist>();
 		while(rs.next()) {
@@ -88,8 +88,8 @@ public class ArtistHelper implements QueryHelper, TableNames {
 	
 	public static List<User> getFollowersForArtist(Artist artist) throws Exception {
 		
-		String command1 = QueryHelper.selectAllByIdFromTable("ARTIST_ARTIST","artistId2", artist.getId());
-		String command2 = QueryHelper.selectAllByIdFromTable("VIEWER_ARTIST","artistId", artist.getId());
+		String command1 = QueryHelper.selectAllByIdFromTable("Artist_Artist","artistId2", artist.getId());
+		String command2 = QueryHelper.selectAllByIdFromTable("Viewer_Artist","artistId", artist.getId());
 		ResultSet rs1 = DALService.sendCommand(command1);
 		ResultSet rs2 = DALService.sendCommand(command2);
 		List<User> followers = new ArrayList<User>();
@@ -115,20 +115,27 @@ public class ArtistHelper implements QueryHelper, TableNames {
 		}
 		
 		return artist;
-		
 	}
 
 	public static List<String> getGeneresToArtist(Artist artist) throws Exception {
 		//TODO FAST : to change it to get everything from the artworks and to delete the tables
 		
-		String command = "SELECT * from Tags WHERE id IN (SELECT tagId FROM Artist_Tags WHERE artistId="
-				+ artist.getId();
+		String command=QueryHelper.selectAllByIdFromTable("Artwork", "artistId", artist.getId());
 		ResultSet rs = DALService.sendCommand(command);
 		List<String> generes = new ArrayList<String>();
 		while (rs.next()) {
-			generes.add(rs.getString("name"));
+			int artworkid=rs.getInt("id");
+			String command2=QueryHelper.selectAllByIdFromTable("Artwork_Tag", "artworkId", artworkid);
+			ResultSet rs2=DALService.sendCommand(command2);
+			while(rs2.next()) {
+				int tagId=rs2.getInt("tagId");
+				String command3=QueryHelper.selectIdFromTable("Tags", tagId);
+				ResultSet rs3=DALService.sendCommand(command3);
+				while(rs3.next()) {
+					generes.add(rs3.getString("name"));
+				}
+			}
 		}
-
 		return generes;
 	}
 
