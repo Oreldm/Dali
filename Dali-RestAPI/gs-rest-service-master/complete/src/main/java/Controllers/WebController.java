@@ -8,25 +8,31 @@ import org.springframework.web.bind.annotation.RestController;
 
 import Helpers.QueryHelper;
 import Helpers.TableNames;
+import Objects.Artist;
 import Objects.Artwork;
 import dal_layer.DALService;
 
 @RestController
 @RequestMapping("/artist/")
-public class ArtistConroller implements QueryHelper, TableNames {
+public class WebController implements TableNames, QueryHelper{
 	
-	@RequestMapping("/getArt")
-	public Artwork getArtById(@RequestParam(value = "id") int id) {
-		String command = QueryHelper.selectIdFromTable(ARTWORK_TABLE, id);
+	@RequestMapping("/login")
+	public boolean login() {
+			return true;
+	}
+	
+	@RequestMapping("/getProfileById")
+	public Artist getProfileById(@RequestParam(value = "id") int id) {
+		String command = QueryHelper.selectIdFromTable(ARTIST_TABLE, id);
 		ResultSet rs = DALService.sendCommand(command);
 		
 		try {
-			Artwork artwork=new Artwork();
+			Artist artist=new Artist();
 			while (rs.next()) {
-//				artwork = requestToArtworkCasting(rs);
+//				artist = requestToArtworkCasting(rs);
 			}
 			DALService.closeConnection();
-			return artwork;
+			return artist;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -34,6 +40,6 @@ public class ArtistConroller implements QueryHelper, TableNames {
 		
 		return null;
 	}
-	
 
+	
 }

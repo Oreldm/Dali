@@ -1,5 +1,4 @@
 package Objects;
 
-public class Viewer {
-
+public class Viewer extends User {
 }

@@ -28,7 +28,7 @@ public class ViewerContoller implements QueryHelper,TableNames  {
 		
 		@RequestMapping("/getArt")
 		public Artwork getArtById(@RequestParam(value = "id") int id) {
-			String command = QueryHelper.selectIdFromTable(ARTWORK, id);
+			String command = QueryHelper.selectIdFromTable(ARTWORK_TABLE, id);
 			ResultSet rs = DALService.sendCommand(command);
 			
 			try {

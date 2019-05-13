@@ -9,8 +9,9 @@ import Objects.Artwork;
 import dal_layer.DALService;
 
 public class ArtworkHelper implements QueryHelper,TableNames {
+
 	public static JsonObject getLocationForArtwork(Artwork artwork) {
-		String command=QueryHelper.selectIdFromTable(GEOLOCATION,"artworkId", artwork.getId());
+		String command=QueryHelper.selectAllByIdFromTable(GEOLOCATION_TABLE,"artworkId", artwork.getId());
 		ResultSet artGeolocation = DALService.sendCommand(command);
 		
 		float positionX=(float) 0.0;
@@ -30,6 +31,22 @@ public class ArtworkHelper implements QueryHelper,TableNames {
 		ret.addProperty("y", positionY+"");
 		
 		return ret;
+	}
+	
+	public static Artwork requestToArtworkCasting(ResultSet rs) throws SQLException {
+		Artwork artwork = new Artwork();
+		int artId = rs.getInt("id");
+		String path = rs.getString("path");
+		String artName = rs.getString("name");
+		int artistId = rs.getInt("artistId");
+		artwork.setId(artId);
+		artwork.setPath(path);
+		artwork.setName(artName);
+		artwork.setArtistId(artistId);
+		JsonObject location = ArtworkHelper.getLocationForArtwork(artwork);
+		artwork.setPositionX(location.get("x").getAsFloat());
+		artwork.setPositionY(location.get("y").getAsFloat());
+		return artwork;
 	}
 	
 }
