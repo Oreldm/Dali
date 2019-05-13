@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import com.google.gson.JsonObject;
 
 import Objects.Artwork;
+import dal_layer.DALService;
 
 public interface QueryHelper  {
 	
@@ -34,5 +35,15 @@ public interface QueryHelper  {
 		artwork.setPositionY(location.get("y").getAsFloat());
 		return artwork;
 	}
-
+	
+	public static int getHighestIdFromTable(String tableName) throws Exception {
+		String command="SELECT id FROM "+tableName+" WHERE id=(SELECT max(id) FROM "+tableName+")";
+		ResultSet rs = DALService.sendCommand(command);
+		int ret=-1;
+		while(rs.next()) {
+			ret=rs.getInt("id");
+		}
+		return ret;
+	}
+	
 }
