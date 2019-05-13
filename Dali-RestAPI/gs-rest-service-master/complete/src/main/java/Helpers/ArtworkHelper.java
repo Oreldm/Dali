@@ -43,6 +43,7 @@ public class ArtworkHelper implements QueryHelper,TableNames {
 		artwork.setPath(path);
 		artwork.setName(artName);
 		artwork.setArtistId(artistId);
+		artwork.setDt_created(rs.getString("dt_created"));
 		JsonObject location = ArtworkHelper.getLocationForArtwork(artwork);
 		artwork.setPositionX(location.get("x").getAsFloat());
 		artwork.setPositionY(location.get("y").getAsFloat());

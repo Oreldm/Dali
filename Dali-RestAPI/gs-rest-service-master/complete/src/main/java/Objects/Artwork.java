@@ -7,6 +7,8 @@ public class Artwork {
 	private int artistId;
 	private float positionX;
 	private float positionY;
+	private String dt_created;
+	
 	public Artwork() {}
 	
 	public Artwork(int id, String path, String name, int artistId, float positionX, float positionY) {
@@ -60,5 +62,13 @@ public class Artwork {
 	}
 	public void setArtistId(int artistId) {
 		this.artistId = artistId;
+	}
+
+	public String getDt_created() {
+		return dt_created;
+	}
+
+	public void setDt_created(String dt_created) {
+		this.dt_created = dt_created;
 	}
 }
