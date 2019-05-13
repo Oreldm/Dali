@@ -29,6 +29,21 @@ public class AndroidController implements QueryHelper, TableNames {
 		return true;
 	}
 	
+	@RequestMapping("/search")
+	public List<Artist> search(@RequestParam(value = "str") String str){
+		List<Artist>ret = new ArrayList<Artist>();
+		String command="SELECT * FROM Artist WHERE Artist.name LIKE '%"+str+"%'";
+		ResultSet rs=DALService.sendCommand(command);
+		try {
+			while(rs.next()) {
+				ret.add(ArtistHelper.requestToArtistCasting(rs));
+			}
+		}catch(Exception e) {}
+		
+		
+		return ret;
+	}
+	
 	@RequestMapping("/followArtist")
 	public boolean follow(@RequestParam(value = "artistId") int artistId,
 			@RequestParam(value = "viewerId") int viewerId) {
