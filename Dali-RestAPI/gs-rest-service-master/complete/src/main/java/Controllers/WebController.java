@@ -54,12 +54,12 @@ public class WebController implements TableNames, QueryHelper {
 	public boolean upload(@RequestParam("file") MultipartFile file, @RequestParam("name") String name
 			, @RequestParam("artistId") int artistId) {
 		try {
-		int id=QueryHelper.getHighestIdFromTable("Artwork");
-		String path="/data/files/"+artistId+"/"+file.getName();
+		int id=QueryHelper.getHighestIdFromTable("Artwork") +1;
+		String path="/data/files/"+artistId+"/"+file.getOriginalFilename();
 		
 		String command="INSERT INTO Artwork (id, path, name, artistId) VALUES ("+
-		id+","+path+","+name+","+artistId+");";
-		DALService.sendCommand(command);
+		id+",'"+path+"','"+name+"',"+artistId+");";
+		DALService.sendCommandDataManipulation(command);
 		createDirectoryIfNotExists(path);
 		writeFileToServer(file,path);
 		}catch(Exception e) {return false;}

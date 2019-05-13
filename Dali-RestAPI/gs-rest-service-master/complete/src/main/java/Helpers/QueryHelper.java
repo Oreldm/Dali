@@ -46,4 +46,5 @@ public interface QueryHelper  {
 		return ret;
 	}
 	
+	
 }

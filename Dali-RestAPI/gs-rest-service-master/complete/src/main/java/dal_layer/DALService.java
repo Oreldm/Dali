@@ -58,6 +58,23 @@ public class DALService {
 		}
 	}
 	
+	public static int sendCommandDataManipulation(String command) {
+		// create the statement object
+		try {
+			openConnection();
+			Statement stmt = con.createStatement();
+
+			// execute query
+			int rs = stmt.executeUpdate(command);
+			return rs;
+
+			// close the connection object
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
 	
 	public static void  closeConnection()  {
 		try {
