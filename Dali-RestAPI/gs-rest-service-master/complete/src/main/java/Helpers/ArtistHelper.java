@@ -72,7 +72,7 @@ public class ArtistHelper implements QueryHelper, TableNames {
 		ResultSet rs=DALService.sendCommand(command);
 		List<Artwork>ret=new ArrayList<Artwork>();
 		while(rs.next()) {
-			String command2=QueryHelper.selectIdFromTable(TableNames.ARTIST_TABLE, rs.getInt("ArtworkId"));
+			String command2=QueryHelper.selectIdFromTable(TableNames.ARTWORK_TABLE, rs.getInt("ArtworkId"));
 			ResultSet rs2=DALService.sendCommand(command2);
 			while(rs2.next()) {
 				ret.add(ArtworkHelper.requestToArtworkCasting(rs));
@@ -97,7 +97,11 @@ public class ArtistHelper implements QueryHelper, TableNames {
 			followers.add(getArtistById(rs1.getInt("artistId1")));
 		}
 		while(rs2.next()) {
-			followers.add(ViewerHelper.castRequestToSimpleViewer(rs2));
+			String command3 = QueryHelper.selectIdFromTable(VIEWER_TABLE, rs2.getInt("viewerId"));
+			ResultSet rs3= DALService.sendCommand(command3);
+			while(rs3.next()) {
+				followers.add(ViewerHelper.castRequestToSimpleViewer(rs3));
+			}
 		}
 
 		return followers;
@@ -118,8 +122,6 @@ public class ArtistHelper implements QueryHelper, TableNames {
 	}
 
 	public static List<String> getGeneresToArtist(Artist artist) throws Exception {
-		//TODO FAST : to change it to get everything from the artworks and to delete the tables
-		
 		String command=QueryHelper.selectAllByIdFromTable("Artwork", "artistId", artist.getId());
 		ResultSet rs = DALService.sendCommand(command);
 		List<String> generes = new ArrayList<String>();

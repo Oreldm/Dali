@@ -23,7 +23,7 @@ import Objects.Artist;
 import dal_layer.DALService;
 
 @RestController
-@RequestMapping("/artist/")
+@RequestMapping("/web/")
 public class WebController implements TableNames, QueryHelper {
 
 	@RequestMapping("/login")
@@ -69,7 +69,7 @@ public class WebController implements TableNames, QueryHelper {
 		File file = new File(path);
 		return file.delete();
 	}
-
+	
 	@PostMapping("/uploadArtwork")
 	public boolean upload(@RequestParam("file") MultipartFile file, @RequestParam("name") String name
 			, @RequestParam("artistId") int artistId) {
@@ -85,6 +85,9 @@ public class WebController implements TableNames, QueryHelper {
 		}catch(Exception e) {return false;}
 		return true;
 	}
+	
+	
+	
 	
 	private static boolean createDirectoryIfNotExists(String directory) {
 	    File dir = new File(directory);

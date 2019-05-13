@@ -11,6 +11,8 @@ public abstract class User {
 	protected String bio;
 	protected List<Artwork>likedArtwork=new ArrayList<Artwork>();
 	protected List<Artist>following=new ArrayList<Artist>();
+	
+	//Still not implemented
 	protected List<String>recommendedGeneres=new ArrayList<String>();
 	protected List<Artist>recommendedArtists=new ArrayList<Artist>();
 
