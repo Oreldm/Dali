@@ -17,7 +17,7 @@ public class Cluster {
 		this.points=points;
 		setUpEdgeValues();
 		calculate();
-		maxRadious=maxRadious/2;
+		
 	}
 	
 	private void setUpEdgeValues() {
