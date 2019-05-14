@@ -17,6 +17,7 @@ public class Cluster {
 		this.points=points;
 		setUpEdgeValues();
 		calculate();
+		maxRadious=maxRadious/2;
 	}
 	
 	private void setUpEdgeValues() {
@@ -89,7 +90,8 @@ public class Cluster {
 			if(x1==x2 && y1==y2) {
 				continue;
 			}
-			double radious= Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
+			double radious= Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1)); //distance calculation
+			radious=radious/2; //make it a radious
 			if(isRadiousFirstSetup || radious>maxRadious) {
 				isRadiousFirstSetup=false;
 				maxRadious=radious;
