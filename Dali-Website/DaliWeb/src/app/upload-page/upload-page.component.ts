@@ -15,8 +15,8 @@ export class UploadPageComponent implements OnInit {
 
   files: FileHandle[] = [];
 
-  private placedMarker = null;
-  private markerInfo;
+  public placedMarker = null;
+  public markerInfo;
 
   constructor(private formBuilder: FormBuilder) {
     this.uploadForm = this.formBuilder.group({
@@ -39,11 +39,11 @@ export class UploadPageComponent implements OnInit {
     this.submitted = true;
   }
 
-  private placeMarker(lat: number, lng: number) {
+  public placeMarker(lat: number, lng: number) {
     this.placedMarker = {lat, lng};
   }
 
-  private onNameChange(str: string) {
+  public onNameChange(str: string) {
     this.markerInfo = str
   }
 

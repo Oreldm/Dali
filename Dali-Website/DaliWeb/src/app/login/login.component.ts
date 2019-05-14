@@ -10,7 +10,7 @@ declare const gapi: any;
 export class LoginComponent implements OnInit {
 
   public  auth2: any;
-  private message: string = "Sign up";
+  public message: string = "Sign up";
   private authenticationService: AuthenticationService;
 
   constructor(authenticationService: AuthenticationService) {
