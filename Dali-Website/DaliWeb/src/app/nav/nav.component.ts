@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class NavComponent implements OnInit {
 
   appTitle: string = "Dali"
-  private authenticationService: AuthenticationService;
+  public authenticationService: AuthenticationService;
   
   constructor(authenticationService: AuthenticationService) {
     this.authenticationService = authenticationService;
