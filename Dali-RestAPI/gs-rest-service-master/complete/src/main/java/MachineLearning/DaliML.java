@@ -31,7 +31,7 @@ public class DaliML {
 			double radious=g.getRadious();
 			int tag1Id=g.getFirstTag().getId();
 			int tag2Id=g.getSecondTag().getId();
-			String command="Select * from ML_Tags_Connection where tagId1="+tag1Id+" AND tag2Id="+tag2Id;
+			String command="Select * from ML_Tags_Connection where tag1Id="+tag1Id+" AND tag2Id="+tag2Id;
 			
 			ResultSet rs=DALService.sendCommand(command);
 			double MSE;
@@ -52,12 +52,11 @@ public class DaliML {
 	private void initializeGraphs() throws Exception {
 		graphs=new ArrayList<GraphPair>();
 		for(int i=0;i<generes.size();i++) {
-			for(int j=0;j<generes.size();j++) {
-				if(i==j) {
-					continue;
-				}
+			for(int j=i+1;j<generes.size();j++) {
 				Tag firstTag=generes.get(i);
 				Tag secondTag=generes.get(j);
+				
+				System.out.println("TAGS ARE   ~~~~~~ "+firstTag.getName()+ "   "+secondTag.getName());
 				GraphPair graph=new GraphPair(firstTag,secondTag);
 				graphs.add(graph);
 			}

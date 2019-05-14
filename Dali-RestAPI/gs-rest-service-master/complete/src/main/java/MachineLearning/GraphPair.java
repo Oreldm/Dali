@@ -24,6 +24,7 @@ public class GraphPair {
 	public GraphPair(Tag firstTag, Tag secondTag) throws Exception {
 		this.firstTag = firstTag;
 		this.secondTag = secondTag;
+		clusters=new ArrayList<Cluster>();
 		getDataFromDB();
 		initializeClusters();
 		findMinCluster();
