@@ -4,23 +4,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cluster {
+	private double clusterRadious;
+	private double distanceFromOrigin;
+	
 	private List<Point>points;
 	private int minX;
 	private int maxX; 
 	private int maxY;
 	private int minY;
 	private boolean isFirstSetup=true;
-	private double clusterRadious;
 	private boolean isRadiousFirstSetup=true;
+	private Point pointOne;
+	private Point pointTwo;
+
 	
 	public Cluster(List<Point> points) {
 		this.points=points;
+		distanceFromOrigin=-1;
 		setUpEdgeValues();
 		calculate();
 	}
 	
 	public double getClusterRadious() {
 		return this.clusterRadious;
+	}
+	
+	public double getDistanceFromOrigin() {
+		return distanceFromOrigin;
 	}
 	
 	private void setUpEdgeValues() {
@@ -52,6 +62,30 @@ public class Cluster {
 		
 	}
 	
+	private void calculate() {
+		calculate(minX,true);
+		calculate(maxX,true);
+		calculate(minY,false);
+		calculate(maxY,false);
+		distanceFromOrigin(); //should always come after all calculations
+	}
+	
+	public double getClusterFinalScore() {
+		double score=distanceFromOrigin/clusterRadious;
+		return score;
+	}
+
+	public void distanceFromOrigin() {
+		double xValue=(pointOne.getX()+pointTwo.getX())/2;
+		double yValue=(pointOne.getY()+pointTwo.getY())/2;
+		distanceFromOrigin= Math.sqrt((yValue) * (yValue) + (xValue) * (xValue));
+	}
+	
+	private void calculate(int point, boolean isX) {
+		List<Point>points= findAllPointsWithValue(point,isX);
+		calculateRadious(points);
+	}
+	
 	List<Point>findAllPointsWithValue(int value, boolean isX){
 		List<Point>ret=new ArrayList<Point>();
 		
@@ -63,18 +97,6 @@ public class Cluster {
 			}
 		}
 		return ret;
-	}
-	
-	private void calculate() {
-		calculate(minX,true);
-		calculate(maxX,true);
-		calculate(minY,false);
-		calculate(maxY,false);
-	}
-	
-	private void calculate(int point, boolean isX) {
-		List<Point>points= findAllPointsWithValue(point,isX);
-		calculateRadious(points);
 	}
 	
 	private void calculateRadious(List<Point>points) {
@@ -97,6 +119,8 @@ public class Cluster {
 			radious=radious/2; //make it a radious
 			if(isRadiousFirstSetup || radious>clusterRadious) {
 				isRadiousFirstSetup=false;
+				pointOne=point;
+				pointTwo=secondPoint;
 				clusterRadious=radious;
 			}
 			

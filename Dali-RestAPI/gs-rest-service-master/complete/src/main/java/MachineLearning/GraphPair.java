@@ -18,6 +18,7 @@ public class GraphPair {
 	private Map<Integer, Point> viewerToPointMap;
 	private List<Point>points;
 	private List<Cluster>clusters;
+	private double graphScore;
 	
 	public GraphPair(Tag firstTag, Tag secondTag) throws Exception {
 		this.firstTag = firstTag;
@@ -25,6 +26,10 @@ public class GraphPair {
 		getDataFromDB();
 		initializeClusters();
 		findMinCluster();
+	}
+	
+	public double getGraphScore() {
+		return this.graphScore;
 	}
 
 	private boolean getDataFromDB() throws Exception {
@@ -50,6 +55,7 @@ public class GraphPair {
 				c=tempCluster;
 			}
 		}
+		graphScore=c.getClusterFinalScore();
 	}
 	
 	

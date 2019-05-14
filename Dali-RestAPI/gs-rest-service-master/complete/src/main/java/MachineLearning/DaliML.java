@@ -20,7 +20,7 @@ public class DaliML {
 				}
 				Tag firstTag=generes.get(i);
 				Tag secondTag=generes.get(j);
-				
+				GraphPair graph=new GraphPair(firstTag,secondTag);
 			}
 		}
 	
