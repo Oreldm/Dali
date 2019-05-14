@@ -56,7 +56,6 @@ public class DaliML {
 				Tag firstTag=generes.get(i);
 				Tag secondTag=generes.get(j);
 				
-				System.out.println("TAGS ARE   ~~~~~~ "+firstTag.getName()+ "   "+secondTag.getName());
 				GraphPair graph=new GraphPair(firstTag,secondTag);
 				graphs.add(graph);
 			}
