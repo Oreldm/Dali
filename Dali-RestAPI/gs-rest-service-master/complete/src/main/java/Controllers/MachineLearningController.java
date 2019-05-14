@@ -12,7 +12,7 @@ import dal_layer.DALService;
 @RequestMapping("/ML/")
 public class MachineLearningController {
 	@RequestMapping("/postScore")
-	public boolean login(@RequestParam(value = "viewerId") int viewerId,
+	public boolean postScore(@RequestParam(value = "viewerId") int viewerId,
 			@RequestParam(value = "genereId") int genereId,
 			@RequestParam(value = "score") int score) throws SQLException {
 		String command = "UPDATE ML_Viewer_Tag_Score SET score = score + "+score+" WHERE tagId = "+genereId+" AND viewerId="+viewerId;
@@ -20,4 +20,11 @@ public class MachineLearningController {
 		
 		return true;
 	}
+	
+	@RequestMapping("/runML")
+	public boolean start() throws SQLException {
+		return true;
+	}
+	
+	
 }

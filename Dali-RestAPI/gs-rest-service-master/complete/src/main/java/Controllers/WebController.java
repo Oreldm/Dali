@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import Helpers.ArtistHelper;
 import Helpers.QueryHelper;
 import Helpers.TableNames;
+import Helpers.TagHelper;
 import Objects.Artist;
 import Objects.Artwork;
 import Objects.Tag;
@@ -53,16 +54,11 @@ public class WebController implements TableNames, QueryHelper {
 	@RequestMapping("/getTags")
 	public List<Tag> getTags() throws Exception{
 		
-		List<Tag>generes=new ArrayList<Tag>();
-		String command = "select * from Tags";
-		ResultSet rs = DALService.sendCommand(command);
-		while(rs.next()) {
-			generes.add(new Tag(rs.getString("name"),rs.getInt("id")));
-		}
+		List<Tag> generes = TagHelper.getTagsMethod();
 		
 		return generes;
 	}
-	
+
 	@RequestMapping("/recommendArtwork")
 	public Artwork recommendArtwork() throws Exception{
 		
