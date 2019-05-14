@@ -1,5 +1,7 @@
 package Objects;
 
+import java.util.List;
+
 public class Artwork {
 	private int id;
 	private String path;
@@ -8,7 +10,16 @@ public class Artwork {
 	private float positionX;
 	private float positionY;
 	private String dt_created;
+	private List<String>generes;
 	
+	public List<String> getGeneres() {
+		return generes;
+	}
+
+	public void setGeneres(List<String> generes) {
+		this.generes = generes;
+	}
+
 	public Artwork() {}
 	
 	public Artwork(int id, String path, String name, int artistId, float positionX, float positionY) {

@@ -324,6 +324,15 @@ public class AndroidController implements QueryHelper, TableNames {
 		JsonObject location = ArtworkHelper.getLocationForArtwork(artwork);
 		artwork.setPositionX(location.get("x").getAsFloat());
 		artwork.setPositionY(location.get("y").getAsFloat());
+		
+		String command="SELECT * from Tags WHERE id IN (SELECT tagId FROM Artwork_Tag WHERE artworkId="+artId+")";
+		ResultSet rs2=DALService.sendCommand(command);
+		List<String>generes=new ArrayList<String>();
+		while(rs2.next()) {
+			generes.add(rs2.getString("name"));
+		}
+		artwork.setGeneres(generes);
+
 		return artwork;
 	}
 
