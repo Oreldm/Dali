@@ -10,14 +10,17 @@ public class Cluster {
 	private int maxY;
 	private int minY;
 	private boolean isFirstSetup=true;
-	private double maxRadious;
+	private double clusterRadious;
 	private boolean isRadiousFirstSetup=true;
 	
 	public Cluster(List<Point> points) {
 		this.points=points;
 		setUpEdgeValues();
 		calculate();
-		
+	}
+	
+	public double getClusterRadious() {
+		return this.clusterRadious;
 	}
 	
 	private void setUpEdgeValues() {
@@ -92,9 +95,9 @@ public class Cluster {
 			}
 			double radious= Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1)); //distance calculation
 			radious=radious/2; //make it a radious
-			if(isRadiousFirstSetup || radious>maxRadious) {
+			if(isRadiousFirstSetup || radious>clusterRadious) {
 				isRadiousFirstSetup=false;
-				maxRadious=radious;
+				clusterRadious=radious;
 			}
 			
 		}
