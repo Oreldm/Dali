@@ -29,6 +29,15 @@ public class AndroidController implements QueryHelper, TableNames {
 		return true;
 	}
 	
+	@RequestMapping("/updateBio")
+	public boolean updateBio(@RequestParam(value = "bio") String bio,
+			@RequestParam(value = "viewerId") int id){
+		String command = "UPDATE Viewer SET bio='"+bio+"' WHERE id="+id;
+		DALService.sendCommandDataManipulation(command);
+		
+		return true;
+	}
+	
 	@RequestMapping("/search")
 	public List<Artist> search(@RequestParam(value = "str") String str){
 		List<Artist>ret = new ArrayList<Artist>();

@@ -50,6 +50,15 @@ public class WebController implements TableNames, QueryHelper {
 
 		return null;
 	}
+	
+	@RequestMapping("/updateBio")
+	public boolean updateBio(@RequestParam(value = "bio") String bio,
+			@RequestParam(value = "artistId") int id){
+		String command = "UPDATE Artist SET bio='"+bio+"' WHERE id="+id;
+		DALService.sendCommandDataManipulation(command);
+		
+		return true;
+	}
 
 	@RequestMapping("/deleteArt")
 	public boolean deleteArtById(@RequestParam(value = "id") int id) {
