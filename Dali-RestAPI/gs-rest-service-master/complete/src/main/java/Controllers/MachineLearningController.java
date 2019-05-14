@@ -1,6 +1,5 @@
 package Controllers;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -9,6 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,8 @@ import Helpers.ArtistHelper;
 import Helpers.QueryHelper;
 import Helpers.TableNames;
 import Objects.Artist;
+import Objects.Artwork;
+import Objects.Tag;
 import dal_layer.DALService;
 
 @RestController
@@ -45,7 +49,40 @@ public class WebController implements TableNames, QueryHelper {
 		
 		return true;
 	}
-
+	
+	@RequestMapping("/getTags")
+	public List<Tag> getTags() throws Exception{
+		
+		List<Tag>generes=new ArrayList<Tag>();
+		String command = "select * from Tags";
+		ResultSet rs = DALService.sendCommand(command);
+		while(rs.next()) {
+			generes.add(new Tag(rs.getString("name"),rs.getInt("id")));
+		}
+		
+		return generes;
+	}
+	
+	@RequestMapping("/recommendArtwork")
+	public Artwork recommendArtwork() throws Exception{
+		
+		//TODO: to finish after the recommendation system
+		
+		Artwork artwork = new Artwork();
+		//for highest score (2/3 of the time)
+		String selectHighestScore = "SELECT tagId,score FROM ML_Viewer_Tag_Score WHERE ViewerId=1 AND score=(SELECT MAX(score) "
+				+ "FROM (SELECT * FROM ML_Viewer_Tag_Score WHERE ViewerId=1) AS T)";
+		
+		//for closest genere- 1/3 of the time
+		String command="SELECT tagId,score FROM ML_Viewer_Tag_Score WHERE ViewerId=1";
+		
+		
+		
+		return artwork;
+	}
+	
+	
+	
 	@RequestMapping("/getProfileById")
 	public Artist getProfileById(@RequestParam(value = "id") int id) {
 		String command = QueryHelper.selectIdFromTable(ARTIST_TABLE, id);

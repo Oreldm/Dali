@@ -120,7 +120,7 @@ public class ArtistHelper implements QueryHelper, TableNames {
 		
 		return artist;
 	}
-
+	
 	public static List<String> getGeneresToArtist(Artist artist) throws Exception {
 		String command=QueryHelper.selectAllByIdFromTable("Artwork", "artistId", artist.getId());
 		ResultSet rs = DALService.sendCommand(command);
