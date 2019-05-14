@@ -28,6 +28,46 @@ public class AndroidController implements QueryHelper, TableNames {
 	public boolean login() {
 		return true;
 	}
+	
+	@RequestMapping("/search")
+	public List<Artist> search(@RequestParam(value = "str") String str){
+		List<Artist>ret = new ArrayList<Artist>();
+		String command="SELECT * FROM Artist WHERE Artist.name LIKE '%"+str+"%'";
+		ResultSet rs=DALService.sendCommand(command);
+		try {
+			while(rs.next()) {
+				ret.add(ArtistHelper.requestToArtistCasting(rs));
+			}
+		}catch(Exception e) {}
+		
+		
+		return ret;
+	}
+	
+	@RequestMapping("/followArtist")
+	public boolean follow(@RequestParam(value = "artistId") int artistId,
+			@RequestParam(value = "viewerId") int viewerId) {
+		if(isFollowing(artistId, viewerId)) {
+			return false;
+		}
+		String command = "INSERT INTO Viewer_Artist (ViewerId,ArtistId) VALUES (" + viewerId + ","
+		+ artistId+  ")";
+		DALService.sendCommandDataManipulation(command);
+		return true;
+	}
+	
+	@RequestMapping("/unfollowArtist")
+	public boolean unfollow(@RequestParam(value = "artistId") int artistId,
+			@RequestParam(value = "viewerId") int viewerId) {
+		if(!isFollowing(artistId, viewerId)) {
+			return false;
+		}
+		String command="DELETE from Viewer_Artist WHERE ViewerId="+viewerId+" AND ArtistId="+artistId;
+
+		DALService.sendCommandDataManipulation(command);
+		return true;
+	}
+
 
 	@RequestMapping("/likeArtwork")
 	public boolean likeArtwork(@RequestParam(value = "artworkId") int artworkId,
@@ -84,6 +124,22 @@ public class AndroidController implements QueryHelper, TableNames {
 
 		return false;
 	}
+	
+	@RequestMapping("/isFollowing")
+	public boolean isFollowing(@RequestParam(value = "artistId") int artistId,
+			@RequestParam(value = "viewerId") int viewerId) {
+		String command = "SELECT * from Viewer_Artist where ArtistId=" + artistId + " AND ViewerId=" + viewerId;
+		ResultSet st = DALService.sendCommand(command);
+		try {
+			if (st.next()) {
+				return true;
+			}
+		} catch (Exception e) {
+		}
+
+		return false;
+	}
+	
 
 	@RequestMapping("/getProfileById")
 	public Viewer getProfileById(@RequestParam(value = "id") int id) {
@@ -226,6 +282,7 @@ public class AndroidController implements QueryHelper, TableNames {
 		viewer.setGeneres(getGeneresToViewer(viewer));
 		return viewer;
 	}
+	
 
 	private Artwork requestToArtworkCasting(ResultSet rs) throws SQLException {
 		Artwork artwork = new Artwork();
