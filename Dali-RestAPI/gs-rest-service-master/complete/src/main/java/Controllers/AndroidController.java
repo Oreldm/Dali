@@ -15,6 +15,7 @@ import Helpers.ArtistHelper;
 import Helpers.ArtworkHelper;
 import Helpers.QueryHelper;
 import Helpers.TableNames;
+import Helpers.ViewerHelper;
 import Objects.Artist;
 import Objects.Artwork;
 import Objects.Viewer;
@@ -25,9 +26,25 @@ import dal_layer.DALService;
 public class AndroidController implements QueryHelper, TableNames {
 
 	@RequestMapping("/login")
-	public boolean login() {
+	public boolean login(@RequestParam(value = "id") int id) throws SQLException {
+		String command="Select * from Viewer where id="+id;
+		ResultSet rs=DALService.sendCommand(command);
+		if(!rs.next()) {
+			return false;
+		}
 		return true;
 	}
+	
+	@RequestMapping("/register")
+	public boolean register(@RequestParam(value = "id") int id,
+			@RequestParam(value = "name") String name,
+			@RequestParam(value = "picture") String picture) {
+		String command = "INSERT INTO Viewer (id,name, picture) VALUES ("+id+",'"+name+"','"+picture+"')";
+		DALService.sendCommandDataManipulation(command);
+		
+		return true;
+	}
+
 	
 	@RequestMapping("/updateBio")
 	public boolean updateBio(@RequestParam(value = "bio") String bio,

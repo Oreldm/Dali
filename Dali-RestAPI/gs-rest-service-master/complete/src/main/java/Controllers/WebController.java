@@ -27,7 +27,22 @@ import dal_layer.DALService;
 public class WebController implements TableNames, QueryHelper {
 
 	@RequestMapping("/login")
-	public boolean login() {
+	public boolean login(@RequestParam(value = "id") int id) throws SQLException {
+		String command="Select * from Artist where id="+id;
+		ResultSet rs=DALService.sendCommand(command);
+		if(!rs.next()) {
+			return false;
+		}
+		return true;
+	}
+	
+	@RequestMapping("/register")
+	public boolean register(@RequestParam(value = "id") int id,
+			@RequestParam(value = "name") String name,
+			@RequestParam(value = "picture") String picture) {
+		String command = "INSERT INTO Artist (id,name, picture) VALUES ("+id+",'"+name+"','"+picture+"')";
+		DALService.sendCommandDataManipulation(command);
+		
 		return true;
 	}
 
