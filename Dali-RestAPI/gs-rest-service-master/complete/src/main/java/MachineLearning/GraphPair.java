@@ -19,6 +19,7 @@ public class GraphPair {
 	private List<Point>points;
 	private List<Cluster>clusters;
 	private double graphScore;
+	private double graphRadious;
 	
 	public GraphPair(Tag firstTag, Tag secondTag) throws Exception {
 		this.firstTag = firstTag;
@@ -27,9 +28,33 @@ public class GraphPair {
 		initializeClusters();
 		findMinCluster();
 	}
+
+	public Tag getFirstTag() {
+		return firstTag;
+	}
+
+	public void setFirstTag(Tag firstTag) {
+		this.firstTag = firstTag;
+	}
+
+	public Tag getSecondTag() {
+		return secondTag;
+	}
+
+	public void setSecondTag(Tag secondTag) {
+		this.secondTag = secondTag;
+	}
+
+	public void setGraphScore(double graphScore) {
+		this.graphScore = graphScore;
+	}
 	
-	public double getGraphScore() {
+	public double getScore() {
 		return this.graphScore;
+	}
+	
+	public double getRadious() {
+		return this.graphRadious;
 	}
 
 	private boolean getDataFromDB() throws Exception {
@@ -51,11 +76,12 @@ public class GraphPair {
 				c=tempCluster;
 				continue;
 			}
-			if(tempCluster.getClusterRadious()<c.getClusterRadious()) {
+			if(tempCluster.getRadious()<c.getRadious()) {
 				c=tempCluster;
 			}
 		}
 		graphScore=c.getClusterFinalScore();
+		graphRadious=c.getRadious();
 	}
 	
 	

@@ -25,7 +25,7 @@ public class Cluster {
 		calculate();
 	}
 	
-	public double getClusterRadious() {
+	public double getRadious() {
 		return this.clusterRadious;
 	}
 	
