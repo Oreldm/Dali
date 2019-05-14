@@ -1,9 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MapsActivity" />
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content" >
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MapsActivity" />
+
+    <ImageButton
+        android:id="@+id/arButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/map"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_open_camera"
+        android:background="@drawable/ic_circle_button"
+        android:backgroundTint="@color/gray_button_color"
+        android:contentDescription="TODO" />
+
+
+    <ImageButton
+        android:id="@+id/searchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/map"
+        android:layout_alignStart="@+id/map"
+        android:background="@drawable/ic_left_button_background"
+        android:backgroundTint="@color/gray_button_color"
+        android:scaleType="fitXY"
+        android:scaleX="1.8"
+        android:scaleY="1.8"
+        android:contentDescription="TODO" />
+
+    <ImageButton
+        android:id="@+id/notificationsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/map"
+        android:layout_alignEnd="@+id/map"
+        android:background="@drawable/ic_left_button_background"
+        android:backgroundTint="@color/gray_button_color"
+        android:scaleType="fitXY"
+        android:scaleX="-1.8"
+        android:scaleY="1.8"
+        android:contentDescription="TODO" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-40dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginTop="-15dp"
+        android:scaleX="0.9"
+        android:scaleY="0.9">
+    <ImageButton
+        android:id="@+id/profileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@drawable/ic_profile_background"
+        android:backgroundTint="@color/transparent_square"
+        android:scaleType="centerInside"
+        android:scaleX="0.35"
+        android:scaleY="0.35"
+        android:src="@drawable/ic_profile_icon"
+        android:tint="@color/gray_button_color"
+        android:contentDescription="TODO"/>
+
+    <ImageView
+        android:id="@+id/notificationsArea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/profileButton"
+        android:layout_marginStart="-25dp"
+        android:scaleY="0.90"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_notifications_background"
+        android:tint="@color/transparent_square" />
+
+    </RelativeLayout>
+</RelativeLayout>

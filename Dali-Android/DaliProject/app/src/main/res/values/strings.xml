@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">DaliProject</string>
-    <string name="map_activity_title">Map</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
