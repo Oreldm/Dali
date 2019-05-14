@@ -11,7 +11,16 @@ public class Artwork {
 	private float positionY;
 	private String dt_created;
 	private List<String>generes;
+	private List<Integer>generesIds;
 	
+	public List<Integer> getGeneresIds() {
+		return generesIds;
+	}
+
+	public void setGeneresIds(List<Integer> generesIds) {
+		this.generesIds = generesIds;
+	}
+
 	public List<String> getGeneres() {
 		return generes;
 	}

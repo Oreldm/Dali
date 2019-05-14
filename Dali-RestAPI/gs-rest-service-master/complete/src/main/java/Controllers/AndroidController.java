@@ -195,7 +195,7 @@ public class AndroidController implements QueryHelper, TableNames {
 		try {
 			Artwork artwork = new Artwork();
 			while (rs.next()) {
-				artwork = requestToArtworkCasting(rs);
+				artwork = ArtworkHelper.requestToArtworkCasting(rs);
 			}
 			DALService.closeConnection();
 			return artwork;
@@ -221,7 +221,7 @@ public class AndroidController implements QueryHelper, TableNames {
 		try {
 			List<Artwork> artworkArrList = new ArrayList<Artwork>();
 			while (rs.next()) {
-				Artwork artwork = requestToArtworkCasting(rs);
+				Artwork artwork = ArtworkHelper.requestToArtworkCasting(rs);
 
 				artworkArrList.add(artwork);
 			}
@@ -310,30 +310,5 @@ public class AndroidController implements QueryHelper, TableNames {
 	}
 	
 
-	private Artwork requestToArtworkCasting(ResultSet rs) throws SQLException {
-		Artwork artwork = new Artwork();
-		int artId = rs.getInt("id");
-		String path = rs.getString("path");
-		String artName = rs.getString("name");
-		int artistId = rs.getInt("artistId");
-		artwork.setDt_created(rs.getString("dt_created"));
-		artwork.setId(artId);
-		artwork.setPath(path);
-		artwork.setName(artName);
-		artwork.setArtistId(artistId);
-		JsonObject location = ArtworkHelper.getLocationForArtwork(artwork);
-		artwork.setPositionX(location.get("x").getAsFloat());
-		artwork.setPositionY(location.get("y").getAsFloat());
-		
-		String command="SELECT * from Tags WHERE id IN (SELECT tagId FROM Artwork_Tag WHERE artworkId="+artId+")";
-		ResultSet rs2=DALService.sendCommand(command);
-		List<String>generes=new ArrayList<String>();
-		while(rs2.next()) {
-			generes.add(rs2.getString("name"));
-		}
-		artwork.setGeneres(generes);
-
-		return artwork;
-	}
 
 }
