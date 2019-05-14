@@ -11,8 +11,12 @@ import dal_layer.DALService;
 
 public class DaliML {
 	
+	public static DaliML INSTANCE=new DaliML();
+	
 	private List<Tag>generes;
 	private List<GraphPair>graphs;
+	
+	private DaliML() {}
 
 	
 	public void start() throws Exception {

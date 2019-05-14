@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import MachineLearning.DaliML;
 import dal_layer.DALService;
 
 @RestController
@@ -22,7 +23,8 @@ public class MachineLearningController {
 	}
 	
 	@RequestMapping("/runML")
-	public boolean start() throws SQLException {
+	public boolean start() throws Exception {
+		DaliML.INSTANCE.start();
 		return true;
 	}
 	
