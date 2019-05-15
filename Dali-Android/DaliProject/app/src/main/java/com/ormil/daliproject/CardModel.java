@@ -26,7 +26,33 @@ public class CardModel {
         return artworkName;
     }
 
-    public void setArtworkName(String title) {
-        this.artworkName = title;
+    public void setArtworkName(String artworkName) {
+        this.artworkName = artworkName;
     }
+
+
+    public String getArtworkInfo() {
+        return artworkInfo;
+    }
+
+    public void setArtworkInfo(String artworkInfo) {
+        this.artworkInfo = artworkInfo;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void likeArt() {
+        isLiked = !isLiked;
+    }
+
 }

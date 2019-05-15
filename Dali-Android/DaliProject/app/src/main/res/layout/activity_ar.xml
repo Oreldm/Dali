@@ -17,70 +17,16 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
-        android:layout_width="160dp"
-        android:layout_height="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
         android:foregroundGravity="center"
         android:layout_centerHorizontal="true"
-        android:layout_above="@id/bottom_bar"
+        android:layout_alignParentBottom="true"
         android:overScrollMode="never"
         android:clipToPadding="false"
         android:backgroundTint="@color/transparent_square">
 
     </android.support.v4.view.ViewPager>
-    
-    <RelativeLayout
-        android:id="@+id/bottom_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/ar_fragment"
-        android:layout_margin="18dp">
-
-        <ImageView
-            android:id="@+id/bottom_bar_background"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_centerHorizontal="true"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:background="@drawable/ic_bottom_bar_background"
-            android:backgroundTint="@color/transparent_square" />
-
-        <TextView
-            android:id="@+id/artwork_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="Round Flat"
-            android:textSize="18sp"
-            android:textColor="#FFFFFF"
-            />
-
-        <ImageButton
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignStart="@id/bottom_bar_background"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:src="@drawable/ic_like_icon"
-            android:tint="@color/gray_button_color"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:background="@null"
-            />
-        
-        <ImageButton
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignEnd="@id/bottom_bar_background"
-            android:layout_marginEnd="20dp"
-            android:layout_centerVertical="true"
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_info_icon"
-            android:tint="@color/gray_button_color"
-            android:scaleType="centerInside"
-            android:background="@null" />
-    </RelativeLayout>
 
 
 </RelativeLayout>
