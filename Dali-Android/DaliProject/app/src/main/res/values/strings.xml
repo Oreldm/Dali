@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">DaliProject</string>
     <string name="title_activity_maps">Map</string>
+    <string name="artist_name_placeholder">Artist name</string>
+    <string name="info_tab_artwork_name_placeholder">Artwork name</string>
+    <string name="artwork_name_placeholder">Round Flat</string>
+    <string name="Info_place_holder">lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n</string>
 </resources>

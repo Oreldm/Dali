@@ -47,7 +47,7 @@ public class CardAdapter extends PagerAdapter {
 
         ImageView profileImage;
         ImageButton likeButton, infoButton;
-        TextView artworkName;
+        TextView artworkName, infoTabArtwokName, infoTabArtistName, infoTabBio;
 
         LinearLayout parentLayout = view.findViewById(R.id.tabs_parent);
         RelativeLayout brief = view.findViewById(R.id.brief_card);
@@ -57,6 +57,10 @@ public class CardAdapter extends PagerAdapter {
         artworkName = view.findViewById(R.id.artwork_name);
         likeButton = view.findViewById(R.id.like_button);
         infoButton = view.findViewById(R.id.info_button);
+
+        infoTabArtwokName = view.findViewById(R.id.info_tab_artwork_name);
+        infoTabArtistName = view.findViewById(R.id.info_tab_artist_name);
+        infoTabBio = view.findViewById(R.id.info_tab_bio);
 
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +78,9 @@ public class CardAdapter extends PagerAdapter {
 
         profileImage.setImageResource(cardModels.get(position).getProfileImage());
         artworkName.setText(cardModels.get(position).getArtworkName());
+        infoTabArtwokName.setText(cardModels.get(position).getArtworkName());
+        infoTabArtistName.setText(cardModels.get(position).getArtistName());
+        infoTabBio.setText(cardModels.get(position).getArtworkInfo());
 
         if(cardModels.get(position).isLiked())
             likeButton.setBackgroundResource(R.drawable.ic_like_icon_background);

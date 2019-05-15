@@ -41,7 +41,8 @@ public class ArActivity extends AppCompatActivity {
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ar_fragment);
 
         cardModels = new ArrayList<>();
-        cardModels.add(new CardModel(R.drawable.ic_open_camera, "Sir"));
+        cardModels.add(new CardModel(R.drawable.ic_open_camera, "Magnificent Rainbow", "Sir Waffles", "lolo\n bagget \n" +
+                "lilo\n bagget\n lilo\n bagget\n lilo\n bagget\n lilo\n bagget\n lilo\n bagget\n lilo\n bagget\n lilo\n bagget\n lilo\n bagget\n"));
         cardModels.add(new CardModel(R.drawable.ic_circle_button, "Empty"));
         cardModels.add(new CardModel(R.drawable.ic_info_icon, "Info"));
 
