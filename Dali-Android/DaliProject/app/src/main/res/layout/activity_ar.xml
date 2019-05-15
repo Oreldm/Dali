@@ -14,16 +14,17 @@
         tools:layout_editor_absoluteX="140dp"
         tools:layout_editor_absoluteY="16dp" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-        </HorizontalScrollView>
-    </FrameLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foregroundGravity="center"
+        android:layout_centerInParent="true"
+        android:overScrollMode="never"
+        android:clipToPadding="false">
+
+    </android.support.v4.view.ViewPager>
     
     <RelativeLayout
         android:id="@+id/bottom_bar"
