@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.ar.sceneform.ux.ArFragment;
@@ -20,6 +21,8 @@ public class ArActivity extends AppCompatActivity {
     private static final double MIN_OPENGL_VERSION = 3.0;
 
     private ArFragment arFragment;
+
+    private TextView m_ArtworkName;
 
     private ViewPager viewPager;
     private CardAdapter cardAdapter;
@@ -36,6 +39,7 @@ public class ArActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_ar);
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ar_fragment);
+        m_ArtworkName = findViewById(R.id.artwork_name);
 
         cardModels = new ArrayList<>();
         cardModels.add(new CardModel(R.drawable.ic_open_camera, "Sir"));
@@ -46,6 +50,22 @@ public class ArActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(cardAdapter);
         viewPager.setPadding(130, 0, 130, 0);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                m_ArtworkName.setText(cardModels.get(i).getArtworkName());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
 
     }
 

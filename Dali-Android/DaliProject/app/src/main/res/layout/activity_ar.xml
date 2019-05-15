@@ -17,12 +17,14 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="160dp"
+        android:layout_height="80dp"
         android:foregroundGravity="center"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/bottom_bar"
         android:overScrollMode="never"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:backgroundTint="@color/transparent_square">
 
     </android.support.v4.view.ViewPager>
     
@@ -44,6 +46,7 @@
             android:backgroundTint="@color/transparent_square" />
 
         <TextView
+            android:id="@+id/artwork_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

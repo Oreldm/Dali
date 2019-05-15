@@ -43,10 +43,10 @@ public class CardAdapter extends PagerAdapter {
         TextView title;
 
         imageView = view.findViewById(R.id.item_profile_picture);
-        title = view.findViewById(R.id.item_title);
+        //title = view.findViewById(R.id.item_title);
 
-        imageView.setImageResource(cardModels.get(position).getImage());
-        title.setText(cardModels.get(position).getTitle());
+        imageView.setImageResource(cardModels.get(position).getProfileImage());
+        //title.setText(cardModels.get(position).getArtworkName());
 
         container.addView(view, 0);
 

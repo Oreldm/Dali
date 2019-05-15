@@ -1,27 +1,32 @@
 package com.ormil.daliproject;
 
+import java.util.Date;
+
 public class CardModel {
-    private int image;
-    private String title;
+    private int profileImage;
+    private String artworkName;
+    private String artworkInfo;
+    private Date creationDate;
+    private boolean isLiked;
 
-    public CardModel(int image, String title) {
-        this.image = image;
-        this.title = title;
+    public CardModel(int profileImage, String artworkName) {
+        this.profileImage = profileImage;
+        this.artworkName = artworkName;
     }
 
-    public int getImage() {
-        return image;
+    public int getProfileImage() {
+        return profileImage;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public void setProfileImage(int image) {
+        this.profileImage = image;
     }
 
-    public String getTitle() {
-        return title;
+    public String getArtworkName() {
+        return artworkName;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setArtworkName(String title) {
+        this.artworkName = title;
     }
 }
