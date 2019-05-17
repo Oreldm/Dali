@@ -1,9 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:id="@+id/profile_top_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_top_navigation_bar"
+            android:tint="@color/gray_button_color"
+            android:scaleType="centerCrop"
+            android:scaleY="1.5"/>
+
+        <ImageButton
+            android:id="@+id/profile_top_bar_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_back_arrow"
+            android:tint="@color/colorDarkGray"
+            android:background="@null"
+            android:backgroundTint="@color/gray_button_color"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/item_main_text"
+            android:textSize="20sp"
+            android:layout_toEndOf="@+id/profile_top_bar_back_button"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/profile_info_header"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@+id/profile_top_navigation">
+
+        <RelativeLayout
+            android:id="@+id/profile_image_button_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_centerVertical="true">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_picture"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_new_art_notification"
+                android:layout_centerHorizontal="true"
+                app:civ_border_width="3dp"
+                app:civ_border_color="@color/colorDarkGray"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/profile_picture"
+                android:layout_margin="8dp"
+                android:text="Follow"
+                android:textColor="@color/gray_button_color"
+                android:backgroundTint="@color/colorAccent" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/profile_image_button_container"
+            android:padding="10dp"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/profile_main_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/item_main_text"
+                android:textColor="@color/almostBlack"
+                android:fontFamily="@font/gilroy_light"
+                android:textSize="24sp"
+                />
+
+            <TextView
+                android:id="@+id/profile_sub_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/profile_main_text"
+                android:text="@string/item_sub_text"
+                android:fontFamily="@font/gilroy_light"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/profile_bio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profile_sub_text"
+                android:text="@string/notification_info_placeholder"
+                android:textColor="@color/almostBlack"
+                android:fontFamily="@font/gilroy_light"
+                android:textSize="12sp"/>
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/profile_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/profile_info_header"
+        app:tabIndicatorColor="@color/colorAccent"
+        app:tabIndicatorHeight="4dp"
+        app:tabMode="fixed"
+        app:tabBackground="@color/lightGray">
+
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/profile_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/profile_tabs">
+
+    </android.support.v4.view.ViewPager>
+
+</RelativeLayout>

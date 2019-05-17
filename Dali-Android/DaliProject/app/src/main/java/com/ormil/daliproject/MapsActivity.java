@@ -28,6 +28,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private ImageButton m_OpenArBtn;
     private ImageButton m_NotificationBtn;
+    private ImageButton m_ProfileButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         m_NotificationBtn = findViewById(R.id.notificationsButton);
         m_NotificationBtn.setOnClickListener(view -> onNotificationButtonClick());
+
+        m_ProfileButton = findViewById(R.id.profileButton);
+        m_ProfileButton.setOnClickListener(view -> onProfileButtonClick());
 
 
     }
@@ -112,6 +116,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void onNotificationButtonClick() {
         Intent intent = new Intent(this, NotificationsActivity.class);
+        startActivity(intent);
+    }
+
+    private void onProfileButtonClick() {
+        Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
 }

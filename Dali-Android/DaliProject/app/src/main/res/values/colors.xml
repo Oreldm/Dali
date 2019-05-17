@@ -6,4 +6,5 @@
     <color name="colorDarkGray">#5F5F5F</color>
     <color name="list_subtext">#AAAAAA</color>
     <color name="almostBlack">#1F1F1F</color>
+    <color name="lightGray">#FEFEFE</color>
 </resources>
