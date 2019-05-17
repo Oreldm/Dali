@@ -46,7 +46,7 @@ public class UserController {
 
 	@RequestMapping("/setAsArtist")
 	public boolean updateBio(@RequestParam(value = "id") int id) {
-		String command = "INSERT INTO User (role) VALUES ('artist') where id=" + id;
+		String command = "UPDATE User SET role='artist' WHERE id = " + id;
 		if (DALService.sendCommandDataManipulation(command) == -1) {
 			return false;
 		}
