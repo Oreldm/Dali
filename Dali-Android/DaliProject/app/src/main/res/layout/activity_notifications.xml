@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NotificationsActivity">
+
+    <RelativeLayout
+        android:id="@+id/notification_top_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_top_navigation_bar"
+            android:tint="@color/gray_button_color"
+            android:scaleType="centerCrop"
+            android:scaleY="1.5"/>
+
+        <ImageButton
+            android:id="@+id/notification_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_back_arrow"
+            android:tint="@color/colorDarkGray"
+            android:background="@null"
+            android:backgroundTint="@color/gray_button_color"/>
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/notification_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/notification_top_navigation">
+
+    </ListView>
+
+</RelativeLayout>

@@ -27,6 +27,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationListener mLocationListener;
 
     private ImageButton m_OpenArBtn;
+    private ImageButton m_NotificationBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +40,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         m_OpenArBtn = findViewById(R.id.arButton);
-        m_OpenArBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onArButtonClick();
-            }
-        });
+        m_OpenArBtn.setOnClickListener(view -> onArButtonClick());
+
+        m_NotificationBtn = findViewById(R.id.notificationsButton);
+        m_NotificationBtn.setOnClickListener(view -> onNotificationButtonClick());
+
 
     }
 
@@ -107,6 +107,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void onArButtonClick() {
         Intent intent = new Intent(this, ArActivity.class);
+        startActivity(intent);
+    }
+
+    private void onNotificationButtonClick() {
+        Intent intent = new Intent(this, NotificationsActivity.class);
         startActivity(intent);
     }
 }

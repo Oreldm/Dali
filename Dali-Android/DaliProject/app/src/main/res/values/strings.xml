@@ -4,5 +4,15 @@
     <string name="artist_name_placeholder">Artist name</string>
     <string name="info_tab_artwork_name_placeholder">Artwork name</string>
     <string name="artwork_name_placeholder">Round Flat</string>
-    <string name="Info_place_holder">lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n lilo\n</string>
+    <string name="Info_placeholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Enim nunc faucibus a pellentesque sit amet porttitor.
+        \nTurpis nunc eget lorem dolor sed viverra ipsum. Libero nunc consequat interdum varius sit amet. Egestas congue quisque egestas diam. In egestas erat imperdiet sed.
+        \nEu mi bibendum neque egestas congue quisque egestas diam. Non quam lacus suspendisse faucibus interdum posuere lorem ipsum dolor. Eu feugiat pretium nibh ipsum consequat nisl vel pretium.
+        \nImperdiet massa tincidunt nunc pulvinar. Quam id leo in vitae turpis massa. Dolor magna eget est lorem ipsum. Aliquam faucibus purus in massa tempor nec feugiat nisl. Posuere urna nec tincidunt praesent.
+        \nSed ullamcorper morbi tincidunt ornare massa. Faucibus interdum posuere lorem ipsum dolor. Lectus arcu bibendum at varius vel pharetra vel turpis. Nibh tellus molestie nunc non blandit massa.
+        \nMattis enim ut tellus elementum sagittis. Nunc lobortis mattis aliquam faucibus purus in massa tempor. Velit aliquet sagittis id consectetur purus ut faucibus. Vestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt ornare massa.
+        \nId faucibus nisl tincidunt eget nullam non nisi. Mauris pharetra et ultrices neque ornare. Integer malesuada nunc vel risus commodo viverra maecenas.</string>
+    <string name="notification_info_placeholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+    <string name="notification_time_placeholder">38 minutes ago</string>
+    <string name="item_main_text">Sir Waffles</string>
+    <string name="item_sub_text">Round flat</string>
 </resources>
