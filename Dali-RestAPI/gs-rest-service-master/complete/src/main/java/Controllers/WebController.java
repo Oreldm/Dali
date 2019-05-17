@@ -31,26 +31,6 @@ import dal_layer.DALService;
 @RequestMapping("/web/")
 public class WebController implements TableNames, QueryHelper {
 
-	@RequestMapping("/login")
-	public boolean login(@RequestParam(value = "id") int id) throws SQLException {
-		String command="Select * from Artist where id="+id;
-		ResultSet rs=DALService.sendCommand(command);
-		if(!rs.next()) {
-			return false;
-		}
-		return true;
-	}
-	
-	@RequestMapping("/register")
-	public boolean register(@RequestParam(value = "id") int id,
-			@RequestParam(value = "name") String name,
-			@RequestParam(value = "picture") String picture) {
-		String command = "INSERT INTO Artist (id,name, picture) VALUES ("+id+",'"+name+"','"+picture+"')";
-		DALService.sendCommandDataManipulation(command);
-		
-		return true;
-	}
-	
 	@RequestMapping("/getTags")
 	public List<Tag> getTags() throws Exception{
 		
@@ -59,57 +39,11 @@ public class WebController implements TableNames, QueryHelper {
 		return generes;
 	}
 
-	@RequestMapping("/recommendArtwork")
-	public Artwork recommendArtwork() throws Exception{
-		
-		//TODO: to finish after the recommendation system
-		
-		Artwork artwork = new Artwork();
-		//for highest score (2/3 of the time)
-		String selectHighestScore = "SELECT tagId,score FROM ML_Viewer_Tag_Score WHERE ViewerId=1 AND score=(SELECT MAX(score) "
-				+ "FROM (SELECT * FROM ML_Viewer_Tag_Score WHERE ViewerId=1) AS T)";
-		
-		//for closest genere- 1/3 of the time
-		String command="SELECT tagId,score FROM ML_Viewer_Tag_Score WHERE ViewerId=1";
-		
-		
-		
-		return artwork;
-	}
-	
-	
-	
-	@RequestMapping("/getProfileById")
-	public Artist getProfileById(@RequestParam(value = "id") int id) {
-		String command = QueryHelper.selectIdFromTable(ARTIST_TABLE, id);
-		ResultSet rs = DALService.sendCommand(command);
-
-		try {
-			Artist artist = new Artist();
-			while (rs.next()) {
-				artist = ArtistHelper.requestToArtistCasting(rs);
-			}
-			DALService.closeConnection();
-			return artist;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		DALService.closeConnection();
-
-		return null;
-	}
-	
-	@RequestMapping("/updateBio")
-	public boolean updateBio(@RequestParam(value = "bio") String bio,
-			@RequestParam(value = "artistId") int id){
-		String command = "UPDATE Artist SET bio='"+bio+"' WHERE id="+id;
-		DALService.sendCommandDataManipulation(command);
-		
-		return true;
-	}
 
 	@RequestMapping("/deleteArt")
 	public boolean deleteArtById(@RequestParam(value = "id") int id) {
+		//TODO: make sure artist is owner of the artwork
+		
 		String command = QueryHelper.selectIdFromTable("Artwork", id);
 		ResultSet st = DALService.sendCommand(command);
 		String path = "";
