@@ -118,7 +118,7 @@ public class GraphPair {
 		viewerToPointMap = new HashMap<Integer, Point>();
 
 		while (rs.next()) {
-			int viewerId = rs.getInt("viewerId");
+			int viewerId = rs.getInt("userId");
 			int tagId = rs.getInt("tagId");
 			int score = rs.getInt("score");
 
