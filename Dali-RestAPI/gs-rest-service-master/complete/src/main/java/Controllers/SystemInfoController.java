@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
+
 import dal_layer.DALService;
 
 @RestController
@@ -14,16 +16,17 @@ import dal_layer.DALService;
 public class SystemInfoController {
 
 	private class SystemInfo{
-		int id;
-		int Response404;
-		int TotalResponse;
-		int BootFail;
-		int TaskCompleted;
-		int TaskUndertaken;
+
+		private int id;
+		private int Response404;
+		private int TotalResponse;
+		private int BootFail;
+		private int TaskCompleted;
+		private int TaskUndertaken;
 		
 		//Calculations
-		float effectiveness;
-		float errorRate;
+		private float effectiveness;
+		private float errorRate;
 		
 
 		public SystemInfo(ResultSet rs) {
@@ -40,12 +43,76 @@ public class SystemInfoController {
 				this.errorRate=this.Response404/this.TotalResponse;
 			}catch(Exception e) {}
 		}
+		public int getId() {
+			return id;
+		}
+
+		public void setId(int id) {
+			this.id = id;
+		}
+
+		public int getResponse404() {
+			return Response404;
+		}
+
+		public void setResponse404(int response404) {
+			Response404 = response404;
+		}
+
+		public int getTotalResponse() {
+			return TotalResponse;
+		}
+
+		public void setTotalResponse(int totalResponse) {
+			TotalResponse = totalResponse;
+		}
+
+		public int getBootFail() {
+			return BootFail;
+		}
+
+		public void setBootFail(int bootFail) {
+			BootFail = bootFail;
+		}
+
+		public int getTaskCompleted() {
+			return TaskCompleted;
+		}
+
+		public void setTaskCompleted(int taskCompleted) {
+			TaskCompleted = taskCompleted;
+		}
+
+		public int getTaskUndertaken() {
+			return TaskUndertaken;
+		}
+
+		public void setTaskUndertaken(int taskUndertaken) {
+			TaskUndertaken = taskUndertaken;
+		}
+
+		public float getEffectiveness() {
+			return effectiveness;
+		}
+
+		public void setEffectiveness(float effectiveness) {
+			this.effectiveness = effectiveness;
+		}
+
+		public float getErrorRate() {
+			return errorRate;
+		}
+
+		public void setErrorRate(float errorRate) {
+			this.errorRate = errorRate;
+		}
 	}
 	
 	@RequestMapping("/systemInfo")
 	public SystemInfo getSystemInfo() {
 		String command="Select * from SystemInfo where id=1";
 		ResultSet rs= DALService.sendCommand(command);
+		SystemInfo sys=new SystemInfo(rs);
 		
 		return new SystemInfo(rs);
 	}
