@@ -38,8 +38,10 @@ public class SystemInfoController {
 					this.TaskCompleted = rs.getInt("TaskCompleted");
 					this.TaskUndertaken = rs.getInt("TaskUndertaken");
 
-					this.effectiveness = (this.TaskCompleted / this.TaskUndertaken) * 100;
-					this.errorRate = this.Response404 / this.TotalResponse;
+					if(this.TaskUndertaken!=0)
+						this.effectiveness = (this.TaskCompleted / this.TaskUndertaken) * 100;
+					if(this.TotalResponse!=0)
+						this.errorRate = this.Response404 / this.TotalResponse;
 				}
 				DALService.closeConnection();
 			} catch (Exception e) {
