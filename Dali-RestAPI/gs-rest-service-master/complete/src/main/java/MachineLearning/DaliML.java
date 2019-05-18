@@ -44,7 +44,6 @@ public class DaliML {
 				command= "INSERT INTO ML_Tags_Connection (tag1Id,tag2Id,MSE,Radious,Score) "
 						+ "VALUES ("+tag1Id+","+tag2Id+","+MSE+","+radious+","+score+")";
 			}
-			
 			DALService.sendCommandDataManipulation(command);
 		}
 	}

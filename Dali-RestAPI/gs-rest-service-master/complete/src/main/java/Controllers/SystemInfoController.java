@@ -30,16 +30,18 @@ public class SystemInfoController {
 
 		public SystemInfo(ResultSet rs) {
 			try {
-				rs.next();
-				this.id = rs.getInt("id");
-				this.Response404 = rs.getInt("Response404");
-				this.TotalResponse = rs.getInt("TotalResponse");
-				this.BootFail = rs.getInt("BootFail");
-				this.TaskCompleted = rs.getInt("TaskCompleted");
-				this.TaskUndertaken = rs.getInt("TaskUndertaken");
+				while(rs.next()) {
+					this.id = rs.getInt("id");
+					this.Response404 = rs.getInt("Response404");
+					this.TotalResponse = rs.getInt("TotalResponse");
+					this.BootFail = rs.getInt("BootFail");
+					this.TaskCompleted = rs.getInt("TaskCompleted");
+					this.TaskUndertaken = rs.getInt("TaskUndertaken");
 
-				this.effectiveness = (this.TaskCompleted / this.TaskUndertaken) * 100;
-				this.errorRate = this.Response404 / this.TotalResponse;
+					this.effectiveness = (this.TaskCompleted / this.TaskUndertaken) * 100;
+					this.errorRate = this.Response404 / this.TotalResponse;
+				}
+				DALService.closeConnection();
 			} catch (Exception e) {
 			}
 		}
@@ -111,21 +113,21 @@ public class SystemInfoController {
 
 	@RequestMapping("/systemInfo")
 	public SystemInfo getSystemInfo() {
-		String command = "Select * from SystemInfo where id=1";
+		String command = "Select * from SystemInfo where id=1;";
 		ResultSet rs = DALService.sendCommand(command);
 		SystemInfo sys = new SystemInfo(rs);
-
-		return new SystemInfo(rs);
+		return sys;
 	}
 
 	@RequestMapping("/updateHttpResponses")
-	public boolean updateBio(@RequestParam(value = "fail") int failedResponses,
+	public boolean updateHttpResponses(@RequestParam(value = "fail") int failedResponses,
 			@RequestParam(value = "total") int totalResponses) {
 		SystemInfo sys = getSystemInfo();
 		failedResponses = failedResponses + sys.Response404;
 		totalResponses = totalResponses + sys.TotalResponse;
-		String command = "UPDATE SystemInfo SET Responses404=" + failedResponses + " AND TotalResponse="
+		String command = "UPDATE SystemInfo SET Response404=" + failedResponses + " , TotalResponse="
 				+ totalResponses + " WHERE id=" + 1;
+		System.out.println(command);
 		DALService.sendCommandDataManipulation(command);
 		return true;
 	}

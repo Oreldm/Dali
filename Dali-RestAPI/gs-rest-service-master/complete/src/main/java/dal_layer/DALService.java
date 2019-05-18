@@ -49,7 +49,6 @@ public class DALService {
 
 			// execute query
 			ResultSet rs = stmt.executeQuery(command);
-			closeConnection();
 			return rs;
 
 			// close the connection object

@@ -72,7 +72,6 @@ public class UserController {
 			}
 		} catch (Exception e) {
 		}
-
 		return ret;
 	}
 
@@ -126,7 +125,6 @@ public class UserController {
 
 		String command = "DELETE from UserLikedArtwork WHERE ArtworkId=" + artworkId + " AND UserId=" + userId;
 		DALService.sendCommandDataManipulation(command);
-
 		return true;
 	}
 
