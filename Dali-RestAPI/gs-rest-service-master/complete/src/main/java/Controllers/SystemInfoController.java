@@ -15,7 +15,7 @@ import dal_layer.DALService;
 @RequestMapping("/system/")
 public class SystemInfoController {
 
-	private class SystemInfo{
+	private class SystemInfo {
 
 		private int id;
 		private int Response404;
@@ -23,26 +23,27 @@ public class SystemInfoController {
 		private int BootFail;
 		private int TaskCompleted;
 		private int TaskUndertaken;
-		
-		//Calculations
+
+		// Calculations
 		private float effectiveness;
 		private float errorRate;
-		
 
 		public SystemInfo(ResultSet rs) {
 			try {
 				rs.next();
-				this.id=rs.getInt("id");
-				this.Response404=rs.getInt("Response404");
-				this.TotalResponse=rs.getInt("TotalResponse");
-				this.BootFail=rs.getInt("BootFail");
-				this.TaskCompleted=rs.getInt("TaskCompleted");
-				this.TaskUndertaken=rs.getInt("TaskUndertaken");
-				
-				this.effectiveness=(this.TaskCompleted/this.TaskUndertaken)*100;
-				this.errorRate=this.Response404/this.TotalResponse;
-			}catch(Exception e) {}
+				this.id = rs.getInt("id");
+				this.Response404 = rs.getInt("Response404");
+				this.TotalResponse = rs.getInt("TotalResponse");
+				this.BootFail = rs.getInt("BootFail");
+				this.TaskCompleted = rs.getInt("TaskCompleted");
+				this.TaskUndertaken = rs.getInt("TaskUndertaken");
+
+				this.effectiveness = (this.TaskCompleted / this.TaskUndertaken) * 100;
+				this.errorRate = this.Response404 / this.TotalResponse;
+			} catch (Exception e) {
+			}
 		}
+
 		public int getId() {
 			return id;
 		}
@@ -107,50 +108,89 @@ public class SystemInfoController {
 			this.errorRate = errorRate;
 		}
 	}
-	
+
 	@RequestMapping("/systemInfo")
 	public SystemInfo getSystemInfo() {
-		String command="Select * from SystemInfo where id=1";
-		ResultSet rs= DALService.sendCommand(command);
-		SystemInfo sys=new SystemInfo(rs);
-		
+		String command = "Select * from SystemInfo where id=1";
+		ResultSet rs = DALService.sendCommand(command);
+		SystemInfo sys = new SystemInfo(rs);
+
 		return new SystemInfo(rs);
 	}
-	
+
 	@RequestMapping("/updateHttpResponses")
-	public boolean updateBio(@RequestParam(value = "fail") int failedResponses, @RequestParam(value = "total") int totalResponses) {
-		SystemInfo sys=getSystemInfo();
-		failedResponses=failedResponses+sys.Response404;
-		totalResponses=totalResponses+sys.TotalResponse;
-		String command = "UPDATE SystemInfo SET Responses404=" + failedResponses + " AND TotalResponse="+totalResponses+" WHERE id=" + 1;
+	public boolean updateBio(@RequestParam(value = "fail") int failedResponses,
+			@RequestParam(value = "total") int totalResponses) {
+		SystemInfo sys = getSystemInfo();
+		failedResponses = failedResponses + sys.Response404;
+		totalResponses = totalResponses + sys.TotalResponse;
+		String command = "UPDATE SystemInfo SET Responses404=" + failedResponses + " AND TotalResponse="
+				+ totalResponses + " WHERE id=" + 1;
 		DALService.sendCommandDataManipulation(command);
 		return true;
 	}
-	
-	
+
 	@RequestMapping("/updateBootFailed")
 	public boolean updateBoot() {
-		SystemInfo sys=getSystemInfo();
-		int count=sys.BootFail+1;
-		String command = "UPDATE SystemInfo SET BootFail=" + count +" WHERE id=" + 1;
+		SystemInfo sys = getSystemInfo();
+		int count = sys.BootFail + 1;
+		String command = "UPDATE SystemInfo SET BootFail=" + count + " WHERE id=" + 1;
 		DALService.sendCommandDataManipulation(command);
 		return true;
 	}
-	
+
 	@RequestMapping("/updateTask")
-	public boolean updateTask(@RequestParam(value = "taskCompleted") int taskCompleted, @RequestParam(value = "taskUndertaken") int taskUndertaken) {
-		SystemInfo sys=getSystemInfo();
-		taskCompleted=taskCompleted+sys.TaskCompleted;
-		taskUndertaken=taskUndertaken+sys.TaskUndertaken;
-		String command = "UPDATE SystemInfo SET TaskCompleted=" + taskCompleted + " AND TaskUndertaken="+taskUndertaken+" WHERE id=" + 1;
+	public boolean updateTask(@RequestParam(value = "taskCompleted") int taskCompleted,
+			@RequestParam(value = "taskUndertaken") int taskUndertaken) {
+		SystemInfo sys = getSystemInfo();
+		taskCompleted = taskCompleted + sys.TaskCompleted;
+		taskUndertaken = taskUndertaken + sys.TaskUndertaken;
+		String command = "UPDATE SystemInfo SET TaskCompleted=" + taskCompleted + " AND TaskUndertaken="
+				+ taskUndertaken + " WHERE id=" + 1;
 		DALService.sendCommandDataManipulation(command);
 		return true;
 	}
-	
 
 	@RequestMapping("/getEffectivness")
 	public float getEffectivness() {
-		SystemInfo sys=getSystemInfo();
+		SystemInfo sys = getSystemInfo();
 		return sys.getEffectiveness();
 	}
+
+	@RequestMapping("/getErrorRate")
+	public float getErrorRate() {
+		SystemInfo sys = getSystemInfo();
+		return sys.getErrorRate();
+	}
+
+	@RequestMapping("/getFailedResponse")
+	public float getFailedResponse() {
+		SystemInfo sys = getSystemInfo();
+		return sys.getResponse404();
+	}
+
+	@RequestMapping("/getTotalResponse")
+	public float getTotalResponse() {
+		SystemInfo sys = getSystemInfo();
+		return sys.getTotalResponse();
+	}
+
+	@RequestMapping("/getBootFail")
+	public float getBootFail() {
+		SystemInfo sys = getSystemInfo();
+		return sys.getBootFail();
+	}
+
+	@RequestMapping("/getTaskCompleted")
+	public float getTaskCompleted() {
+		SystemInfo sys = getSystemInfo();
+		return sys.getTaskCompleted();
+	}
+
+	@RequestMapping("/getTaskUndertaken")
+	public float getTaskUndertaken() {
+		SystemInfo sys = getSystemInfo();
+		return sys.getTaskUndertaken();
+	}
+
 }
