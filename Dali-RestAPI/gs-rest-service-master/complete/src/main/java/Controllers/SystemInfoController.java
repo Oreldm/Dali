@@ -147,4 +147,10 @@ public class SystemInfoController {
 		return true;
 	}
 	
+
+	@RequestMapping("/getEffectivness")
+	public float getEffectivness() {
+		SystemInfo sys=getSystemInfo();
+		return sys.getEffectiveness();
+	}
 }
