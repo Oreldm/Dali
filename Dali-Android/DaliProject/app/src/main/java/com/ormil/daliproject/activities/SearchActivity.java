@@ -1,7 +1,9 @@
-package com.ormil.daliproject;
+package com.ormil.daliproject.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.ormil.daliproject.R;
 
 public class SearchActivity extends AppCompatActivity {
 

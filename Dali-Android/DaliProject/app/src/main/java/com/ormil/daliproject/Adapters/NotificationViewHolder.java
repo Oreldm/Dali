@@ -1,4 +1,4 @@
-package com.ormil.daliproject;
+package com.ormil.daliproject.Adapters;
 
 import android.widget.ImageView;
 import android.widget.TextView;

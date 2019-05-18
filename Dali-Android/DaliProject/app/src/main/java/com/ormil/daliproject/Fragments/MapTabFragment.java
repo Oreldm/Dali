@@ -1,4 +1,4 @@
-package com.ormil.daliproject;
+package com.ormil.daliproject.Fragments;
 
 import android.Manifest;
 import android.content.Context;
@@ -23,6 +23,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.ormil.daliproject.R;
 
 import java.util.Objects;
 

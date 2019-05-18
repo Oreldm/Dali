@@ -1,10 +1,13 @@
-package com.ormil.daliproject;
+package com.ormil.daliproject.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import com.ormil.daliproject.Models.NotificationModel;
+import com.ormil.daliproject.R;
 
 import java.util.ArrayList;
 import java.util.Date;

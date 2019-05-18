@@ -1,4 +1,4 @@
-package com.ormil.daliproject;
+package com.ormil.daliproject.Adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.ormil.daliproject.Models.ArtUserModel;
+import com.ormil.daliproject.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

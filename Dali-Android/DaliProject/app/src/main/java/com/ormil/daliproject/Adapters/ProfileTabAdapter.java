@@ -1,4 +1,4 @@
-package com.ormil.daliproject;
+package com.ormil.daliproject.Adapters;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;

@@ -1,4 +1,4 @@
-package com.ormil.daliproject;
+package com.ormil.daliproject.Models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

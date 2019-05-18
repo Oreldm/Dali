@@ -1,4 +1,4 @@
-package com.ormil.daliproject;
+package com.ormil.daliproject.activities;
 
 import android.Manifest;
 import android.content.Context;
@@ -10,7 +10,6 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -19,6 +18,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.ormil.daliproject.R;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 

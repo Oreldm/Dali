@@ -1,11 +1,14 @@
-package com.ormil.daliproject;
+package com.ormil.daliproject.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.ormil.daliproject.Adapters.ArtUserAdapter;
+import com.ormil.daliproject.Models.ArtUserModel;
+import com.ormil.daliproject.R;
+
 import java.util.ArrayList;
-import java.util.Date;
 
 public class NotificationsActivity extends AppCompatActivity {
 

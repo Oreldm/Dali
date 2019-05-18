@@ -1,9 +1,15 @@
-package com.ormil.daliproject;
+package com.ormil.daliproject.activities;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.ormil.daliproject.Models.ArtUserModel;
+import com.ormil.daliproject.Fragments.ListTabFragment;
+import com.ormil.daliproject.Fragments.MapTabFragment;
+import com.ormil.daliproject.Adapters.ProfileTabAdapter;
+import com.ormil.daliproject.R;
 
 import java.util.ArrayList;
 

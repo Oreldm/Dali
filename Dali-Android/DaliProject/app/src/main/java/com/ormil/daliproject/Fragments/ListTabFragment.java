@@ -1,4 +1,4 @@
-package com.ormil.daliproject;
+package com.ormil.daliproject.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
+import com.ormil.daliproject.Adapters.ArtUserAdapter;
+import com.ormil.daliproject.Models.ArtUserModel;
+import com.ormil.daliproject.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package com.ormil.daliproject;
+package com.ormil.daliproject.activities;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -8,12 +8,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.ar.sceneform.ux.ArFragment;
+import com.ormil.daliproject.Models.CardAdapter;
+import com.ormil.daliproject.Models.CardModel;
+import com.ormil.daliproject.R;
 
 import java.util.ArrayList;
 import java.util.List;
