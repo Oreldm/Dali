@@ -170,12 +170,10 @@ public class UserController {
 					? ArtistHelper.requestToArtistCasting(rs)
 					: ViewerHelper.requestToUserCasting(rs);
 
-			DALService.closeConnection();
 			return user;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		DALService.closeConnection();
 
 		return null;
 	}
@@ -190,12 +188,10 @@ public class UserController {
 			while (rs.next()) {
 				artwork = ArtworkHelper.requestToArtworkCasting(rs);
 			}
-			DALService.closeConnection();
 			return artwork;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		DALService.closeConnection();
 
 		return null;
 	}
@@ -218,12 +214,10 @@ public class UserController {
 
 				artworkArrList.add(artwork);
 			}
-			DALService.closeConnection();
 			return artworkArrList;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		DALService.closeConnection();
 		return null;
 	}
 
