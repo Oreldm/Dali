@@ -1,0 +1,7 @@
+set -x
+pwd
+sudo pkill -f lite-server
+cd /data/git/Dali/Dali-Website/DaliWeb/
+sudo ng build --prod &
+sleep 20
+sudo lite-server --baseDir="/data/git/Dali/Dali-Website/DaliWeb/dist/Dali" &

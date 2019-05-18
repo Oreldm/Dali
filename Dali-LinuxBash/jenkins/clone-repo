@@ -1,0 +1,7 @@
+set +x
+pwd
+#cd /data/git
+#sudo ssh-agent bash -c 'ssh-add /data/keys/jenkinsSsh; git clone git@github.com:oreldm/Dali.git'
+cd /data/git/Dali
+sudo ssh-agent bash -c 'ssh-add /data/keys/jenkinsSsh; git pull git@github.com:oreldm/Dali.git'
+

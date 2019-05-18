@@ -1,0 +1,10 @@
+set -x
+pwd
+#cd /data/git
+#sudo ssh-agent bash -c 'ssh-add /data/keys/jenkinsSsh; git clone git@github.com:oreldm/Dali.git'
+cd /data/git/Dali/Dali-RestAPI/gs-rest-service-master/complete
+pwd
+sudo mvn clean install
+sudo /data/scripts/closeRest.sh
+sleep 5
+sudo java -jar /root/.m2/repository/org/springframework/gs-rest-service/0.1.0/gs-rest-service-0.1.0.jar &

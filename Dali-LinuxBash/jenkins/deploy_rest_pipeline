@@ -1,0 +1,8 @@
+node {  
+    stage('Clone') { 
+        build job: 'clone-repo'
+    }
+    stage('Build & Deploy') { 
+        build job: 'deploy_Rest'
+    }
+}
