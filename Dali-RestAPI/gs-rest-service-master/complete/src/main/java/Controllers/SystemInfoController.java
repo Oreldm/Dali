@@ -20,6 +20,11 @@ public class SystemInfoController {
 		int BootFail;
 		int TaskCompleted;
 		int TaskUndertaken;
+		
+		//Calculations
+		float effectiveness;
+		float errorRate;
+		
 
 		public SystemInfo(ResultSet rs) {
 			try {
@@ -31,7 +36,8 @@ public class SystemInfoController {
 				this.TaskCompleted=rs.getInt("TaskCompleted");
 				this.TaskUndertaken=rs.getInt("TaskUndertaken");
 				
-				
+				this.effectiveness=(this.TaskCompleted/this.TaskUndertaken)*100;
+				this.errorRate=this.Response404/this.TotalResponse;
 			}catch(Exception e) {}
 		}
 	}
@@ -73,26 +79,5 @@ public class SystemInfoController {
 		DALService.sendCommandDataManipulation(command);
 		return true;
 	}
-	
-	@RequestMapping("/getEffectiveness")
-	public float getEffectiveness() {
-		SystemInfo sys=getSystemInfo();
-		float effectiveness=(sys.TaskCompleted/sys.TaskUndertaken)*100;
-		return effectiveness;
-	}
-	
-	@RequestMapping("/getBootFail")
-	public int getBootFail() {
-		SystemInfo sys=getSystemInfo();
-		return sys.BootFail;
-	}
-	
-	@RequestMapping("/getErrorRate")
-	public float getErrorRate() {
-		SystemInfo sys=getSystemInfo();
-		float errorRate=sys.Response404/sys.TotalResponse;
-		return errorRate;
-	}
-	
 	
 }
