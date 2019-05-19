@@ -149,7 +149,7 @@ public class SystemInfoController {
 		SystemInfo sys = getSystemInfo();
 		taskCompleted = taskCompleted + sys.TaskCompleted;
 		taskUndertaken = taskUndertaken + sys.TaskUndertaken;
-		String command = "UPDATE SystemInfo SET TaskCompleted=" + taskCompleted + " AND TaskUndertaken="
+		String command = "UPDATE SystemInfo SET TaskCompleted=" + taskCompleted + " , TaskUndertaken="
 				+ taskUndertaken + " WHERE id=" + 1;
 		DALService.sendCommandDataManipulation(command);
 		return true;

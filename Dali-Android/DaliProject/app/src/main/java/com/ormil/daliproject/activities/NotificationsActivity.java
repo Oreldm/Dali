@@ -1,12 +1,15 @@
 package com.ormil.daliproject.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
 import com.ormil.daliproject.Adapters.ArtUserAdapter;
+import com.ormil.daliproject.Helpers.UserMonitorHelper;
 import com.ormil.daliproject.Models.ArtUserModel;
 import com.ormil.daliproject.R;
+import com.ormil.daliproject.Services.ExitService;
 
 import java.util.ArrayList;
 
@@ -18,6 +21,8 @@ public class NotificationsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
+        Intent intent = new Intent(this, ExitService.class);
+        startService(intent);
 
         ListView mListView = findViewById(R.id.notification_list);
 

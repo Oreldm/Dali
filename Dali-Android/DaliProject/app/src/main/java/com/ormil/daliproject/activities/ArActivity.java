@@ -3,6 +3,7 @@ package com.ormil.daliproject.activities;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,14 +12,17 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.ar.sceneform.ux.ArFragment;
+import com.ormil.daliproject.Helpers.UserMonitorHelper;
 import com.ormil.daliproject.Models.CardAdapter;
 import com.ormil.daliproject.Models.CardModel;
 import com.ormil.daliproject.R;
+import com.ormil.daliproject.Services.ExitService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ArActivity extends AppCompatActivity {
+    public static final int ACTIVITY_NUMBER=3;
     private static final String TAG = ArActivity.class.getSimpleName();
     private static final double MIN_OPENGL_VERSION = 3.0;
 
@@ -32,7 +36,9 @@ public class ArActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        UserMonitorHelper.screens.add(ACTIVITY_NUMBER);
+        Intent intent = new Intent(this, ExitService.class);
+        startService(intent);
         if (!checkIsSupportedDeviceOrFinish(this)) {
             return;
         }

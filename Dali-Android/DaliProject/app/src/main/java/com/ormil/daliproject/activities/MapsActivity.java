@@ -18,10 +18,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.ormil.daliproject.Helpers.UserMonitorHelper;
 import com.ormil.daliproject.R;
+import com.ormil.daliproject.Services.ExitService;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-
+    public static final int ACTIVITY_NUMBER=2;
     private GoogleMap mMap;
     private LocationManager mLocationManager;
     private LocationListener mLocationListener;
@@ -34,6 +36,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        UserMonitorHelper.screens.add(ACTIVITY_NUMBER);
+        Intent intent = new Intent(this, ExitService.class);
+        startService(intent);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
