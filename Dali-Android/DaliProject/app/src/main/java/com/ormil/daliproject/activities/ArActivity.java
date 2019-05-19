@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.google.ar.sceneform.ux.ArFragment;
 import com.ormil.daliproject.Helpers.UserMonitorHelper;
-import com.ormil.daliproject.Models.CardAdapter;
+import com.ormil.daliproject.Adapters.CardAdapter;
 import com.ormil.daliproject.Models.CardModel;
 import com.ormil.daliproject.R;
 import com.ormil.daliproject.Services.ExitService;

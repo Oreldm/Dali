@@ -1,4 +1,4 @@
-package com.ormil.daliproject.Models;
+package com.ormil.daliproject.Adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ormil.daliproject.Models.CardModel;
 import com.ormil.daliproject.R;
 
 import java.util.List;

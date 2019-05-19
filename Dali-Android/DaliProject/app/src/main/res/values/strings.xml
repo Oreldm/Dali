@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DaliProject</string>
+    <string name="app_name">Dali Project</string>
     <string name="title_activity_maps">Map</string>
     <string name="artist_name_placeholder">Artist name</string>
     <string name="info_tab_artwork_name_placeholder">Artwork name</string>
@@ -15,4 +15,5 @@
     <string name="notification_time_placeholder">38 minutes ago</string>
     <string name="item_main_text">Sir Waffles</string>
     <string name="item_sub_text">Round flat</string>
+    <string name="app_info">Sign in now and start watching\n Augmented Reality Art</string>
 </resources>
