@@ -1,4 +1,4 @@
-package com.ormil.daliproject.activities;
+package com.ormil.daliproject;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -15,11 +15,12 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.ormil.daliproject.R;
+import com.ormil.daliproject.activities.MapsActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
-    private final int RC_SIGN_IN = 100;
+    private final int RC_SIGN_IN = 15;
 
     GoogleSignInClient mGoogleSignInClient;
 
@@ -78,7 +79,10 @@ public class LoginActivity extends AppCompatActivity {
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.e(TAG, "signInResult:failed code=" + e.getStatusCode());
+            Log.e(TAG, "signInResult:failed code= " + e.getStatusCode());
+            Log.e(TAG, e.getMessage());
+            Log.e(TAG,  e.toString());
+            e.printStackTrace();
         }
     }
 
