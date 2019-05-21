@@ -70,14 +70,18 @@ public class WebController implements TableNames, QueryHelper {
 			String pathToFile = "/var/www/html/data/files/" + artistId + "/";
 
 			String command = "INSERT INTO Artwork (id, path, name, artistId,info) VALUES (" 
-			+ id + ",'" + pathToFile + file.getOriginalFilename() + "','" + name + "'," + artistId + ","+
-					info+");";
-			DALService.sendCommandDataManipulation(command);
+			+ id + ",'" + pathToFile + file.getOriginalFilename() + "','" + name + "'," + artistId + ",'"+
+					info+"');";
+			if(DALService.sendCommandDataManipulation(command)== -1) {
+				return false;
+			}
 			createDirectoryIfNotExists(pathToFile);
 			writeFileToServer(file, pathToFile + file.getOriginalFilename());
 			
 			command = "INSERT INTO Artwork_Tag (artworkId,tagId) VALUES ("+id+","+tagId+")";
-			DALService.sendCommandDataManipulation(command);
+			if(DALService.sendCommandDataManipulation(command)== -1) {
+				return false;
+			}
 			
 			
 		} catch (Exception e) {
