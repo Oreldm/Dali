@@ -63,16 +63,23 @@ public class WebController implements TableNames, QueryHelper {
 
 	@PostMapping("/uploadArtwork")
 	public boolean upload(@RequestParam("file") MultipartFile file, @RequestParam("name") String name,
-			@RequestParam("artistId") int artistId) {
+			@RequestParam("artistId") int artistId, @RequestParam("tagId") int tagId,
+			@RequestParam("info") String info) {
 		try {
 			int id = QueryHelper.getHighestIdFromTable("Artwork") + 1;
 			String pathToFile = "/var/www/html/data/files/" + artistId + "/";
 
-			String command = "INSERT INTO Artwork (id, path, name, artistId) VALUES (" + id + ",'" + pathToFile
-					+ file.getOriginalFilename() + "','" + name + "'," + artistId + ");";
+			String command = "INSERT INTO Artwork (id, path, name, artistId,info) VALUES (" 
+			+ id + ",'" + pathToFile + file.getOriginalFilename() + "','" + name + "'," + artistId + ","+
+					info+");";
 			DALService.sendCommandDataManipulation(command);
 			createDirectoryIfNotExists(pathToFile);
 			writeFileToServer(file, pathToFile + file.getOriginalFilename());
+			
+			command = "INSERT INTO Artwork_Tag (artworkId,tagId) VALUES ("+id+","+tagId+")";
+			DALService.sendCommandDataManipulation(command);
+			
+			
 		} catch (Exception e) {
 			return false;
 		}
