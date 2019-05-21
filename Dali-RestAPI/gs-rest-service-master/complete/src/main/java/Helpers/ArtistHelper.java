@@ -42,12 +42,12 @@ public class ArtistHelper implements QueryHelper, TableNames {
 	}
 	
 	public static List<Artist>getFollowing(Artist artist) throws Exception{
-		String command=QueryHelper.selectAllByIdFromTable("Artist_Artist", "ArtistId1", artist.getId());
+		String command=QueryHelper.selectAllByIdFromTable("User_Artist", "ArtistId", artist.getId());
 		ResultSet rs=DALService.sendCommand(command);
 		List<Artist>ret=new ArrayList<Artist>();
 		while(rs.next()) {
 			Artist tempArtist=new Artist();
-			String command2=QueryHelper.selectIdFromTable("Artist", rs.getInt("ArtistId2"));
+			String command2=QueryHelper.selectIdFromTable("Artist", rs.getInt("ArtistId"));
 			ResultSet rs2=DALService.sendCommand(command2);
 			while(rs2.next()) {
 				tempArtist.setName(rs2.getString("name"));
@@ -68,7 +68,7 @@ public class ArtistHelper implements QueryHelper, TableNames {
 	}
 	
 	public static List<Artwork>getLikedArtworkForArtist(Artist artist) throws Exception{
-		String command=QueryHelper.selectAllByIdFromTable("ArtistLikedArtwork", "ArtistId", artist.getId());
+		String command=QueryHelper.selectAllByIdFromTable("UserLikedArtwork", "ArtworkId", artist.getId());
 		ResultSet rs=DALService.sendCommand(command);
 		List<Artwork>ret=new ArrayList<Artwork>();
 		while(rs.next()) {
@@ -88,20 +88,11 @@ public class ArtistHelper implements QueryHelper, TableNames {
 	
 	public static List<User> getFollowersForArtist(Artist artist) throws Exception {
 		
-		String command1 = QueryHelper.selectAllByIdFromTable("Artist_Artist","artistId2", artist.getId());
-		String command2 = QueryHelper.selectAllByIdFromTable("Viewer_Artist","artistId", artist.getId());
-		ResultSet rs1 = DALService.sendCommand(command1);
-		ResultSet rs2 = DALService.sendCommand(command2);
+		String command = QueryHelper.selectAllByIdFromTable("User_Artist","ArtistId", artist.getId());
+		ResultSet rs = DALService.sendCommand(command);
 		List<User> followers = new ArrayList<User>();
-		while (rs1.next()) {
-			followers.add(getArtistById(rs1.getInt("artistId1")));
-		}
-		while(rs2.next()) {
-			String command3 = QueryHelper.selectIdFromTable(VIEWER_TABLE, rs2.getInt("viewerId"));
-			ResultSet rs3= DALService.sendCommand(command3);
-			while(rs3.next()) {
-				followers.add(ViewerHelper.castRequestToSimpleViewer(rs3));
-			}
+		while (rs.next()) {
+			followers.add(getArtistById(rs.getInt("artistId1")));
 		}
 
 		return followers;
