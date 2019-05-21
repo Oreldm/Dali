@@ -14,6 +14,7 @@ import { UploadPageComponent } from './upload-page/upload-page.component';
 import { MaterialModule } from './material-module';
 import { DragFileDirective } from './_directives/drag-file.directive';
 import { TagsChipsAutocompleteComponent } from './tags-chips-autocomplete/tags-chips-autocomplete.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { TagsChipsAutocompleteComponent } from './tags-chips-autocomplete/tags-c
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    HttpClientModule,
     MaterialModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAcPrNZrcecRULOtv-KdbIqsmATepRZuJw'

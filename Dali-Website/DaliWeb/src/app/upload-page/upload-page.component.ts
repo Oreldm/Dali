@@ -1,6 +1,7 @@
 import { FileHandle } from './../_models/file-handle';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { RestService } from '../_services/rest.service';
 
 @Component({
   selector: 'app-upload-page',
@@ -18,7 +19,7 @@ export class UploadPageComponent implements OnInit {
   public placedMarker = null;
   public markerInfo;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private rest: RestService) {
     this.uploadForm = this.formBuilder.group({
       name: ['', Validators.required],
       info: ['', Validators.required],
@@ -28,7 +29,7 @@ export class UploadPageComponent implements OnInit {
    }
 
   ngOnInit() {
-
+    
   }
 
   filesDropped(files: FileHandle[]) {
@@ -46,5 +47,4 @@ export class UploadPageComponent implements OnInit {
   public onNameChange(str: string) {
     this.markerInfo = str
   }
-
 }
