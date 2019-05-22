@@ -5,6 +5,7 @@ import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete} from '
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { RestService } from '../_services/rest.service';
+import { Tag } from '../_models/tag';
 
 @Component({
   selector: 'app-tags-chips-autocomplete',
@@ -21,6 +22,7 @@ export class TagsChipsAutocompleteComponent implements OnInit {
   filteredTags: Observable<string[]>;
   tags: string[] = [];
   allTags: string[] = [/*'Architectural', 'Historically', 'Abstract', 'Digital', 'Steam-Punk', 'Fantasy', 'Food'*/];
+  tagIdMap: Map<string, number> = new Map();
 
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -68,9 +70,14 @@ export class TagsChipsAutocompleteComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.tags.push(event.option.viewValue);
+    const value = event.option.viewValue;
+    this.tags.push(value);
     this.tagInput.nativeElement.value = '';
     this.tagCtrl.setValue(null);
+  }
+
+  public getSelectedTagId() : string {
+    return this.tagIdMap.get(this.tags[0].toLowerCase()) + "";
   }
 
   private _filter(value: string): string[] {
@@ -80,9 +87,9 @@ export class TagsChipsAutocompleteComponent implements OnInit {
   }
   
   public setTagsList(resList: any[]) {
-    resList.forEach(value => {
-      this.allTags.push(this.capitalizeString(value.name))
-      console.log(value.name)
+    resList.forEach(tag => {
+      this.allTags.push(this.capitalizeString(tag.name))
+      this.tagIdMap.set(tag.name, tag.id)
     })
   }
 

@@ -1,7 +1,10 @@
+import { TagsChipsAutocompleteComponent } from './../tags-chips-autocomplete/tags-chips-autocomplete.component';
 import { FileHandle } from './../_models/file-handle';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RestService } from '../_services/rest.service';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../_services/authentication.service';
 
 @Component({
   selector: 'app-upload-page',
@@ -19,7 +22,10 @@ export class UploadPageComponent implements OnInit {
   public placedMarker = null;
   public markerInfo;
 
-  constructor(private formBuilder: FormBuilder, private rest: RestService) {
+  @ViewChild(TagsChipsAutocompleteComponent) tagsComponent: TagsChipsAutocompleteComponent;
+
+  constructor(private formBuilder: FormBuilder, private rest: RestService, private router: Router,
+     private auth: AuthenticationService) {
     this.uploadForm = this.formBuilder.group({
       name: ['', Validators.required],
       info: ['', Validators.required],
@@ -38,6 +44,22 @@ export class UploadPageComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+    var formData = new FormData();
+    formData.append('file', this.files[0].file);
+    formData.append('name', this.uploadForm.get('name').value);
+    formData.append('artistId', this.auth.currentUserValue().id.toString());
+    formData.append('tagId', this.tagsComponent.getSelectedTagId());
+    formData.append('info', this.uploadForm.get('info').value);
+    formData.append('xPosition', this.placedMarker.lat);
+    formData.append('yPosition', this.placedMarker.lng);
+
+    console.log(this.auth.currentUserValue().id.toString());
+
+    this.rest.uploadArtwork(formData).subscribe(response => {
+      console.log("inResponse");
+      if(response)
+        this.router.navigate(['/profile']);
+    });
   }
 
   public placeMarker(lat: number, lng: number) {

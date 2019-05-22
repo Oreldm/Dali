@@ -1,3 +1,17 @@
-<p>
-  profile works!
-</p>
+<div class="profile-window">
+  <div class="info-warpper">
+    <div>
+      <img src={{pictureUrl}}/>
+    </div>
+    <h1> {{artistName}} </h1>
+    <p>{{artistBio}}</p>
+  </div>
+
+  <div class="map-warpper">
+      <agm-map [latitude]="59.326242" [longitude]="17.8419719">
+        <agm-marker *ngFor="let marker of markers" [latitude]="marker.lat" [longitude]="marker.lng">
+          <agm-info-window>{{ marker.name }}</agm-info-window>
+        </agm-marker>
+      </agm-map>
+  </div>
+</div>

@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { User, UserType } from '../_models';
+import { Router } from '@angular/router';
 
 declare const gapi: any;
 const SESSION_USER_KEY: string = 'currentUser';
@@ -20,7 +21,7 @@ export class AuthenticationService {
 
   public isLogin: boolean = false;
 
-  constructor() {
+  constructor(private router: Router, private ngZone: NgZone) {
     console.log("IN SERVICE CONSTRUCTOR!!!");
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(sessionStorage.getItem(SESSION_USER_KEY)));
     this.currentUser = this.currentUserSubject.asObservable();
@@ -58,6 +59,10 @@ export class AuthenticationService {
     this.currentUserSubject.next(user);
 
     this.isLogin = true;
+    this.ngZone.run( _ => {
+      this.router.navigate(['/profile']);
+    });
+
   }
 
   private onGoogleSignInFailed(err: any) {
