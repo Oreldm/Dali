@@ -12,7 +12,16 @@ public class Artwork {
 	private String dt_created;
 	private List<String>generes;
 	private List<Integer>generesIds;
+	private String info;
 	
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
+	}
+
 	public List<Integer> getGeneresIds() {
 		return generesIds;
 	}
@@ -67,7 +76,7 @@ public class Artwork {
 	}
 	public void setPath(String path) {
 		if(path.contains("/var/www/html/")){
-			path = path.replace("/var/www/html/", "www.project-dali.com/");
+			path = path.replace("/var/www/html/", "project-dali.com/");
 		}
 		this.path = path;
 	}
