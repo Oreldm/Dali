@@ -1,4 +1,4 @@
-package com.ormil.daliproject;
+package com.ormil.daliproject.activities;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
