@@ -54,7 +54,11 @@ public class WebController implements TableNames, QueryHelper {
 		} catch (SQLException e) {
 			return false;
 		}
-
+		
+		command = "Delete from Geolocation where artworkId=" + id;
+		DALService.sendCommandDataManipulation(command);
+		command = "Delete from Artwork_Tag where artworkId=" + id;
+		DALService.sendCommandDataManipulation(command);
 		command = "Delete from Artwork where id=" + id;
 		DALService.sendCommandDataManipulation(command);
 		File file = new File(path);
