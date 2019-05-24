@@ -68,14 +68,14 @@ public class ArtistHelper implements QueryHelper, TableNames {
 	}
 
 	public static List<Artwork> getLikedArtworkForArtist(Artist artist) throws Exception {
-		String command = QueryHelper.selectAllByIdFromTable("UserLikedArtwork", "ArtworkId", artist.getId());
+		String command = QueryHelper.selectAllByIdFromTable("UserLikedArtwork", "UserId", artist.getId());
 		ResultSet rs = DALService.sendCommand(command);
 		List<Artwork> ret = new ArrayList<Artwork>();
 		while (rs.next()) {
 			String command2 = QueryHelper.selectIdFromTable(TableNames.ARTWORK_TABLE, rs.getInt("ArtworkId"));
 			ResultSet rs2 = DALService.sendCommand(command2);
 			while (rs2.next()) {
-				ret.add(ArtworkHelper.requestToArtworkCasting(rs));
+				ret.add(ArtworkHelper.requestToArtworkCasting(rs2));
 			}
 		}
 		return ret;
