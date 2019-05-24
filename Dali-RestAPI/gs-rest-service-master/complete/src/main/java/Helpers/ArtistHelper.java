@@ -32,63 +32,63 @@ public class ArtistHelper implements QueryHelper, TableNames {
 		addFollowersForArtist(artist);
 		addFollowingToArtist(artist);
 		addLikedArtworkForArtist(artist);
-		
+
 		return artist;
 	}
-	
-	public static Artist addFollowingToArtist(Artist artist) throws Exception{
+
+	public static Artist addFollowingToArtist(Artist artist) throws Exception {
 		artist.setFollowing(getFollowing(artist));
 		return artist;
 	}
-	
-	public static List<Artist>getFollowing(Artist artist) throws Exception{
-		String command=QueryHelper.selectAllByIdFromTable("User_Artist", "ArtistId", artist.getId());
-		ResultSet rs=DALService.sendCommand(command);
-		List<Artist>ret=new ArrayList<Artist>();
-		while(rs.next()) {
-			Artist tempArtist=new Artist();
-			String command2=QueryHelper.selectIdFromTable("User", rs.getInt("ArtistId"));
-			ResultSet rs2=DALService.sendCommand(command2);
-			while(rs2.next()) {
+
+	public static List<Artist> getFollowing(Artist artist) throws Exception {
+		String command = QueryHelper.selectAllByIdFromTable("User_Artist", "ArtistId", artist.getId());
+		ResultSet rs = DALService.sendCommand(command);
+		List<Artist> ret = new ArrayList<Artist>();
+		while (rs.next()) {
+			Artist tempArtist = new Artist();
+			String command2 = QueryHelper.selectIdFromTable("User", rs.getInt("ArtistId"));
+			ResultSet rs2 = DALService.sendCommand(command2);
+			while (rs2.next()) {
 				tempArtist.setName(rs2.getString("name"));
 				tempArtist.setId(rs2.getInt("id"));
 				tempArtist.setPictureUrl(rs2.getString("picture"));
 				tempArtist.setBio(rs2.getString("Bio"));
 			}
-			ret.add(tempArtist);			
+			ret.add(tempArtist);
 		}
-		
+
 		return ret;
-		
+
 	}
-	
-	public static Artist addLikedArtworkForArtist(Artist artist) throws Exception{
+
+	public static Artist addLikedArtworkForArtist(Artist artist) throws Exception {
 		artist.setLikedArtwork(getLikedArtworkForArtist(artist));
 		return artist;
 	}
-	
-	public static List<Artwork>getLikedArtworkForArtist(Artist artist) throws Exception{
-		String command=QueryHelper.selectAllByIdFromTable("UserLikedArtwork", "ArtworkId", artist.getId());
-		ResultSet rs=DALService.sendCommand(command);
-		List<Artwork>ret=new ArrayList<Artwork>();
-		while(rs.next()) {
-			String command2=QueryHelper.selectIdFromTable(TableNames.ARTWORK_TABLE, rs.getInt("ArtworkId"));
-			ResultSet rs2=DALService.sendCommand(command2);
-			while(rs2.next()) {
+
+	public static List<Artwork> getLikedArtworkForArtist(Artist artist) throws Exception {
+		String command = QueryHelper.selectAllByIdFromTable("UserLikedArtwork", "ArtworkId", artist.getId());
+		ResultSet rs = DALService.sendCommand(command);
+		List<Artwork> ret = new ArrayList<Artwork>();
+		while (rs.next()) {
+			String command2 = QueryHelper.selectIdFromTable(TableNames.ARTWORK_TABLE, rs.getInt("ArtworkId"));
+			ResultSet rs2 = DALService.sendCommand(command2);
+			while (rs2.next()) {
 				ret.add(ArtworkHelper.requestToArtworkCasting(rs));
 			}
 		}
 		return ret;
 	}
-	
+
 	public static Artist addFollowersForArtist(Artist artist) throws Exception {
 		artist.setFollowers(getFollowersForArtist(artist));
 		return artist;
 	}
-	
+
 	public static List<User> getFollowersForArtist(Artist artist) throws Exception {
-		
-		String command = QueryHelper.selectAllByIdFromTable("User_Artist","ArtistId", artist.getId());
+
+		String command = QueryHelper.selectAllByIdFromTable("User_Artist", "ArtistId", artist.getId());
 		ResultSet rs = DALService.sendCommand(command);
 		List<User> followers = new ArrayList<User>();
 		while (rs.next()) {
@@ -97,34 +97,34 @@ public class ArtistHelper implements QueryHelper, TableNames {
 
 		return followers;
 	}
-	
+
 	public static Artist getArtistById(int id) throws Exception {
 		String command = QueryHelper.selectIdFromTable("User", id);
 		ResultSet rs = DALService.sendCommand(command);
-		Artist artist=new Artist();
-		while(rs.next()) {
+		Artist artist = new Artist();
+		while (rs.next()) {
 			artist.setId(id);
 			artist.setName(rs.getString("name"));
 			artist.setPictureUrl(rs.getString("picture"));
 			artist.setBio(rs.getString("Bio"));
 		}
-		
+
 		return artist;
 	}
-	
+
 	public static List<String> getGeneresToArtist(Artist artist) throws Exception {
-		String command=QueryHelper.selectAllByIdFromTable("Artwork", "artistId", artist.getId());
+		String command = QueryHelper.selectAllByIdFromTable("Artwork", "artistId", artist.getId());
 		ResultSet rs = DALService.sendCommand(command);
 		List<String> generes = new ArrayList<String>();
 		while (rs.next()) {
-			int artworkid=rs.getInt("id");
-			String command2=QueryHelper.selectAllByIdFromTable("Artwork_Tag", "artworkId", artworkid);
-			ResultSet rs2=DALService.sendCommand(command2);
-			while(rs2.next()) {
-				int tagId=rs2.getInt("tagId");
-				String command3=QueryHelper.selectIdFromTable("Tags", tagId);
-				ResultSet rs3=DALService.sendCommand(command3);
-				while(rs3.next()) {
+			int artworkid = rs.getInt("id");
+			String command2 = QueryHelper.selectAllByIdFromTable("Artwork_Tag", "artworkId", artworkid);
+			ResultSet rs2 = DALService.sendCommand(command2);
+			while (rs2.next()) {
+				int tagId = rs2.getInt("tagId");
+				String command3 = QueryHelper.selectIdFromTable("Tags", tagId);
+				ResultSet rs3 = DALService.sendCommand(command3);
+				while (rs3.next()) {
 					generes.add(rs3.getString("name"));
 				}
 			}

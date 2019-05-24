@@ -7,8 +7,8 @@ public class Artwork {
 	private String path;
 	private String name;
 	private int artistId;
-	private float positionX;
-	private float positionY;
+	private float lat;
+	private float lng;
 	private String dt_created;
 	private List<String>generes;
 	private List<Integer>generesIds;
@@ -59,26 +59,26 @@ public class Artwork {
 
 	public Artwork() {}
 	
-	public Artwork(int id, String path, String name, int artistId, float positionX, float positionY) {
+	public Artwork(int id, String path, String name, int artistId, float lat, float lng) {
 		super();
 		this.id = id;
 		this.path = path;
 		this.name = name;
 		this.artistId = artistId;
-		this.positionX = positionX;
-		this.positionY = positionY;
+		this.lat = lat;
+		this.lng = lng;
 	}
-	public float getPositionX() {
-		return positionX;
+	public float getLat() {
+		return lat;
 	}
-	public void setPositionX(float positionX) {
-		this.positionX = positionX;
+	public void setLat(float lat) {
+		this.lat = lat;
 	}
-	public float getPositionY() {
-		return positionY;
+	public float getLng() {
+		return lng;
 	}
-	public void setPositionY(float positionY) {
-		this.positionY = positionY;
+	public void setLng(float lng) {
+		this.lng = lng;
 	}
 
 	public int getId() {

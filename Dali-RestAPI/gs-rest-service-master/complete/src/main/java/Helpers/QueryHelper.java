@@ -31,8 +31,8 @@ public interface QueryHelper  {
 		artwork.setName(artName);
 		artwork.setArtistId(artistId);
 		JsonObject location= ArtworkHelper.getLocationForArtwork(artwork);
-		artwork.setPositionX(location.get("x").getAsFloat());
-		artwork.setPositionY(location.get("y").getAsFloat());
+		artwork.setLat(location.get("lat").getAsFloat());
+		artwork.setLng(location.get("lng").getAsFloat());
 		return artwork;
 	}
 	

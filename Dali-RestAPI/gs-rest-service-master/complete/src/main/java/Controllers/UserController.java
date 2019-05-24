@@ -214,14 +214,14 @@ public class UserController {
 	}
 
 	@RequestMapping("/getArtsByLocation")
-	public List<Artwork> getArtByLocation(@RequestParam String xPosition, @RequestParam String yPosition) {
-		Double xMinValue = Double.parseDouble(xPosition) - 0.006;
-		Double xMaxValue = Double.parseDouble(xPosition) + 0.006;
-		Double yMinValue = Double.parseDouble(yPosition) - 0.006;
-		Double yMaxValue = Double.parseDouble(yPosition) + 0.006;
+	public List<Artwork> getArtByLocation(@RequestParam String lat, @RequestParam String lng) {
+		Double xMinValue = Double.parseDouble(lat) - 0.006;
+		Double xMaxValue = Double.parseDouble(lat) + 0.006;
+		Double yMinValue = Double.parseDouble(lng) - 0.006;
+		Double yMaxValue = Double.parseDouble(lng) + 0.006;
 		String command = "SELECT * from Artwork WHERE Artwork.id IN " + "(SELECT artworkId FROM Geolocation WHERE "
-				+ xMinValue + "<=xPosition AND xPosition<=" + xMaxValue + " AND yPosition<=" + yMaxValue + " AND "
-				+ yMinValue + "<=yPosition) ";
+				+ xMinValue + "<=lat AND lat<=" + xMaxValue + " AND lng<=" + yMaxValue + " AND "
+				+ yMinValue + "<=lng) ";
 
 		ResultSet rs = DALService.sendCommand(command);
 		try {

@@ -69,8 +69,8 @@ public class WebController implements TableNames, QueryHelper {
 	public boolean upload(@RequestParam("file") MultipartFile file, @RequestParam("name") String name,
 			@RequestParam("artistId") int artistId, @RequestParam("tagId") int tagId,
 			@RequestParam("info") String info,
-			@RequestParam("xPosition") float xPosition,
-			@RequestParam("yPosition") float yPosition) {
+			@RequestParam("lat") float lat,
+			@RequestParam("lng") float lng) {
 		try {
 			int id = QueryHelper.getHighestIdFromTable("Artwork") + 1;
 			String pathToFile = "/var/www/html/data/files/" + artistId + "/";
@@ -90,8 +90,8 @@ public class WebController implements TableNames, QueryHelper {
 			}
 			
 			int id2 = QueryHelper.getHighestIdFromTable("Geolocation") + 1;
-			command = "INSERT INTO Geolocation (id,artworkId,xPosition,yPosition) VALUES ("+id2+","+id+
-					","+xPosition+","+yPosition+")";
+			command = "INSERT INTO Geolocation (id,artworkId,lat,lng) VALUES ("+id2+","+id+
+					","+lat+","+lng+")";
 			if(DALService.sendCommandDataManipulation(command)== -1) {
 				return false;
 			}

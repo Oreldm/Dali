@@ -22,12 +22,12 @@ public class ArtworkHelper implements QueryHelper,TableNames {
 		ResultSet artGeolocation = DALService.sendCommand(command);
 		
 		
-		float positionX=(float) 0.0;
-		float positionY=(float) 0.0;
+		float lat=(float) 0.0;
+		float lng=(float) 0.0;
 		try {
 			while(artGeolocation.next()) {
-				positionX=artGeolocation.getFloat("xPosition");
-				positionY=artGeolocation.getFloat("yPosition");
+				lat=artGeolocation.getFloat("lat");
+				lng=artGeolocation.getFloat("lng");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -35,8 +35,8 @@ public class ArtworkHelper implements QueryHelper,TableNames {
 		}
 		
 		JsonObject ret=new JsonObject();
-		ret.addProperty("x", positionX+"");
-		ret.addProperty("y", positionY+"");
+		ret.addProperty("lng", lat+"");
+		ret.addProperty("lng", lng+"");
 		
 		return ret;
 	}
@@ -55,8 +55,8 @@ public class ArtworkHelper implements QueryHelper,TableNames {
 		artwork.setName(artName);
 		artwork.setArtistId(artistId);
 		JsonObject location = ArtworkHelper.getLocationForArtwork(artwork);
-		artwork.setPositionX(location.get("x").getAsFloat());
-		artwork.setPositionY(location.get("y").getAsFloat());
+		artwork.setLat(location.get("x").getAsFloat());
+		artwork.setLng(location.get("y").getAsFloat());
 		
 		String command="SELECT * from Tags WHERE id IN (SELECT tagId FROM Artwork_Tag WHERE artworkId="+artId+")";
 		ResultSet rs2=DALService.sendCommand(command);
