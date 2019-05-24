@@ -18,7 +18,7 @@ public class ViewerHelper {
 		ret.setBio(rs.getString("bio"));
 		ret.setPictureUrl(rs.getString("picture"));
 		ret.setName(rs.getString("name"));
-		ret.setId(rs.getInt("id"));
+		ret.setId(rs.getString("id"));
 
 		return ret;
 	}
@@ -26,7 +26,7 @@ public class ViewerHelper {
 	
 	public static Viewer requestToUserCasting(ResultSet rs) throws Exception {
 		Viewer viewer = new Viewer();
-		int id = rs.getInt("id");
+		String id = rs.getString("id");
 		String name = rs.getString("name");
 		String pictureUrl = rs.getString("picture");
 		String bio = rs.getString("bio");
@@ -55,8 +55,8 @@ public class ViewerHelper {
 	
 	
 	private static List<Artist> getFollowingToViewer(Viewer viewer) throws Exception {
-		String command = "SELECT * from User where id IN (SELECT artistId FROM User_Artist WHERE UserId="
-				+ viewer.getId() + ")";
+		String command = "SELECT * from User where id IN (SELECT artistId FROM User_Artist WHERE UserId='"
+				+ viewer.getId() + "')";
 		ResultSet rs = DALService.sendCommand(command);
 
 		List<Artist> artists = new ArrayList<Artist>();
@@ -70,7 +70,7 @@ public class ViewerHelper {
 
 	private static List<String> getGeneresToViewer(Viewer viewer) throws Exception {
 		String command = "SELECT name from Tags where id IN " + "(Select tagId FROM Artwork_Tag where artworkId IN "
-				+ "(SELECT artworkId FROM UserLikedArtwork WHERE UserId=" + viewer.getId() + "))";
+				+ "(SELECT artworkId FROM UserLikedArtwork WHERE UserId='" + viewer.getId() + "'))";
 		ResultSet rs = DALService.sendCommand(command);
 
 		List<String> ret = new ArrayList<String>();

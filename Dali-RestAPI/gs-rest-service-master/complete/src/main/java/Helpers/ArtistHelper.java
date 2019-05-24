@@ -17,7 +17,7 @@ public class ArtistHelper implements QueryHelper, TableNames {
 	public static Artist requestToArtistCasting(ResultSet rs) throws Exception {
 		Artist artist = new Artist();
 
-		int id = rs.getInt("id");
+		String id = rs.getString("id");
 		String pictureUrl = rs.getString("picture");
 		String name = rs.getString("name");
 		String bio = rs.getString("bio");
@@ -47,11 +47,11 @@ public class ArtistHelper implements QueryHelper, TableNames {
 		List<Artist> ret = new ArrayList<Artist>();
 		while (rs.next()) {
 			Artist tempArtist = new Artist();
-			String command2 = QueryHelper.selectIdFromTable("User", rs.getInt("ArtistId"));
+			String command2 = QueryHelper.selectIdFromTable("User", rs.getString("ArtistId"));
 			ResultSet rs2 = DALService.sendCommand(command2);
 			while (rs2.next()) {
 				tempArtist.setName(rs2.getString("name"));
-				tempArtist.setId(rs2.getInt("id"));
+				tempArtist.setId(rs2.getString("id"));
 				tempArtist.setPictureUrl(rs2.getString("picture"));
 				tempArtist.setBio(rs2.getString("Bio"));
 			}
@@ -92,13 +92,13 @@ public class ArtistHelper implements QueryHelper, TableNames {
 		ResultSet rs = DALService.sendCommand(command);
 		List<User> followers = new ArrayList<User>();
 		while (rs.next()) {
-			followers.add(getArtistById(rs.getInt("UserId")));
+			followers.add(getArtistById(rs.getString("UserId")));
 		}
 
 		return followers;
 	}
 
-	public static Artist getArtistById(int id) throws Exception {
+	public static Artist getArtistById(String id) throws Exception {
 		String command = QueryHelper.selectIdFromTable("User", id);
 		ResultSet rs = DALService.sendCommand(command);
 		Artist artist = new Artist();

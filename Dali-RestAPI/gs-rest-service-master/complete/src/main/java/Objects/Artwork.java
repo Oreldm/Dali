@@ -6,7 +6,7 @@ public class Artwork {
 	private int id;
 	private String path;
 	private String name;
-	private int artistId;
+	private String artistId;
 	private float lat;
 	private float lng;
 	private String dt_created;
@@ -59,7 +59,7 @@ public class Artwork {
 
 	public Artwork() {}
 	
-	public Artwork(int id, String path, String name, int artistId, float lat, float lng) {
+	public Artwork(int id, String path, String name, String artistId, float lat, float lng) {
 		super();
 		this.id = id;
 		this.path = path;
@@ -105,10 +105,10 @@ public class Artwork {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getArtistId() {
+	public String getArtistId() {
 		return artistId;
 	}
-	public void setArtistId(int artistId) {
+	public void setArtistId(String artistId) {
 		this.artistId = artistId;
 	}
 

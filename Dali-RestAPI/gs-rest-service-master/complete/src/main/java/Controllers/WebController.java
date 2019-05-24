@@ -67,7 +67,7 @@ public class WebController implements TableNames, QueryHelper {
 
 	@PostMapping("/uploadArtwork")
 	public boolean upload(@RequestParam("file") MultipartFile file, @RequestParam("name") String name,
-			@RequestParam("artistId") int artistId, @RequestParam("tagId") int tagId,
+			@RequestParam("artistId") String artistId, @RequestParam("tagId") int tagId,
 			@RequestParam("info") String info,
 			@RequestParam("lat") float lat,
 			@RequestParam("lng") float lng) {
@@ -76,7 +76,7 @@ public class WebController implements TableNames, QueryHelper {
 			String pathToFile = "/var/www/html/data/files/" + artistId + "/";
 
 			String command = "INSERT INTO Artwork (id, path, name, artistId,info) VALUES (" 
-			+ id + ",'" + pathToFile + file.getOriginalFilename() + "','" + name + "'," + artistId + ",'"+
+			+ id + ",'" + pathToFile + file.getOriginalFilename() + "','" + name + "','" + artistId + "','"+
 					info+"');";
 			if(DALService.sendCommandDataManipulation(command)== -1) {
 				return false;

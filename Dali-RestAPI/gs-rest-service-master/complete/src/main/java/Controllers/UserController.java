@@ -27,8 +27,8 @@ public class UserController {
 	//TODO: to make sure that if its an artist add the role "artist"
 
 	@RequestMapping("/login")
-	public boolean login(@RequestParam(value = "id") int id) throws SQLException {
-		String command = "Select * from User where id=" + id;
+	public boolean login(@RequestParam(value = "id") String id) throws SQLException {
+		String command = "Select * from User where id='" + id+"'";
 		ResultSet rs = DALService.sendCommand(command);
 		if (!rs.next()) {
 			return false;
@@ -37,9 +37,9 @@ public class UserController {
 	}
 
 	@RequestMapping("/register")
-	public boolean register(@RequestParam(value = "id") int id, @RequestParam(value = "name") String name,
+	public boolean register(@RequestParam(value = "id") String id, @RequestParam(value = "name") String name,
 			@RequestParam(value = "picture") String picture) throws SQLException {
-		String command = "INSERT INTO User (id,name, picture) VALUES (" + id + ",'" + name + "','" + picture + "')";
+		String command = "INSERT INTO User (id,name, picture) VALUES ('" + id + "','" + name + "','" + picture + "')";
 		if (login(id) || DALService.sendCommandDataManipulation(command) == -1) {
 			return false;
 		}
@@ -47,8 +47,8 @@ public class UserController {
 	}
 
 	@RequestMapping("/setAsArtist")
-	public boolean updateBio(@RequestParam(value = "id") int id) {
-		String command = "UPDATE User SET role='artist' WHERE id = " + id;
+	public boolean setAsArtist(@RequestParam(value = "id") String id) {
+		String command = "UPDATE User SET role='artist' WHERE id = '" + id+"'";
 		if (DALService.sendCommandDataManipulation(command) == -1) {
 			return false;
 		}
@@ -56,8 +56,8 @@ public class UserController {
 	}
 
 	@RequestMapping("/updateBio")
-	public boolean updateBio(@RequestParam(value = "bio") String bio, @RequestParam(value = "id") int id) {
-		String command = "UPDATE User SET bio='" + bio + "' WHERE id=" + id;
+	public boolean updateBio(@RequestParam(value = "bio") String bio, @RequestParam(value = "id") String id) {
+		String command = "UPDATE User SET bio='" + bio + "' WHERE id='" + id+"'";
 		DALService.sendCommandDataManipulation(command);
 
 		return true;
@@ -78,23 +78,23 @@ public class UserController {
 	}
 
 	@RequestMapping("/followArtist")
-	public boolean follow(@RequestParam(value = "artistId") int artistId,
-			@RequestParam(value = "userId") int viewerId) {
+	public boolean follow(@RequestParam(value = "artistId") String artistId,
+			@RequestParam(value = "userId") String viewerId) {
 		if (isFollowing(artistId, viewerId)) {
 			return false;
 		}
-		String command = "INSERT INTO User_Artist (UserId,ArtistId) VALUES (" + viewerId + "," + artistId + ")";
+		String command = "INSERT INTO User_Artist (UserId,ArtistId) VALUES ('" + viewerId + "','" + artistId + "')";
 		DALService.sendCommandDataManipulation(command);
 		return true;
 	}
 
 	@RequestMapping("/unfollowArtist")
-	public boolean unfollow(@RequestParam(value = "artistId") int artistId,
-			@RequestParam(value = "userId") int viewerId) {
+	public boolean unfollow(@RequestParam(value = "artistId") String artistId,
+			@RequestParam(value = "userId") String viewerId) {
 		if (!isFollowing(artistId, viewerId)) {
 			return false;
 		}
-		String command = "DELETE from User_Artist WHERE UserId=" + viewerId + " AND ArtistId=" + artistId;
+		String command = "DELETE from User_Artist WHERE UserId='" + viewerId + "' AND ArtistId='" + artistId+"'";
 
 		DALService.sendCommandDataManipulation(command);
 		return true;
@@ -102,14 +102,14 @@ public class UserController {
 
 	@RequestMapping("/likeArtwork")
 	public boolean likeArtwork(@RequestParam(value = "artworkId") int artworkId,
-			@RequestParam(value = "userId") int userId) {
+			@RequestParam(value = "userId") String userId) {
 		if (isLikedArtwork(artworkId, userId)) {
 			return false;
 		}
 
 		try {
-			String command = "INSERT INTO UserLikedArtwork (ArtworkId,UserId) VALUES (" + artworkId + "," + userId
-					+ ")";
+			String command = "INSERT INTO UserLikedArtwork (ArtworkId,UserId) VALUES (" + artworkId + ",'" + userId
+					+ "')";
 			DALService.sendCommandDataManipulation(command);
 		} catch (Exception e) {
 			return false;
@@ -120,20 +120,20 @@ public class UserController {
 
 	@RequestMapping("/unlikeArtwork")
 	public boolean unLikeArtwork(@RequestParam(value = "artworkId") int artworkId,
-			@RequestParam(value = "userId") int userId) {
+			@RequestParam(value = "userId") String userId) {
 		if (!isLikedArtwork(artworkId, userId)) {
 			return false;
 		}
 
-		String command = "DELETE from UserLikedArtwork WHERE ArtworkId=" + artworkId + " AND UserId=" + userId;
+		String command = "DELETE from UserLikedArtwork WHERE ArtworkId=" + artworkId + " AND UserId='" + userId+"'";
 		DALService.sendCommandDataManipulation(command);
 		return true;
 	}
 
 	@RequestMapping("/isLikeArtwork")
 	public boolean isLikedArtwork(@RequestParam(value = "artworkId") int artworkId,
-			@RequestParam(value = "userId") int userId) {
-		String command = "SELECT * from UserLikedArtwork where ArtworkId=" + artworkId + " AND UserId=" + userId;
+			@RequestParam(value = "userId") String userId) {
+		String command = "SELECT * from UserLikedArtwork where ArtworkId=" + artworkId + " AND UserId='" + userId+"'";
 		ResultSet st = DALService.sendCommand(command);
 		try {
 			if (st.next()) {
@@ -146,9 +146,9 @@ public class UserController {
 	}
 
 	@RequestMapping("/isFollowing")
-	public boolean isFollowing(@RequestParam(value = "artistId") int artistId,
-			@RequestParam(value = "userId") int userId) {
-		String command = "SELECT * from User_Artist where ArtistId=" + artistId + " AND UserId=" + userId;
+	public boolean isFollowing(@RequestParam(value = "artistId") String artistId,
+			@RequestParam(value = "userId") String userId) {
+		String command = "SELECT * from User_Artist where ArtistId='" + artistId + "' AND UserId='" + userId+"'";
 		ResultSet st = DALService.sendCommand(command);
 		try {
 			if (st.next()) {
@@ -161,7 +161,7 @@ public class UserController {
 	}
 
 	@RequestMapping("/getProfileById")
-	public User getProfileById(@RequestParam(value = "id") int id) {
+	public User getProfileById(@RequestParam(value = "id") String id) {
 		String command = QueryHelper.selectIdFromTable("User", id);
 		ResultSet rs = DALService.sendCommand(command);
 		try {
@@ -179,7 +179,7 @@ public class UserController {
 	}
 
 	@RequestMapping("/getArt")
-	public Artwork getArtById(@RequestParam(value = "id") int id) {
+	public Artwork getArtById(@RequestParam(value = "id") String id) {
 		String command = QueryHelper.selectIdFromTable("Artwork", id);
 		ResultSet rs = DALService.sendCommand(command);
 
@@ -197,8 +197,8 @@ public class UserController {
 	}
 	
 	@RequestMapping("/getAllArtsUserLiked")
-	public List<Artwork> getAllArtsUserLiked(@RequestParam(value = "id") int userId) {
-		String command = "SELECT * from Artwork where id IN (SELECT ArtworkId FROM UserLikedArtwork WHERE userid="+userId+")";
+	public List<Artwork> getAllArtsUserLiked(@RequestParam(value = "id") String userId) {
+		String command = "SELECT * from Artwork where id IN (SELECT ArtworkId FROM UserLikedArtwork WHERE userid='"+userId+"')";
 		ResultSet rs = DALService.sendCommand(command);
 		List<Artwork>artworkList=new ArrayList<Artwork>();
 		try {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class User {
-	protected int id;
+	protected String id;
 	protected String pictureUrl;
 	protected String name;
 	protected List<String>generes=new ArrayList<String>();
@@ -17,10 +17,10 @@ public abstract class User {
 	protected List<Artist>recommendedArtists=new ArrayList<Artist>();
 
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getPictureUrl() {

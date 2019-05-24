@@ -15,7 +15,7 @@ public class GraphPair {
 
 	private Tag firstTag; //X value
 	private Tag secondTag; //Y value
-	private Map<Integer, Point> viewerToPointMap;
+	private Map<String, Point> viewerToPointMap;
 	private List<Point>points;
 	private List<Cluster>clusters;
 	private double graphScore;
@@ -115,10 +115,10 @@ public class GraphPair {
     } 
 
 	public void viewerToPointMapInitialization(ResultSet rs) throws SQLException {
-		viewerToPointMap = new HashMap<Integer, Point>();
+		viewerToPointMap = new HashMap<String, Point>();
 
 		while (rs.next()) {
-			int viewerId = rs.getInt("userId");
+			String viewerId = rs.getString("userId");
 			int tagId = rs.getInt("tagId");
 			int score = rs.getInt("score");
 

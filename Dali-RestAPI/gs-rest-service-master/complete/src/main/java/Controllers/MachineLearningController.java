@@ -13,10 +13,10 @@ import dal_layer.DALService;
 @RequestMapping("/ML/")
 public class MachineLearningController {
 	@RequestMapping("/postScore")
-	public boolean postScore(@RequestParam(value = "viewerId") int viewerId,
+	public boolean postScore(@RequestParam(value = "viewerId") String viewerId,
 			@RequestParam(value = "genereId") int genereId,
 			@RequestParam(value = "score") int score) throws SQLException {
-		String command = "UPDATE ML_Viewer_Tag_Score SET score = score + "+score+" WHERE tagId = "+genereId+" AND viewerId="+viewerId;
+		String command = "UPDATE ML_Viewer_Tag_Score SET score = score + "+score+" WHERE tagId = "+genereId+" AND userId='"+viewerId+"'";
 		DALService.sendCommandDataManipulation(command);
 		
 		return true;

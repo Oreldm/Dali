@@ -46,7 +46,7 @@ public class ArtworkHelper implements QueryHelper,TableNames {
 		int artId = rs.getInt("id");
 		String path = rs.getString("path");
 		String artName = rs.getString("name");
-		int artistId = rs.getInt("artistId");
+		String artistId = rs.getString("artistId");
 		String info= rs.getString("info");
 		artwork.setInfo(info);
 		artwork.setDt_created(rs.getString("dt_created"));
