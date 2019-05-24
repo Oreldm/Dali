@@ -193,6 +193,23 @@ public class UserController {
 
 		return null;
 	}
+	
+	@RequestMapping("/getAllArtsUserLiked")
+	public List<Artwork> getAllArtsUserLiked(@RequestParam(value = "id") int userId) {
+		String command = "SELECT * from Artwork where id IN (SELECT ArtworkId FROM UserLikedArtwork WHERE userid="+userId+")";
+		ResultSet rs = DALService.sendCommand(command);
+		List<Artwork>artworkList=new ArrayList<Artwork>();
+		try {
+			while (rs.next()) {
+				artworkList.add(ArtworkHelper.requestToArtworkCasting(rs));
+			}
+			return artworkList;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 
 	@RequestMapping("/getArtsByLocation")
 	public List<Artwork> getArtByLocation(@RequestParam String xPosition, @RequestParam String yPosition) {
