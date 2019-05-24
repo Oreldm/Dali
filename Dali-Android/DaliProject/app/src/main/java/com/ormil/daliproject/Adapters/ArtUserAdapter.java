@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.ormil.daliproject.Models.ArtUserModel;
+import com.ormil.daliproject.Models.ArtworkModel;
 import com.ormil.daliproject.R;
 import com.squareup.picasso.Picasso;
 
@@ -17,22 +18,22 @@ public class ArtUserAdapter extends BaseAdapter {
 
     private static final String TAG = "ArtUserAdapter";
 
-    private ArrayList<ArtUserModel> artUserModels;
+    private ArrayList<ArtworkModel> artworkModels;
     private Context context;
 
-    public ArtUserAdapter(Context context, ArrayList<ArtUserModel> artUserModels) {
+    public ArtUserAdapter(Context context, ArrayList<ArtworkModel> artworkModels) {
         this.context = context;
-        this.artUserModels = artUserModels;
+        this.artworkModels = artworkModels;
     }
 
     @Override
     public int getCount() {
-        return artUserModels.size();
+        return artworkModels.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return artUserModels.get(i);
+        return artworkModels.get(i);
     }
 
     @Override
@@ -59,15 +60,15 @@ public class ArtUserAdapter extends BaseAdapter {
             viewHolder = (ArtUserViewHolder) convertView.getTag();
         }
 
-        ArtUserModel tempUserModel = artUserModels.get(i);
+        ArtworkModel tempArtworkModel = artworkModels.get(i);
 
-        if(tempUserModel.getProfileUrl() != "" && viewHolder.profileIcon != null)
-            Picasso.get().load(tempUserModel.getProfileUrl()).into(viewHolder.profileIcon);
+        if(tempArtworkModel.getArtistPicture() != null && viewHolder.profileIcon != null)
+            Picasso.get().load(tempArtworkModel.getArtistPicture()).into(viewHolder.profileIcon);
         if(viewHolder.profileIcon == null)
             Log.e(TAG, "Icon is null");
-        viewHolder.mainText.setText(tempUserModel.getMainText());
-        viewHolder.subText.setText(tempUserModel.getSubText());
-        viewHolder.cornerInfo.setText(tempUserModel.getCornerInfo());
+        viewHolder.mainText.setText(tempArtworkModel.getName());
+        viewHolder.subText.setText(tempArtworkModel.getArtistName());
+        viewHolder.cornerInfo.setText(tempArtworkModel.getDt_created());
 
         return convertView;
     }

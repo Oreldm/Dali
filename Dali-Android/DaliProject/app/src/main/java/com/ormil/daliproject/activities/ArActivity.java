@@ -75,7 +75,7 @@ public class ArActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ar);
 
         try {
-            String artworksJson = HttpService.get("http://project-dali.com:5000/user/getArtsByLocation?xPosition=32.098992&yPosition=34.891115");
+            String artworksJson = HttpService.get("http://project-dali.com:5000/user/getArtsByLocation?lat=32.098992&lng=34.891115");
             Gson g = new Gson();
             Type listType = new TypeToken<ArrayList<ArtworkModel>>() {}.getType();
             artworksModels = g.fromJson(artworksJson,  listType);
@@ -84,6 +84,7 @@ public class ArActivity extends AppCompatActivity {
         catch (Exception e) {
             Log.e(TAG, "Error while looking for artworks");
         }
+
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ar_fragment);
 
         cardAdapter = new CardAdapter(artworksModels, this);

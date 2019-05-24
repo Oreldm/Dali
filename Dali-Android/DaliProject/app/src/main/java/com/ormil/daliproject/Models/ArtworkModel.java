@@ -1,17 +1,49 @@
 package com.ormil.daliproject.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class ArtworkModel {
+public class ArtworkModel implements Parcelable {
     private int id;
     private String path;
     private String name;
     private int artistId;
-    private double positionX;
-    private double positionY;
+    private double lat;
+    private double lng;
     private String dt_created;
     private List<String> generes;
     private List<Integer> generesIds;
+    private String artistPicture;
+    private String artistName;
+
+
+    protected ArtworkModel(Parcel in) {
+        id = in.readInt();
+        path = in.readString();
+        name = in.readString();
+        artistId = in.readInt();
+        lat = in.readDouble();
+        lng = in.readDouble();
+        dt_created = in.readString();
+        generes = in.createStringArrayList();
+        in.readList(generesIds, Integer.class.getClassLoader());
+        artistPicture = in.readString();
+        artistName = in.readString();
+    }
+
+    public static final Creator<ArtworkModel> CREATOR = new Creator<ArtworkModel>() {
+        @Override
+        public ArtworkModel createFromParcel(Parcel in) {
+            return new ArtworkModel(in);
+        }
+
+        @Override
+        public ArtworkModel[] newArray(int size) {
+            return new ArtworkModel[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -45,20 +77,20 @@ public class ArtworkModel {
         this.artistId = artistId;
     }
 
-    public double getPositionX() {
-        return positionX;
+    public double getLat() {
+        return lat;
     }
 
-    public void setPositionX(double positionX) {
-        this.positionX = positionX;
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 
-    public double getPositionY() {
-        return positionY;
+    public double getLng() {
+        return lng;
     }
 
-    public void setPositionY(double positionY) {
-        this.positionY = positionY;
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
     public String getDt_created() {
@@ -85,6 +117,22 @@ public class ArtworkModel {
         this.generesIds = generesIds;
     }
 
+    public String getArtistPicture() {
+        return artistPicture;
+    }
+
+    public void setArtistPicture(String artistPicture) {
+        this.artistPicture = artistPicture;
+    }
+
+    public String getArtistName() {
+        return artistName;
+    }
+
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
+    }
+
     @Override
     public String toString() {
         return "ArtworkModel{" +
@@ -92,11 +140,31 @@ public class ArtworkModel {
                 ", path='" + path + '\'' +
                 ", name='" + name + '\'' +
                 ", artistId=" + artistId +
-                ", positionX=" + positionX +
-                ", positionY=" + positionY +
+                ", lat=" + lat +
+                ", lng=" + lng +
                 ", dt_created='" + dt_created + '\'' +
                 ", generes=" + generes +
                 ", generesIds=" + generesIds +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(this.id);
+        parcel.writeString(this.path);
+        parcel.writeString(this.name);
+        parcel.writeInt(this.artistId);
+        parcel.writeDouble(this.lat);
+        parcel.writeDouble(this.lng);
+        parcel.writeString(this.dt_created);
+        parcel.writeList(this.generes);
+        parcel.writeList(this.generesIds);
+        parcel.writeString(this.artistPicture);
+        parcel.writeString(this.artistName);
     }
 }

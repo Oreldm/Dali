@@ -3,7 +3,6 @@ package com.ormil.daliproject.Fragments;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -11,20 +10,23 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.ormil.daliproject.Models.ArtworkModel;
 import com.ormil.daliproject.R;
+import com.ormil.daliproject.activities.ProfileActivity;
 
+import java.util.List;
 import java.util.Objects;
 
 public class MapTabFragment extends Fragment {
@@ -35,6 +37,20 @@ public class MapTabFragment extends Fragment {
     private GoogleMap mMap;
     private LocationManager mLocationManager;
     private LocationListener mLocationListener;
+    private List<ArtworkModel> artworkModels;
+
+
+    @Override
+    public void setArguments(@Nullable Bundle args) {
+        super.setArguments(args);
+        try {
+            artworkModels = args.getParcelableArrayList(ProfileActivity.ARTLIST_KEY);
+        } catch (NullPointerException e) {
+            Toast toast = Toast.makeText(getContext(), "Error while loading art map", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
+    }
 
     @Nullable
     @Override
@@ -72,12 +88,16 @@ public class MapTabFragment extends Fragment {
                     mMap.setMyLocationEnabled(true);
                 }
 
-                // For dropping a marker at a point on the Map
-                LatLng sydney = new LatLng(-34, 151);
-                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
-
-                // For zooming automatically to the location of the marker
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                if(artworkModels != null) {
+                    for (ArtworkModel artwork : artworkModels) {
+                        LatLng loc = new LatLng(artwork.getLat(), artwork.getLng());
+                        MarkerOptions markerOptions = new MarkerOptions();
+                        markerOptions.position(loc);
+                        markerOptions.title(artwork.getName());
+                        //markerOptions.snippet(artwork.getInfo());
+                        googleMap.addMarker(markerOptions);
+                    }
+                }
             }
         });
 

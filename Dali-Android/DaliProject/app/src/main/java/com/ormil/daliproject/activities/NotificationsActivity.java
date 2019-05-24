@@ -67,9 +67,9 @@ public class NotificationsActivity extends AppCompatActivity {
         artUserModels.add(new ArtUserModel("https://avatars1.githubusercontent.com/u/9754901?s=400&v=4", "Sir Lolo", "Flat Flat", ""));
         artUserModels.add(new ArtUserModel("https://avatars1.githubusercontent.com/u/9754901?s=400&v=4", "Sir Lolo", "Flat Flat", ""));
 
-        ArtUserAdapter artUserAdapter = new ArtUserAdapter(this, artUserModels);
+        //ArtUserAdapter artUserAdapter = new ArtUserAdapter(this, artUserModels);
 
-        mListView.setAdapter(artUserAdapter);
+        //mListView.setAdapter(artUserAdapter);
 
     }
 }

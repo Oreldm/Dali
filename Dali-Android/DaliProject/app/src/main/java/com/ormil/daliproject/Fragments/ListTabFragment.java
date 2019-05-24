@@ -5,14 +5,18 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.ormil.daliproject.Adapters.ArtUserAdapter;
 import com.ormil.daliproject.Models.ArtUserModel;
+import com.ormil.daliproject.Models.ArtworkModel;
 import com.ormil.daliproject.R;
+import com.ormil.daliproject.activities.ProfileActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +29,7 @@ public class ListTabFragment extends Fragment {
 
     TabType fragmentListType;
 
-    private ArrayList<ArtUserModel> dataArray;
+    private ArrayList<ArtworkModel> artworkModels;
 
     @Override
     public void setArguments(@Nullable Bundle args) {
@@ -33,15 +37,13 @@ public class ListTabFragment extends Fragment {
 
         Log.e(TAG, "setArguments() called with: args = [" + args + "]");
 
-        dataArray = args.getParcelableArrayList("dataList");
-
-        if(dataArray != null) {
-            Log.d(TAG, Arrays.toString(dataArray.toArray()));
+        try {
+            artworkModels = args.getParcelableArrayList(ProfileActivity.ARTLIST_KEY);
+        } catch (NullPointerException e) {
+            Toast toast = Toast.makeText(getContext(), "Error while loading art map", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
         }
-        else {
-            Log.e(TAG, "Array is null");
-        }
-
     }
 
     @Nullable
@@ -59,8 +61,8 @@ public class ListTabFragment extends Fragment {
 
         ListView mListView = view.findViewById(R.id.tab_list);
 
-        if(dataArray != null) {
-            ArtUserAdapter artUserAdapter = new ArtUserAdapter(view.getContext(), dataArray);
+        if(artworkModels != null) {
+            ArtUserAdapter artUserAdapter = new ArtUserAdapter(view.getContext(), artworkModels);
             mListView.setAdapter(artUserAdapter);
         }
         else {

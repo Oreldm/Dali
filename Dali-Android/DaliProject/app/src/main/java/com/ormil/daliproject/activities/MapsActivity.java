@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -158,7 +157,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             artworkModels.forEach(artwork -> {
                 MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(new LatLng(artwork.getPositionX(), artwork.getPositionY()));
+                markerOptions.position(new LatLng(artwork.getLat(), artwork.getLng()));
                 markerOptions.title(artwork.getName());
                 mMap.addMarker(markerOptions);
             });
