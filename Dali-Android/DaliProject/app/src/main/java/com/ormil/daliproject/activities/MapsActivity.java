@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -18,11 +19,21 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ormil.daliproject.Helpers.UserMonitorHelper;
+import com.ormil.daliproject.Models.ArtworkModel;
 import com.ormil.daliproject.R;
 import com.ormil.daliproject.Services.ExitService;
+import com.ormil.daliproject.Services.HttpService;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private static final String TAG = "MapsActivity";
+
     public static final int ACTIVITY_NUMBER=2;
     private GoogleMap mMap;
     private LocationManager mLocationManager;
@@ -31,6 +42,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ImageButton m_OpenArBtn;
     private ImageButton m_NotificationBtn;
     private ImageButton m_ProfileButton;
+
+    private ArrayList<ArtworkModel> artworkModels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +66,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         m_ProfileButton = findViewById(R.id.profileButton);
         m_ProfileButton.setOnClickListener(view -> onProfileButtonClick());
-
-
-
 
     }
 
@@ -92,7 +102,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                //updateMarkers(location);
+                updateMarkers(location);
             }
 
             @Override
@@ -113,11 +123,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMyLocationEnabled(true);
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3, 3, mLocationListener);
         mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3, 3, mLocationListener);
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
     @Override
@@ -137,6 +142,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             // other 'case' lines to check for other
             // permissions this app might request
+        }
+    }
+
+    private void updateMarkers(Location location) {
+        try {
+
+            Log.d(TAG, "Lat: " + location.getLatitude() + " Lng: " + location.getLongitude());
+
+            String response = HttpService.get(HttpService.endPoint + HttpService.userPath + "/getArtsByLocation?" + "xPosition=" + location.getLatitude() + "&yPosition=" + location.getLongitude());
+            Type listType = new TypeToken<ArrayList<ArtworkModel>>() {}.getType();
+            artworkModels = new Gson().fromJson(response, listType);
+
+            mMap.clear();
+
+            artworkModels.forEach(artwork -> {
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(new LatLng(artwork.getPositionX(), artwork.getPositionY()));
+                markerOptions.title(artwork.getName());
+                mMap.addMarker(markerOptions);
+            });
+        } catch(Exception e) {
+            Log.e(TAG, "Failed to retrieve arts");
         }
     }
 

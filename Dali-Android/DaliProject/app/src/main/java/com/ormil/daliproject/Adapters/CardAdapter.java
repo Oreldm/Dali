@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ormil.daliproject.Models.ArtworkModel;
 import com.ormil.daliproject.Models.CardModel;
 import com.ormil.daliproject.R;
 
@@ -20,18 +21,18 @@ import java.util.List;
 
 public class CardAdapter extends PagerAdapter {
 
-    private List<CardModel> cardModels;
+    private List<ArtworkModel> artworkModels;
     private LayoutInflater layoutInflater;
     private Context context;
 
-    public CardAdapter(List<CardModel> cardModels, Context context) {
-        this.cardModels = cardModels;
+    public CardAdapter(List<ArtworkModel> artworkModels, Context context) {
+        this.artworkModels = artworkModels;
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return cardModels.size();
+        return artworkModels.size();
     }
 
     @Override
@@ -77,13 +78,15 @@ public class CardAdapter extends PagerAdapter {
             }
         });
 
-        profileImage.setImageResource(cardModels.get(position).getProfileImage());
-        artworkName.setText(cardModels.get(position).getArtworkName());
-        infoTabArtwokName.setText(cardModels.get(position).getArtworkName());
-        infoTabArtistName.setText(cardModels.get(position).getArtistName());
-        infoTabBio.setText(cardModels.get(position).getArtworkInfo());
+        ArtworkModel tempAM = artworkModels.get(position);
 
-        if(cardModels.get(position).isLiked())
+        //profileImage.setImageResource(artworkModels.get(position).getProfileImage());
+        artworkName.setText(tempAM.getName());
+        infoTabArtwokName.setText(tempAM.getName());
+        ///infoTabArtistName.setText(tempAM.getArtistName());
+        //infoTabBio.setText(tempAM.getArtworkInfo());
+
+        if(/*tempAM.isLiked()*/ false)
             likeButton.setBackgroundResource(R.drawable.ic_like_icon_background);
         else
             likeButton.setBackground(null);
@@ -105,7 +108,7 @@ public class CardAdapter extends PagerAdapter {
     }
 
     private void likeArtwork(int position) {
-        cardModels.get(position).likeArt();
+        //artworkModels.get(position).likeArt();
         Log.e("LIKE", " " + position);
         notifyDataSetChanged();
     }

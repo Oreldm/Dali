@@ -9,7 +9,10 @@ import java.net.URL;
 
 public class HttpService {
 
-    public static HttpService INSTANCE= new HttpService();
+    public static HttpService INSTANCE = new HttpService();
+    public static final String endPoint = "http://project-dali.com:5000";
+    public static final String androidPath = "/android";
+    public static final String userPath = "/user";
     public static String response;
 
     private HttpService(){
