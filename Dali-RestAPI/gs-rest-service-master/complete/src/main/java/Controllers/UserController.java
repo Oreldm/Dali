@@ -23,6 +23,8 @@ import dal_layer.DALService;
 @RestController
 @RequestMapping("/user/")
 public class UserController {
+	
+	//TODO: to make sure that if its an artist add the role "artist"
 
 	@RequestMapping("/login")
 	public boolean login(@RequestParam(value = "id") int id) throws SQLException {

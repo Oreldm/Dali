@@ -13,6 +13,25 @@ public class Artwork {
 	private List<String>generes;
 	private List<Integer>generesIds;
 	private String info;
+	private String artistName;
+	private String artistPicture;
+	
+	
+	public String getArtistName() {
+		return artistName;
+	}
+
+	public void setArtistName(String artistName) {
+		this.artistName = artistName;
+	}
+
+	public String getArtistPicture() {
+		return artistPicture;
+	}
+
+	public void setArtistPicture(String artistPicture) {
+		this.artistPicture = artistPicture;
+	}
 	
 	public String getInfo() {
 		return info;

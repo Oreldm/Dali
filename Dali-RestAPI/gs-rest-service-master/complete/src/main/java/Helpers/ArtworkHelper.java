@@ -5,9 +5,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.google.gson.JsonObject;
 
+import Controllers.UserController;
+import Objects.Artist;
 import Objects.Artwork;
+import Objects.User;
 import dal_layer.DALService;
 
 public class ArtworkHelper implements QueryHelper,TableNames {
@@ -15,6 +20,7 @@ public class ArtworkHelper implements QueryHelper,TableNames {
 	public static JsonObject getLocationForArtwork(Artwork artwork) {
 		String command=QueryHelper.selectAllByIdFromTable(GEOLOCATION_TABLE,"artworkId", artwork.getId());
 		ResultSet artGeolocation = DALService.sendCommand(command);
+		
 		
 		float positionX=(float) 0.0;
 		float positionY=(float) 0.0;
@@ -62,6 +68,15 @@ public class ArtworkHelper implements QueryHelper,TableNames {
 		}
 		artwork.setGeneres(generes);
 		artwork.setGeneresIds(generesIds);
+		
+		command= QueryHelper.selectIdFromTable("User", artistId);
+		rs2=DALService.sendCommand(command);
+		while(rs2.next()) {
+			String name = rs2.getString("name");
+			String picture= rs2.getString("picture");
+			artwork.setArtistName(name);
+			artwork.setArtistPicture(picture);
+		}
 
 		return artwork;
 	}
