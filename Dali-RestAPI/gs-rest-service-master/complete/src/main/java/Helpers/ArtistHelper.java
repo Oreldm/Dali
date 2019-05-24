@@ -47,7 +47,7 @@ public class ArtistHelper implements QueryHelper, TableNames {
 		List<Artist>ret=new ArrayList<Artist>();
 		while(rs.next()) {
 			Artist tempArtist=new Artist();
-			String command2=QueryHelper.selectIdFromTable("Artist", rs.getInt("ArtistId"));
+			String command2=QueryHelper.selectIdFromTable("User", rs.getInt("ArtistId"));
 			ResultSet rs2=DALService.sendCommand(command2);
 			while(rs2.next()) {
 				tempArtist.setName(rs2.getString("name"));
@@ -92,14 +92,14 @@ public class ArtistHelper implements QueryHelper, TableNames {
 		ResultSet rs = DALService.sendCommand(command);
 		List<User> followers = new ArrayList<User>();
 		while (rs.next()) {
-			followers.add(getArtistById(rs.getInt("artistId1")));
+			followers.add(getArtistById(rs.getInt("UserId")));
 		}
 
 		return followers;
 	}
 	
 	public static Artist getArtistById(int id) throws Exception {
-		String command = QueryHelper.selectIdFromTable("Artist", id);
+		String command = QueryHelper.selectIdFromTable("User", id);
 		ResultSet rs = DALService.sendCommand(command);
 		Artist artist=new Artist();
 		while(rs.next()) {
