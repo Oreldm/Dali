@@ -36,14 +36,44 @@ public class UserController {
 		return true;
 	}
 
-	@RequestMapping("/register")
-	public boolean register(@RequestParam(value = "id") String id, @RequestParam(value = "name") String name,
+	@RequestMapping("/registerApp")
+	public boolean registerApp(@RequestParam(value = "id") String id, @RequestParam(value = "name") String name,
 			@RequestParam(value = "picture") String picture) throws SQLException {
 		String command = "INSERT INTO User (id,name, picture) VALUES ('" + id + "','" + name + "','" + picture + "')";
 		if (login(id) || DALService.sendCommandDataManipulation(command) == -1) {
 			return false;
 		}
 		return true;
+	}
+	
+	@RequestMapping("/registerWeb")
+	public boolean registerWeb(@RequestParam(value = "id") String id, @RequestParam(value = "name") String name,
+			@RequestParam(value = "picture") String picture) throws SQLException {
+		String command = "INSERT INTO User (id,name, picture) VALUES ('" + id + "','" + name + "','" + picture + "')";
+		if (login(id) || DALService.sendCommandDataManipulation(command) == -1) {
+			return false;
+		}
+		setAsArtist(id);
+		return true;
+	}
+	
+	@RequestMapping("/signInApp")
+	public boolean signInApp(@RequestParam(value = "id") String id, @RequestParam(value = "name") String name,
+			@RequestParam(value = "picture") String picture) throws SQLException {
+		if(login(id)) {
+			return true;
+		}
+		return registerApp(id,name,picture);
+	}
+	
+	@RequestMapping("/signInWeb")
+	public boolean signInWeb(@RequestParam(value = "id") String id, @RequestParam(value = "name") String name,
+			@RequestParam(value = "picture") String picture) throws SQLException {
+		if(login(id)) {
+			setAsArtist(id);
+			return true;
+		}
+		return registerWeb(id,name,picture);
 	}
 
 	@RequestMapping("/setAsArtist")
