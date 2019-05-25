@@ -2,6 +2,7 @@ package Controllers;
 
 import java.math.BigInteger;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -195,6 +196,19 @@ public class SystemInfoController {
 	public float getTaskUndertaken() {
 		SystemInfo sys = getSystemInfo();
 		return sys.getTaskUndertaken();
+	}
+	@RequestMapping("/closeProccess")
+	public boolean closeProccess() throws SQLException {
+		String command="select * from information_schema.processlist where time>200";
+		ResultSet rs = DALService.sendCommand(command);
+		while(rs.next()) {
+			int proccess=rs.getInt("Id");
+			System.out.println(proccess);
+			command="KILL "+proccess;
+			System.out.println(DALService.sendCommandDataManipulation(command));
+		}
+		return true;
+		
 	}
 
 }

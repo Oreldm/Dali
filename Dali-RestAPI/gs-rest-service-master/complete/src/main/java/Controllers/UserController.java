@@ -251,6 +251,59 @@ public class UserController {
 			while (rs.next()) {
 				notifications.add(rs.getString("message"));
 			}
+			
+			//find recommended artist
+			//get list of artists
+			List<Artist>artists=new ArrayList<Artist>();
+			command="Select * from User_Artist where UserId='"+userId+"'";
+			rs=DALService.sendCommand(command);
+			while(rs.next()) {
+				Artist artist= (Artist) this.getProfileById(rs.getString("ArtistId"));
+				artists.add(artist);
+			}
+			
+			//get list of genres out of artists
+			List<Integer>generesId=new ArrayList<Integer>();
+			for(Artist artist: artists) {
+				for(String genere:artist.getGeneres()) {
+					command="Select id from Tags where name='"+genere+"'";
+					rs=DALService.sendCommand(command);
+					while(rs.next()) {
+						generesId.add(rs.getInt("id"));
+					}
+				}
+			}
+			
+			//find which genre most times
+			int maxRepetingGenere=maxRepeating(generesId);
+			
+			//find closer genre
+			command="SELECT * FROM ML_Tags_Connection WHERE tag1Id="+maxRepetingGenere+ " ORDER BY Score DESC LIMIT 1";
+			rs=DALService.sendCommand(command);
+			int closerGenereId=0;
+			while(rs.next()) {
+				closerGenereId=rs.getInt("tag2Id");
+			}
+			
+			//find artist with closest genre that the user not following
+			command="select artistId FROM Artwork WHERE id IN (SELECT artworkId FROM Artwork_Tag WHERE tagId="+closerGenereId+")";
+			rs=DALService.sendCommand(command);
+			Artist artistToRecommend=null;
+			while(rs.next()) {
+				String artistId=rs.getString("artistId");
+				if(this.isFollowing(artistId, "id")) {
+					//do nothing
+				}else {
+					artistToRecommend=(Artist) this.getProfileById(artistId);
+					break;
+				}
+			}
+			
+			//recommend him
+			if(artistToRecommend!=null) {
+				notifications.add(artistToRecommend.toString());
+			}
+			
 			return notifications;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -258,6 +311,35 @@ public class UserController {
 
 		return null;
 	}
+	
+	
+	// Returns maximum repeating element in arr[0..n-1]. 
+    // The array elements are in range from 0 to k-1 
+    private static int maxRepeating(List<Integer>arr) 
+    { 
+    	int n=arr.size();
+    	int k=arr.size();
+        // Iterate though input array, for every element 
+        // arr[i], increment arr[arr[i]%k] by k 
+        for (int i = 0; i< n; i++) {
+        	arr.set(arr.get(i)%k, arr.get(arr.get(i)%k)+k);
+        }
+  
+        // Find index of the maximum repeating element 
+        int max = arr.get(0), result = 0; 
+        for (int i = 1; i < n; i++) 
+        { 
+            if (arr.get(i) > max) 
+            { 
+                max = arr.get(i); 
+                result = i; 
+            } 
+        } 
+  
+        // Return index of the maximum element 
+        return result; 
+    } 
+	
 	
 	@RequestMapping("/deleteNotification")
 	public boolean deleteNotification(@RequestParam(value = "id") String userId) {
