@@ -3,6 +3,8 @@ package Objects;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+
 public class Artist extends User {
 	private List<Artwork> artworks= new ArrayList<Artwork>();
 	private List<User> followers= new ArrayList<User>();
@@ -18,5 +20,12 @@ public class Artist extends User {
 	}
 	public void setFollowers(List<User> followers) {
 		this.followers = followers;
+	}
+	
+	@Override
+	public String toString() {
+		Gson gson = new Gson();
+		String jsonInString = gson.toJson(this);
+		return jsonInString;
 	}
 }
