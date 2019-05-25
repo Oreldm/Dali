@@ -26,8 +26,11 @@ import dal_layer.DALService;
 public class AndroidController implements QueryHelper, TableNames {
 
 	@RequestMapping("/recommendArtwork")
-	public Artwork recommendArtwork() throws Exception{
-		
+	public Artwork recommendArtwork(@RequestParam(value = "id") String id) throws Exception{
+		//3 notifications
+		// 1. Someone that i'm following uploaded something
+		// 2. New art in your area
+		// 3. New recommended artist
 		//TODO: to finish after the recommendation system
 		
 		Artwork artwork = new Artwork();

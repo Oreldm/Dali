@@ -1,5 +1,6 @@
 package com.ormil.daliproject.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,10 +23,14 @@ import com.ormil.daliproject.Services.HttpService;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SearchActivity extends AppCompatActivity {
     public static final int ACTIVITY_NUMBER=5;
     private static final String TAG = "SearchActivity";
+
+    public static Context context;
 
     private ArrayList<ListModel> userProfileModels = new ArrayList<>();
     private ArtUserAdapter adapter;
@@ -35,6 +40,7 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         UserMonitorHelper.screens.add(ACTIVITY_NUMBER);
+        context=this;
         Intent intent = new Intent(this, ExitService.class);
         startService(intent);
 
@@ -49,17 +55,35 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                try {
-                    String profileJson = HttpService.get(HttpService.endPoint + HttpService.userPath + "/search" + "?str=" + charSequence);
-                    Gson g = new Gson();
-                    Type listType = new TypeToken<ArrayList<UserProfileModel>>() {}.getType();
-                    userProfileModels = g.fromJson(profileJson, listType);
+                    Timer T=new Timer();
+                    T.schedule(
+                            new TimerTask() {
+                                @Override
+                                public void run() {
+                                    runOnUiThread(new Runnable()
+                                    {
+                                        @Override
+                                        public void run()
+                                        {
+                                            try {
+                                                String profileJson = HttpService.get(HttpService.endPoint + HttpService.userPath + "/search" + "?str=" + charSequence);
+                                                Gson g = new Gson();
+                                                Type listType = new TypeToken<ArrayList<UserProfileModel>>() {
+                                                }.getType();
+                                                userProfileModels = g.fromJson(profileJson, listType);
+                                                adapter.updateList(userProfileModels);
+                                                adapter = new ArtUserAdapter(SearchActivity.context, userProfileModels, ArtUserAdapter.AdapterType.USER_FOCUS);
+                                                listView.setAdapter(adapter);
+                                            } catch (Exception e) {
+                                                Log.e(TAG, "Error while looking for artworks");
+                                            }
+                                        }
+                                    });
+                                }
+                            },1000
 
-                    adapter.updateList(userProfileModels);
-                }
-                catch (Exception e) {
-                    Log.e(TAG, "Error while looking for artworks");
-                }
+                    );
+
             }
 
             @Override
