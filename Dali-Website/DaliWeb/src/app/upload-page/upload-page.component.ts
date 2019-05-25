@@ -44,10 +44,11 @@ export class UploadPageComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+    var user = this.auth.currentUserValue();
     var formData = new FormData();
     formData.append('file', this.files[0].file);
     formData.append('name', this.uploadForm.get('name').value);
-    formData.append('artistId', '1');
+    formData.append('artistId', user.id);
     formData.append('tagId', '1');
     formData.append('info', this.uploadForm.get('info').value);
     formData.append('lat', this.placedMarker.lat);

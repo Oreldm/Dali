@@ -1,7 +1,7 @@
 import { UserType } from './user-type.enum';
 
 export class User {
-    public id: number;
+    public id: string;
     public token: string;
     public username: string;
     public email: string;

@@ -36,7 +36,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     MaterialModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAcPrNZrcecRULOtv-KdbIqsmATepRZuJw'
+      apiKey: 'AIzaSyA4xC73J6YmH-K-7QMLWPFVnPQZHUdcc2o'
     })
   ],
   providers: [],

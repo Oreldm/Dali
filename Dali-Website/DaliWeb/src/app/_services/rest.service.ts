@@ -24,7 +24,7 @@ export class RestService {
     return this.http.get(endpoint + webPath +  "/getTags");
   }
 
-  public getProfile(id: number) {
+  public getProfile(id: string) {
     return this.http.get(endpoint + userPath +  "/getProfileById" + "?" + "id=" + id);
   }
 
