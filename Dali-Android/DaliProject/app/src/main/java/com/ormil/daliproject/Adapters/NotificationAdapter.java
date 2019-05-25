@@ -61,9 +61,9 @@ public class NotificationAdapter extends BaseAdapter {
         viewHolder.notificationInfo.setText(notificationModel.getNotificationInfo());
 
         Date date = new Date();
-        long mins = (date.getTime() - notificationModel.getNotificationTimestamp().getTime()) / 1000 / 60;
+        //long mins = (date.getTime() - notificationModel.getNotificationTimestamp().getTime()) / 1000 / 60;
 
-        viewHolder.notificationTimestamp.setText( mins + " minutes ago");
+        //viewHolder.notificationTimestamp.setText( mins + " minutes ago");
 
         return convertView;
     }

@@ -106,17 +106,17 @@ public class ProfileActivity extends AppCompatActivity {
 
 
                 ListTabFragment likedArtworkTabFragment = new ListTabFragment();
-                ListTabFragment notificationTabFragment = new ListTabFragment();
+                //ListTabFragment notificationTabFragment = new ListTabFragment();
 
                 Bundle likeBundle = new Bundle();
-                Bundle notificationBundle = new Bundle();
+                //Bundle notificationBundle = new Bundle();
 
                 likeBundle.putParcelableArrayList(LIST_DATASET_KEY, profileModel.getLikedArtwork());
                 likeBundle.putSerializable(LIST_TYPE_KEY, ListTabFragment.TabType.USER_LIKES);
                 likedArtworkTabFragment.setArguments(likeBundle);
 
-                notificationBundle.putParcelableArrayList();
-                notificationTabFragment.setArguments(notificationBundle);
+                /*notificationBundle.putParcelableArrayList();
+                notificationTabFragment.setArguments(notificationBundle);*/
 
                 tabAdapter.addFragment(likedArtworkTabFragment, "Likes");
                 //tabAdapter.addFragment(notificationTabFragment, "Notifications");
