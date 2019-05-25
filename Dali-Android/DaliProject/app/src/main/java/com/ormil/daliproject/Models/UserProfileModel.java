@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 public class UserProfileModel extends ListModel implements Parcelable {
-    private float id;
+    private String id;
     private String pictureUrl = null;
     private String name;
     ArrayList<String> generes = new ArrayList<>();
@@ -20,7 +20,7 @@ public class UserProfileModel extends ListModel implements Parcelable {
 
     protected UserProfileModel(Parcel in) {
         super(in);
-        id = in.readFloat();
+        id = in.readString();
         pictureUrl = in.readString();
         name = in.readString();
         generes = in.createStringArrayList();
@@ -41,11 +41,11 @@ public class UserProfileModel extends ListModel implements Parcelable {
         }
     };
 
-    public float getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(float id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -117,7 +117,7 @@ public class UserProfileModel extends ListModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeFloat(id);
+        parcel.writeString(id);
         parcel.writeString(pictureUrl);
         parcel.writeString(name);
         parcel.writeStringList(generes);

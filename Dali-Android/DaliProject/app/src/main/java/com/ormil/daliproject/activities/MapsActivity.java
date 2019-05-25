@@ -32,8 +32,11 @@ import java.util.ArrayList;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private static final String TAG = "MapsActivity";
+    public static final String SELF_USER_ID = "self_UserID";
+    public static final int ACTIVITY_NUMBER = 2;
 
-    public static final int ACTIVITY_NUMBER=2;
+    private String selfID = "";
+
     private GoogleMap mMap;
     private LocationManager mLocationManager;
     private LocationListener mLocationListener;
@@ -53,6 +56,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         UserMonitorHelper.screens.add(ACTIVITY_NUMBER);
         Intent intent = new Intent(this, ExitService.class);
         startService(intent);
+
+        selfID = getIntent().getExtras().getString(SELF_USER_ID);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -193,6 +198,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Bundle bundle = new Bundle();
         bundle.putSerializable(ProfileActivity.PROFILE_TYPE_KEY, ProfileActivity.ProfileType.USER_PROFILE);
+        bundle.putString(ProfileActivity.PROFILE_USER_ID, selfID);
 
         intent.putExtras(bundle);
 

@@ -32,6 +32,7 @@
             android:backgroundTint="@color/gray_button_color"/>
 
         <TextView
+            android:id="@+id/profile_top_bar_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

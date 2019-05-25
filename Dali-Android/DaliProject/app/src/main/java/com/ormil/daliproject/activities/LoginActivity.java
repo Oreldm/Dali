@@ -13,8 +13,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.Task;
 import com.ormil.daliproject.R;
+import com.ormil.daliproject.Services.HttpService;
 import com.ormil.daliproject.activities.MapsActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -31,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
+                .requestIdToken("146644312889-omcthjokcqf9qts63mbijevfokgrbag2.apps.googleusercontent.com")
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -91,7 +94,21 @@ public class LoginActivity extends AppCompatActivity {
         Log.e(TAG, "onLoggedIn() called with: googleSignInAccount = [" + googleSignInAccount + "]");
 
         Intent intent = new Intent(this, MapsActivity.class);
-        //intent.putExtra(ProfileActivity.GOOGLE_ACCOUNT, googleSignInAccount);
+
+        String id = googleSignInAccount.getId();
+        String name = googleSignInAccount.getDisplayName();
+        String pictureUrl = googleSignInAccount.getPhotoUrl().toString();
+        try {
+            HttpService.get(HttpService.endPoint + HttpService.userPath + "/signInApp" + "?id=" + id + "&name=" + name + "&picture=" + pictureUrl);
+        } catch (Exception e) {
+            Log.e(TAG, "Error while sign in");
+
+        }
+
+        Bundle bundle = new Bundle();
+        bundle.putString(MapsActivity.SELF_USER_ID, id);
+
+        intent.putExtras(bundle);
 
         startActivity(intent);
         finish();

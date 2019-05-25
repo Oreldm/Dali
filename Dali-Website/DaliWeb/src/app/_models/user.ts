@@ -23,5 +23,6 @@ export class User {
         this.token = userInfo.getAuthResponse().id_token;
         this.username = profile.getName();
         this.email = profile.getEmail();
+        console.log(profile.getImageUrl());
     }
 }

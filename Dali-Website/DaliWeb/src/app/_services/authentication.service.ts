@@ -62,7 +62,6 @@ export class AuthenticationService {
     this.ngZone.run( _ => {
       this.router.navigate(['/profile']);
     });
-
   }
 
   private onGoogleSignInFailed(err: any) {
