@@ -57,11 +57,11 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         UserMonitorHelper.screens.add(ACTIVITY_NUMBER);
 
-        Bundle bundle = getIntent().getExtras();
-        profileType = (ProfileType) bundle.getSerializable(PROFILE_TYPE_KEY);
-
         Intent intent = new Intent(this, ExitService.class);
         startService(intent);
+
+        Bundle bundle = getIntent().getExtras();
+        profileType = (ProfileType) bundle.getSerializable(PROFILE_TYPE_KEY);
 
         setContentView(R.layout.activity_profile);
 
