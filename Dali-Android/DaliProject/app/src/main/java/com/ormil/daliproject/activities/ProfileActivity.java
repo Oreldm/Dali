@@ -32,6 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
     public static final String LIST_DATASET_KEY = "list_Dataset";
     public static final String LIST_TYPE_KEY = "list_Type";
     public static final String PROFILE_TYPE_KEY = "profile_Type";
+    public static final String PROFILE_USER_DATA = "user_Data";
 
     public enum ProfileType {
         USER_PROFILE, OTHER_PROFILE
@@ -50,22 +51,14 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UserMonitorHelper.screens.add(ACTIVITY_NUMBER);
+
         Intent intent = new Intent(this, ExitService.class);
         startService(intent);
 
-        profileType = (ProfileType) getIntent().getExtras().getSerializable(PROFILE_TYPE_KEY);
+        Bundle bundle = getIntent().getExtras();
+        profileType = (ProfileType) bundle.getSerializable(PROFILE_TYPE_KEY);
 
         setContentView(R.layout.activity_profile);
-
-        try {
-            String profileJson = HttpService.get(HttpService.endPoint + HttpService.userPath + "/getProfileById" + "?id=" + "2");
-            Gson g = new Gson();
-            profileModel = g.fromJson(profileJson, UserProfileModel.class);
-
-        }
-        catch (Exception e) {
-            Log.e(TAG, "Error while looking for artworks");
-        }
 
         viewPager = findViewById(R.id.profile_viewpager);
         tabLayout = findViewById(R.id.profile_tabs);
@@ -74,6 +67,16 @@ public class ProfileActivity extends AppCompatActivity {
 
         switch(profileType) {
             case USER_PROFILE:
+                try {
+                    String profileJson = HttpService.get(HttpService.endPoint + HttpService.userPath + "/getProfileById" + "?id=" + "2");
+                    Gson g = new Gson();
+                    profileModel = g.fromJson(profileJson, UserProfileModel.class);
+
+                }
+                catch (Exception e) {
+                    Log.e(TAG, "Error while looking for artworks");
+                }
+
                 ListTabFragment likedArtworkTabFragment = new ListTabFragment();
                 //ListTabFragment notificationTabFragment = new ListTabFragment();
 
@@ -91,12 +94,23 @@ public class ProfileActivity extends AppCompatActivity {
                 //tabAdapter.addFragment(notificationTabFragment, "Notifications");
                 break;
             case OTHER_PROFILE:
+                try {
+                    String profileJson = HttpService.get(HttpService.endPoint + HttpService.userPath + "/getProfileById" + "?id=" + "3");
+                    Gson g = new Gson();
+                    profileModel = g.fromJson(profileJson, UserProfileModel.class);
+
+                }
+                catch (Exception e) {
+                    Log.e(TAG, "Error while looking for artworks");
+                }
+
                 ListTabFragment artworksTabFragment = new ListTabFragment();
                 MapTabFragment mapTabFragment = new MapTabFragment();
 
                 Bundle artworksBundle = new Bundle();
 
                 artworksBundle.putParcelableArrayList(LIST_DATASET_KEY, profileModel.getLikedArtwork());
+                artworksBundle.putSerializable(LIST_TYPE_KEY, ListTabFragment.TabType.ARTIST_ARTWORK);
 
                 artworksTabFragment.setArguments(artworksBundle);
                 mapTabFragment.setArguments(artworksBundle);

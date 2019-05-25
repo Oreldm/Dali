@@ -29,7 +29,7 @@ public class ListTabFragment extends Fragment {
 
     public enum TabType {ARTIST_ARTWORK, USER_LIKES, USER_RECOMMENDS}
 
-    TabType fragmentListType;
+    private TabType fragmentListType;
 
     private ArrayList<ListModel> dataSetModels;
     private TabType tabType;

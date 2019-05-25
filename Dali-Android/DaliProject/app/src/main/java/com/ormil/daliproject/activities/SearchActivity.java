@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -66,14 +68,15 @@ public class SearchActivity extends AppCompatActivity {
                                         public void run()
                                         {
                                             try {
+                                                Log.d(TAG, "run() called");
                                                 String profileJson = HttpService.get(HttpService.endPoint + HttpService.userPath + "/search" + "?str=" + charSequence);
                                                 Gson g = new Gson();
                                                 Type listType = new TypeToken<ArrayList<UserProfileModel>>() {
                                                 }.getType();
                                                 userProfileModels = g.fromJson(profileJson, listType);
                                                 adapter.updateList(userProfileModels);
-                                                adapter = new ArtUserAdapter(SearchActivity.context, userProfileModels, ArtUserAdapter.AdapterType.USER_FOCUS);
-                                                listView.setAdapter(adapter);
+                                                /*adapter = new ArtUserAdapter(SearchActivity.context, userProfileModels, ArtUserAdapter.AdapterType.USER_FOCUS);
+                                                listView.setAdapter(adapter);*/
                                             } catch (Exception e) {
                                                 Log.e(TAG, "Error while looking for artworks");
                                             }
@@ -92,7 +95,23 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            onListItemClick(i);
+        });
+
         adapter = new ArtUserAdapter(this, userProfileModels, ArtUserAdapter.AdapterType.USER_FOCUS);
         listView.setAdapter(adapter);
+    }
+
+    private void onListItemClick(int position) {
+        Intent intent = new Intent(this, ProfileActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(ProfileActivity.PROFILE_TYPE_KEY, ProfileActivity.ProfileType.OTHER_PROFILE);
+        bundle.putParcelable(ProfileActivity.PROFILE_USER_DATA, userProfileModels.get(position));
+
+        intent.putExtras(bundle);
+
+        startActivity(intent);
     }
 }
