@@ -96,6 +96,29 @@ public class WebController implements TableNames, QueryHelper {
 				return false;
 			}
 			
+			//get artist name
+			command = "Select name from User where id='"+artistId+"'";
+			ResultSet rs = DALService.sendCommand(command);
+			String artistName="";
+			while(rs.next()) {
+				artistName=rs.getString("name");
+			}
+			
+			int id3 = QueryHelper.getHighestIdFromTable("Notification") + 1;
+			command = "INSERT INTO Notification (id,message) VALUES ("+id3+","+"'Artist "+artistName+" Uploaded new artwork!')";
+			if(DALService.sendCommandDataManipulation(command)== -1) {
+				return false;
+			}
+			
+			//update all users notification
+			command= "Select UserId from User_Artist where ArtistId='"+artistId+"'";
+			rs = DALService.sendCommand(command);
+			while(rs.next()) {
+				command = "INSERT INTO User_Notification (User,Notification) VALUES ('"+rs.getString("UserId")+"',"+id3+")";
+				if(DALService.sendCommandDataManipulation(command)== -1) {
+					return false;
+				}
+			}
 			
 		} catch (Exception e) {
 			return false;
