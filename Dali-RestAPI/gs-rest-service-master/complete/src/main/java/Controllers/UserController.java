@@ -241,6 +241,32 @@ public class UserController {
 
 		return null;
 	}
+	
+	@RequestMapping("/getNotification")
+	public List<String> getNotification(@RequestParam(value = "id") String userId) {
+		String command = "SELECT * from Notification where id in (Select Notification from User_Notification where User='"+userId+"')";
+		ResultSet rs = DALService.sendCommand(command);
+		List<String>notifications=new ArrayList<String>();
+		try {
+			while (rs.next()) {
+				notifications.add(rs.getString("message"));
+			}
+			return notifications;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	
+	@RequestMapping("/deleteNotification")
+	public boolean deleteNotification(@RequestParam(value = "id") String userId) {
+		String command = "DELETE FROM User_Notification where User='"+userId+"'"; 
+		if(DALService.sendCommandDataManipulation(command)==-1)
+			return false;
+		return true;
+	}
+	
 
 	@RequestMapping("/getArtsByLocation")
 	public List<Artwork> getArtByLocation(@RequestParam String lat, @RequestParam String lng) {
