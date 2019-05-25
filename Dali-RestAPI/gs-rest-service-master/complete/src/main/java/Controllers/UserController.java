@@ -195,9 +195,13 @@ public class UserController {
 		ResultSet rs = DALService.sendCommand(command);
 		try {
 			User user = null;
-			user = (rs.next() && rs.getString("role").toLowerCase().contains("artist"))
-					? ArtistHelper.requestToArtistCasting(rs)
-					: ViewerHelper.requestToUserCasting(rs);
+			try {
+				user = (rs.next() && rs.getString("role").toLowerCase().contains("artist"))
+						? ArtistHelper.requestToArtistCasting(rs)
+						: ViewerHelper.requestToUserCasting(rs);
+			}catch(NullPointerException noRoleException) {
+				user=ViewerHelper.requestToUserCasting(rs);
+			}
 
 			return user;
 		} catch (Exception e) {
