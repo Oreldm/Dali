@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.ormil.daliproject.Models.ListModel;
 import com.ormil.daliproject.Models.NotificationModel;
 import com.ormil.daliproject.R;
 
@@ -15,21 +16,21 @@ import java.util.Date;
 public class NotificationAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<NotificationModel> notificationModels = new ArrayList<>();
+    private ArrayList<ListModel> dataSetList;
 
-    public NotificationAdapter(Context context, ArrayList<NotificationModel> notificationModels) {
+    public NotificationAdapter(Context context, ArrayList<ListModel> dataSetList) {
         this.context = context;
-        this.notificationModels = notificationModels;
+        this.dataSetList = dataSetList;
     }
 
     @Override
     public int getCount() {
-        return notificationModels.size();
+        return dataSetList.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return notificationModels.get(i);
+        return dataSetList.get(i);
     }
 
     @Override
@@ -55,10 +56,12 @@ public class NotificationAdapter extends BaseAdapter {
             viewHolder = (NotificationViewHolder) convertView.getTag();
         }
 
-        viewHolder.notificationInfo.setText(notificationModels.get(i).getNotificationInfo());
+        NotificationModel notificationModel = (NotificationModel) dataSetList.get(i);
+
+        viewHolder.notificationInfo.setText(notificationModel.getNotificationInfo());
 
         Date date = new Date();
-        long mins = (date.getTime() - notificationModels.get(i).getNotificationTimestamp().getTime()) / 1000 / 60;
+        long mins = (date.getTime() - notificationModel.getNotificationTimestamp().getTime()) / 1000 / 60;
 
         viewHolder.notificationTimestamp.setText( mins + " minutes ago");
 

@@ -44,7 +44,7 @@ public class MapTabFragment extends Fragment {
     public void setArguments(@Nullable Bundle args) {
         super.setArguments(args);
         try {
-            artworkModels = args.getParcelableArrayList(ProfileActivity.ARTLIST_KEY);
+            artworkModels = args.getParcelableArrayList(ProfileActivity.LIST_DATASET_KEY);
         } catch (NullPointerException e) {
             Toast toast = Toast.makeText(getContext(), "Error while loading art map", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.ormil.daliproject.Models.ArtworkModel;
 import com.ormil.daliproject.Models.CardModel;
 import com.ormil.daliproject.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -78,12 +79,13 @@ public class CardAdapter extends PagerAdapter {
             }
         });
 
-        ArtworkModel tempAM = artworkModels.get(position);
+        ArtworkModel artworkModel = artworkModels.get(position);
 
         //profileImage.setImageResource(artworkModels.get(position).getProfileImage());
-        artworkName.setText(tempAM.getName());
-        infoTabArtwokName.setText(tempAM.getName());
-        ///infoTabArtistName.setText(tempAM.getArtistName());
+        Picasso.get().load(artworkModel.getArtistPicture()).into(profileImage);
+        artworkName.setText(artworkModel.getName());
+        infoTabArtwokName.setText(artworkModel.getName());
+        infoTabArtistName.setText(artworkModel.getArtistName());
         //infoTabBio.setText(tempAM.getArtworkInfo());
 
         if(/*tempAM.isLiked()*/ false)

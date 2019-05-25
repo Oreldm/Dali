@@ -37,10 +37,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private LocationManager mLocationManager;
     private LocationListener mLocationListener;
+    private LatLng currentLocation;
 
     private ImageButton m_OpenArBtn;
     private ImageButton m_NotificationBtn;
     private ImageButton m_ProfileButton;
+    private ImageButton m_SearchButton;
 
     private ArrayList<ArtworkModel> artworkModels;
 
@@ -65,6 +67,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         m_ProfileButton = findViewById(R.id.profileButton);
         m_ProfileButton.setOnClickListener(view -> onProfileButtonClick());
+
+        m_SearchButton = findViewById(R.id.searchButton);
+        m_SearchButton.setOnClickListener(view -> onSearchButtonClick());
 
     }
 
@@ -101,6 +106,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+                currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                 updateMarkers(location);
             }
 
@@ -149,7 +155,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             Log.d(TAG, "Lat: " + location.getLatitude() + " Lng: " + location.getLongitude());
 
-            String response = HttpService.get(HttpService.endPoint + HttpService.userPath + "/getArtsByLocation?" + "xPosition=" + location.getLatitude() + "&yPosition=" + location.getLongitude());
+            String response = HttpService.get(HttpService.endPoint + HttpService.userPath + "/getArtsByLocation?" + "lat=" + location.getLatitude() + "&lng=" + location.getLongitude());
             Type listType = new TypeToken<ArrayList<ArtworkModel>>() {}.getType();
             artworkModels = new Gson().fromJson(response, listType);
 
@@ -168,6 +174,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void onArButtonClick() {
         Intent intent = new Intent(this, ArActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ArActivity.CURRENT_LOCATION_KEY, currentLocation);
+
+        intent.putExtras(bundle);
+
         startActivity(intent);
     }
 
@@ -178,6 +190,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void onProfileButtonClick() {
         Intent intent = new Intent(this, ProfileActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(ProfileActivity.PROFILE_TYPE_KEY, ProfileActivity.ProfileType.USER_PROFILE);
+
+        intent.putExtras(bundle);
+
+        startActivity(intent);
+    }
+
+    private void onSearchButtonClick() {
+        Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
     }
 }

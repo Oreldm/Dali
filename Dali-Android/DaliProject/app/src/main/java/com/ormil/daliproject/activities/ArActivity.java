@@ -15,6 +15,7 @@ import android.view.Display;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.ar.core.Anchor;
 import com.google.ar.core.Frame;
 import com.google.ar.core.HitResult;
@@ -44,9 +45,12 @@ import java.util.List;
 public class ArActivity extends AppCompatActivity {
 
     private static final String TAG = "ArActivity";
+    public static final String CURRENT_LOCATION_KEY = "currnet_Location";
 
     public static final int ACTIVITY_NUMBER=3;
     private static final double MIN_OPENGL_VERSION = 3.0;
+
+    private LatLng currentLocation;
 
     private ArFragment arFragment;
     private AnchorNode anchorNode;
@@ -72,10 +76,12 @@ public class ArActivity extends AppCompatActivity {
             return;
         }
 
+        currentLocation = getIntent().getExtras().getParcelable(CURRENT_LOCATION_KEY);
+
         setContentView(R.layout.activity_ar);
 
         try {
-            String artworksJson = HttpService.get("http://project-dali.com:5000/user/getArtsByLocation?lat=32.098992&lng=34.891115");
+            String artworksJson = HttpService.get(HttpService.endPoint + HttpService.userPath + "/getArtsByLocation?" + "lat=" + currentLocation.latitude + "&lng=" + currentLocation.longitude);
             Gson g = new Gson();
             Type listType = new TypeToken<ArrayList<ArtworkModel>>() {}.getType();
             artworksModels = g.fromJson(artworksJson,  listType);

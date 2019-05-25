@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.util.List;
 
-public class ArtworkModel implements Parcelable {
+public class ArtworkModel extends ListModel implements Parcelable {
     private int id;
     private String path;
     private String name;
@@ -20,6 +20,7 @@ public class ArtworkModel implements Parcelable {
 
 
     protected ArtworkModel(Parcel in) {
+        super(in);
         id = in.readInt();
         path = in.readString();
         name = in.readString();

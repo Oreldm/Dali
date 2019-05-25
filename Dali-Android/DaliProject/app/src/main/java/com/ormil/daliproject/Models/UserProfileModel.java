@@ -1,8 +1,11 @@
 package com.ormil.daliproject.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
-public class UserProfileModel {
+public class UserProfileModel extends ListModel implements Parcelable {
     private float id;
     private String pictureUrl = null;
     private String name;
@@ -10,10 +13,33 @@ public class UserProfileModel {
     private String bio = null;
     ArrayList<ArtworkModel> artworks = new ArrayList<>();
     ArrayList<ArtworkModel> likedArtwork = new ArrayList<>();
-    //ArrayList<Object> following = new ArrayList<>();
-    //ArrayList<Object> recommendedGeneres = new ArrayList<>();
-    //ArrayList<Object> recommendedArtists = new ArrayList<>();
-    //ArrayList<Object> followers = new ArrayList<>();
+    /*ArrayList<UserProfileModel> following = new ArrayList<>();
+    ArrayList<UserProfileModel> recommendedGeneres = new ArrayList<>();
+    ArrayList<UserProfileModel> recommendedArtists = new ArrayList<>();
+    ArrayList<UserProfileModel> followers = new ArrayList<>();*/
+
+    protected UserProfileModel(Parcel in) {
+        super(in);
+        id = in.readFloat();
+        pictureUrl = in.readString();
+        name = in.readString();
+        generes = in.createStringArrayList();
+        bio = in.readString();
+        artworks = in.createTypedArrayList(ArtworkModel.CREATOR);
+        likedArtwork = in.createTypedArrayList(ArtworkModel.CREATOR);
+    }
+
+    public static final Creator<UserProfileModel> CREATOR = new Creator<UserProfileModel>() {
+        @Override
+        public UserProfileModel createFromParcel(Parcel in) {
+            return new UserProfileModel(in);
+        }
+
+        @Override
+        public UserProfileModel[] newArray(int size) {
+            return new UserProfileModel[size];
+        }
+    };
 
     public float getId() {
         return id;
@@ -82,5 +108,21 @@ public class UserProfileModel {
                 ", artworks=" + artworks +
                 ", likedArtwork=" + likedArtwork +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeFloat(id);
+        parcel.writeString(pictureUrl);
+        parcel.writeString(name);
+        parcel.writeStringList(generes);
+        parcel.writeString(bio);
+        parcel.writeTypedList(artworks);
+        parcel.writeTypedList(likedArtwork);
     }
 }

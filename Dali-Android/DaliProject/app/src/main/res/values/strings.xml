@@ -17,4 +17,5 @@
     <string name="item_sub_text">Round flat</string>
     <string name="app_info">Sign in now and start watching\n Augmented Reality Art</string>
     <string name="server_client_id">177095784706-8nc396600bdl9vdpavqgb15n7ri0m2s7.apps.googleusercontent.com</string>
+    <string name="search_hint">Search</string>
 </resources>

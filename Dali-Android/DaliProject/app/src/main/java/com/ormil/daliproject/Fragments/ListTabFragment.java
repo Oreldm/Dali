@@ -13,8 +13,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.ormil.daliproject.Adapters.ArtUserAdapter;
+import com.ormil.daliproject.Adapters.NotificationAdapter;
 import com.ormil.daliproject.Models.ArtUserModel;
 import com.ormil.daliproject.Models.ArtworkModel;
+import com.ormil.daliproject.Models.ListModel;
 import com.ormil.daliproject.R;
 import com.ormil.daliproject.activities.ProfileActivity;
 
@@ -25,11 +27,12 @@ public class ListTabFragment extends Fragment {
 
     private static final String TAG = "ListTabFragment";
 
-    enum TabType {ARTIST_ARTWORK, USER_LIKES, USER_RECOMMENDS}
+    public enum TabType {ARTIST_ARTWORK, USER_LIKES, USER_RECOMMENDS}
 
     TabType fragmentListType;
 
-    private ArrayList<ArtworkModel> artworkModels;
+    private ArrayList<ListModel> dataSetModels;
+    private TabType tabType;
 
     @Override
     public void setArguments(@Nullable Bundle args) {
@@ -38,9 +41,10 @@ public class ListTabFragment extends Fragment {
         Log.e(TAG, "setArguments() called with: args = [" + args + "]");
 
         try {
-            artworkModels = args.getParcelableArrayList(ProfileActivity.ARTLIST_KEY);
+            dataSetModels = args.getParcelableArrayList(ProfileActivity.LIST_DATASET_KEY);
+            tabType = (TabType) args.getSerializable(ProfileActivity.LIST_TYPE_KEY);
         } catch (NullPointerException e) {
-            Toast toast = Toast.makeText(getContext(), "Error while loading art map", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getContext(), "Error while loading list", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }
@@ -61,9 +65,17 @@ public class ListTabFragment extends Fragment {
 
         ListView mListView = view.findViewById(R.id.tab_list);
 
-        if(artworkModels != null) {
-            ArtUserAdapter artUserAdapter = new ArtUserAdapter(view.getContext(), artworkModels);
-            mListView.setAdapter(artUserAdapter);
+        if(dataSetModels != null) {
+            switch (tabType) {
+                case USER_LIKES:
+                case ARTIST_ARTWORK:
+                    ArtUserAdapter artUserAdapter = new ArtUserAdapter(view.getContext(), dataSetModels, ArtUserAdapter.AdapterType.ARTWORK_FOCUS);
+                    mListView.setAdapter(artUserAdapter);
+                    break;
+                case USER_RECOMMENDS:
+                    NotificationAdapter notificationAdapter = new NotificationAdapter(view.getContext(), dataSetModels);
+                    mListView.setAdapter(notificationAdapter);
+            }
         }
         else {
             Log.e(TAG, "dataArray is null");

@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 
 import com.ormil.daliproject.Models.ArtUserModel;
 import com.ormil.daliproject.Models.ArtworkModel;
+import com.ormil.daliproject.Models.ListModel;
+import com.ormil.daliproject.Models.UserProfileModel;
 import com.ormil.daliproject.R;
 import com.squareup.picasso.Picasso;
 
@@ -18,22 +20,30 @@ public class ArtUserAdapter extends BaseAdapter {
 
     private static final String TAG = "ArtUserAdapter";
 
-    private ArrayList<ArtworkModel> artworkModels;
+    public enum AdapterType {
+        ARTWORK_FOCUS, USER_FOCUS
+    }
+
+    private AdapterType adapterType;
+
+    private ArrayList<ListModel> dataSetList;
     private Context context;
 
-    public ArtUserAdapter(Context context, ArrayList<ArtworkModel> artworkModels) {
+
+    public ArtUserAdapter(Context context, ArrayList<ListModel> dataSetList, AdapterType adapterType) {
         this.context = context;
-        this.artworkModels = artworkModels;
+        this.dataSetList = dataSetList;
+        this.adapterType = adapterType;
     }
 
     @Override
     public int getCount() {
-        return artworkModels.size();
+        return dataSetList.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return artworkModels.get(i);
+        return dataSetList.get(i);
     }
 
     @Override
@@ -60,16 +70,40 @@ public class ArtUserAdapter extends BaseAdapter {
             viewHolder = (ArtUserViewHolder) convertView.getTag();
         }
 
-        ArtworkModel tempArtworkModel = artworkModels.get(i);
+        switch(adapterType) {
+            case ARTWORK_FOCUS:
+                ArtworkModel tempArtworkModel = (ArtworkModel) dataSetList.get(i);
 
-        if(tempArtworkModel.getArtistPicture() != null && viewHolder.profileIcon != null)
-            Picasso.get().load(tempArtworkModel.getArtistPicture()).into(viewHolder.profileIcon);
-        if(viewHolder.profileIcon == null)
-            Log.e(TAG, "Icon is null");
-        viewHolder.mainText.setText(tempArtworkModel.getName());
-        viewHolder.subText.setText(tempArtworkModel.getArtistName());
-        viewHolder.cornerInfo.setText(tempArtworkModel.getDt_created());
+                if(tempArtworkModel.getArtistPicture() != null && viewHolder.profileIcon != null)
+                    Picasso.get().load(tempArtworkModel.getArtistPicture()).into(viewHolder.profileIcon);
+                if(viewHolder.profileIcon == null)
+                    Log.e(TAG, "Icon is null");
+                viewHolder.mainText.setText(tempArtworkModel.getName());
+                viewHolder.subText.setText(tempArtworkModel.getArtistName());
+                viewHolder.cornerInfo.setText(tempArtworkModel.getGeneres().get(0));
+                break;
+            case USER_FOCUS:
+                UserProfileModel userProfileModel = (UserProfileModel) dataSetList.get(i);
+
+                if(userProfileModel.getPictureUrl() != null && viewHolder.profileIcon != null)
+                    Picasso.get().load(userProfileModel.getPictureUrl()).into(viewHolder.profileIcon);
+                if(viewHolder.profileIcon == null)
+                    Log.e(TAG, "Icon is null");
+                viewHolder.mainText.setText(userProfileModel.getName());
+                try {
+                    viewHolder.subText.setText(userProfileModel.getGeneres().get(0));
+                } catch (IndexOutOfBoundsException e) {
+                    Log.e(TAG, "No generes found!");
+                }
+                viewHolder.cornerInfo.setText("");
+                break;
+        }
 
         return convertView;
+    }
+
+    public void updateList(ArrayList<ListModel> dataSetList) {
+        this.dataSetList = dataSetList;
+        notifyDataSetChanged();
     }
 }

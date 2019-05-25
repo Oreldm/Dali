@@ -29,17 +29,22 @@ public class ProfileActivity extends AppCompatActivity {
      */
 
     private static final String TAG = "ProfileActivity";
-    public static final String ARTLIST_KEY = "artwork_List";
+    public static final String LIST_DATASET_KEY = "list_Dataset";
+    public static final String LIST_TYPE_KEY = "list_Type";
+    public static final String PROFILE_TYPE_KEY = "profile_Type";
+
+    public enum ProfileType {
+        USER_PROFILE, OTHER_PROFILE
+    }
+
+    private ProfileType profileType;
 
     public static final int ACTIVITY_NUMBER=4;
     private ProfileTabAdapter tabAdapter;
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    ArrayList<ArtUserModel> artUserModels = new ArrayList<>();
-
     private UserProfileModel profileModel;
-    private ArrayList<ArtworkModel> artworkModels = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,20 +53,14 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ExitService.class);
         startService(intent);
 
+        profileType = (ProfileType) getIntent().getExtras().getSerializable(PROFILE_TYPE_KEY);
+
         setContentView(R.layout.activity_profile);
 
         try {
-            String profileJson = HttpService.get(HttpService.endPoint + HttpService.userPath + "/getProfileById" + "?id=" + "3");
+            String profileJson = HttpService.get(HttpService.endPoint + HttpService.userPath + "/getProfileById" + "?id=" + "2");
             Gson g = new Gson();
             profileModel = g.fromJson(profileJson, UserProfileModel.class);
-
-        /*Type listType = new TypeToken<ArrayList<ArtworkModel>>() {}.getType();
-            artworkModels = g.fromJson(artworksJson,  listType);*/
-            Log.d(TAG, "*******************************************************************************************************");
-            Log.d(TAG, "*******************************************************************************************************");
-            Log.d(TAG, "artworkList: " + profileModel.toString());
-            Log.d(TAG, "*******************************************************************************************************");
-            Log.d(TAG, "*******************************************************************************************************");
 
         }
         catch (Exception e) {
@@ -73,38 +72,52 @@ public class ProfileActivity extends AppCompatActivity {
 
         tabAdapter = new ProfileTabAdapter(getSupportFragmentManager());
 
-        ListTabFragment listTabFragment = new ListTabFragment();
+        switch(profileType) {
+            case USER_PROFILE:
+                ListTabFragment likedArtworkTabFragment = new ListTabFragment();
+                //ListTabFragment notificationTabFragment = new ListTabFragment();
+
+                Bundle likeBundle = new Bundle();
+                //Bundle notificationBundle = new Bundle();
+
+                likeBundle.putParcelableArrayList(LIST_DATASET_KEY, profileModel.getLikedArtwork());
+                likeBundle.putSerializable(LIST_TYPE_KEY, ListTabFragment.TabType.USER_LIKES);
+                likedArtworkTabFragment.setArguments(likeBundle);
+
+                /*notificationBundle.putParcelableArrayList();
+                notificationTabFragment.setArguments(notificationBundle);*/
+
+                tabAdapter.addFragment(likedArtworkTabFragment, "Likes");
+                //tabAdapter.addFragment(notificationTabFragment, "Notifications");
+                break;
+            case OTHER_PROFILE:
+                ListTabFragment artworksTabFragment = new ListTabFragment();
+                MapTabFragment mapTabFragment = new MapTabFragment();
+
+                Bundle artworksBundle = new Bundle();
+
+                artworksBundle.putParcelableArrayList(LIST_DATASET_KEY, profileModel.getLikedArtwork());
+
+                artworksTabFragment.setArguments(artworksBundle);
+                mapTabFragment.setArguments(artworksBundle);
+
+                tabAdapter.addFragment(artworksTabFragment, "Artworks");
+                tabAdapter.addFragment(mapTabFragment, "Map");
+                break;
+        }
+        /*ListTabFragment listTabFragment = new ListTabFragment();
         MapTabFragment mapTabFragment = new MapTabFragment();
 
-        setArray();
-
         Bundle artworksBundle = new Bundle();
-        artworksBundle.putParcelableArrayList(ARTLIST_KEY, profileModel.getArtworks());
-        //artworksBundle.putParcelableArrayList("dataList", artUserModels);
+        artworksBundle.putParcelableArrayList(LIST_DATASET_KEY, profileModel.getArtworks());
 
         listTabFragment.setArguments(artworksBundle);
         mapTabFragment.setArguments(artworksBundle);
 
         tabAdapter.addFragment(listTabFragment, "Likes");
-        tabAdapter.addFragment(mapTabFragment, "Map");
+        tabAdapter.addFragment(mapTabFragment, "Map");*/
 
         viewPager.setAdapter(tabAdapter);
         tabLayout.setupWithViewPager(viewPager);
-    }
-
-    private void setArray() {
-        artUserModels.add(new ArtUserModel("https://avatars1.githubusercontent.com/u/9754901?s=400&v=4", "Sir Lolo", "Flat Flat", ""));
-        artUserModels.add(new ArtUserModel("https://avatars1.githubusercontent.com/u/9754901?s=400&v=4", "Sir Lolo", "Flat Flat", ""));
-        artUserModels.add(new ArtUserModel("https://avatars1.githubusercontent.com/u/9754901?s=400&v=4", "Sir Lolo", "Flat Flat", ""));
-        artUserModels.add(new ArtUserModel("https://avatars1.githubusercontent.com/u/9754901?s=400&v=4", "Sir Lolo", "Flat Flat", ""));
-        artUserModels.add(new ArtUserModel("https://avatars1.githubusercontent.com/u/9754901?s=400&v=4", "Sir Lolo", "Flat Flat", ""));
-        artUserModels.add(new ArtUserModel("https://avatars1.githubusercontent.com/u/9754901?s=400&v=4", "Sir Lolo", "Flat Flat", ""));
-        artUserModels.add(new ArtUserModel("https://avatars1.githubusercontent.com/u/9754901?s=400&v=4", "Sir Lolo", "Flat Flat", ""));
-        artUserModels.add(new ArtUserModel("https://avatars1.githubusercontent.com/u/9754901?s=400&v=4", "Sir Lolo", "Flat Flat", ""));
-        artUserModels.add(new ArtUserModel("https://avatars1.githubusercontent.com/u/9754901?s=400&v=4", "Sir Lolo", "Flat Flat", ""));
-        artUserModels.add(new ArtUserModel("https://avatars1.githubusercontent.com/u/9754901?s=400&v=4", "Sir Lolo", "Flat Flat", ""));
-        artUserModels.add(new ArtUserModel("https://avatars1.githubusercontent.com/u/9754901?s=400&v=4", "Sir Lolo", "Flat Flat", ""));
-        artUserModels.add(new ArtUserModel("https://avatars1.githubusercontent.com/u/9754901?s=400&v=4", "Sir Lolo", "Flat Flat", ""));
-        artUserModels.add(new ArtUserModel("https://avatars1.githubusercontent.com/u/9754901?s=400&v=4", "Sir Lolo", "Flat Flat", ""));
     }
 }

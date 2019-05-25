@@ -1,17 +1,32 @@
 package com.ormil.daliproject.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
-public class NotificationModel {
+public class NotificationModel extends ListModel implements Parcelable {
     private String imageSrc;
     private String notificationInfo;
     private Date notificationTimestamp;
 
-    public NotificationModel( String imageSrc, String notificationInfo, Date notificationTimestamp) {
-        this.imageSrc = imageSrc;
-        this.notificationInfo = notificationInfo;
-        this.notificationTimestamp = notificationTimestamp;
+    protected NotificationModel(Parcel in) {
+        super(in);
+        imageSrc = in.readString();
+        notificationInfo = in.readString();
     }
+
+    public static final Creator<NotificationModel> CREATOR = new Creator<NotificationModel>() {
+        @Override
+        public NotificationModel createFromParcel(Parcel in) {
+            return new NotificationModel(in);
+        }
+
+        @Override
+        public NotificationModel[] newArray(int size) {
+            return new NotificationModel[size];
+        }
+    };
 
     public String getImageSrc() {
         return imageSrc;
@@ -35,5 +50,16 @@ public class NotificationModel {
 
     public void setNotificationTimestamp(Date notificationTimestamp) {
         this.notificationTimestamp = notificationTimestamp;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(imageSrc);
+        parcel.writeString(notificationInfo);
     }
 }
