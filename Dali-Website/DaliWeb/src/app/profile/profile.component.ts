@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RestService } from '../_services/rest.service';
+import { AuthenticationService } from '../_services/authentication.service';
 
 @Component({
   selector: 'app-profile',
@@ -14,17 +15,23 @@ export class ProfileComponent implements OnInit {
   public artistName = "";
   public artistBio = "";
 
-  constructor(private rest: RestService) { }
+  constructor(private auth: AuthenticationService,private rest: RestService) { }
 
   ngOnInit() {
-    this.rest.getProfile(1).subscribe(response => {
+    var myUser = this.auth.currentUserValue();
+    console.log(myUser);
+    this.rest.getProfile(myUser.id).subscribe(response => {
       this.profile = response;
-      this.setMarkers(this.profile.artworks)
-      this.profile.pictureUrl = "https://avatars0.githubusercontent.com/u/9754901?s=460&v=4"
-
-      this.pictureUrl = this.profile.pictureUrl;
+      this.profile.pictureUrl = myUser.pictureUrl;
       this.artistName = this.profile.name;
       this.artistBio = this.profile.bio;
+      this.pictureUrl = this.profile.pictureUrl;
+
+      try {
+        this.setMarkers(this.profile.artworks)
+      } catch(err) {
+        console.log("No artworks")
+      }
       console.log(this.profile)
     });
   }
@@ -34,8 +41,8 @@ export class ProfileComponent implements OnInit {
       this.markers.push({
         id: artwork.id,
         name: artwork.name,
-        lat: artwork.positionX,
-        lng: artwork.positionY
+        lat: artwork.lat,
+        lng: artwork.lng
       });
       console.log(artwork);
     })

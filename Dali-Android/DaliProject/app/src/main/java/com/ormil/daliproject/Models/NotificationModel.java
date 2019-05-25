@@ -4,15 +4,16 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.Date;
+import java.util.Optional;
 
 public class NotificationModel extends ListModel implements Parcelable {
-    private String imageSrc;
+    //private String imageSrc;
     private String notificationInfo;
-    private Date notificationTimestamp;
+    //private Date notificationTimestamp;
 
     protected NotificationModel(Parcel in) {
         super(in);
-        imageSrc = in.readString();
+        //imageSrc = in.readString();
         notificationInfo = in.readString();
     }
 
@@ -28,13 +29,13 @@ public class NotificationModel extends ListModel implements Parcelable {
         }
     };
 
-    public String getImageSrc() {
+    /*public String getImageSrc() {
         return imageSrc;
     }
 
     public void setImageSrc(String imageSrc) {
         this.imageSrc = imageSrc;
-    }
+    }*/
 
     public String getNotificationInfo() {
         return notificationInfo;
@@ -44,13 +45,13 @@ public class NotificationModel extends ListModel implements Parcelable {
         this.notificationInfo = notificationInfo;
     }
 
-    public Date getNotificationTimestamp() {
+    /*public Date getNotificationTimestamp() {
         return notificationTimestamp;
     }
 
     public void setNotificationTimestamp(Date notificationTimestamp) {
         this.notificationTimestamp = notificationTimestamp;
-    }
+    }*/
 
     @Override
     public int describeContents() {
@@ -59,7 +60,7 @@ public class NotificationModel extends ListModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(imageSrc);
+        //parcel.writeString(imageSrc);
         parcel.writeString(notificationInfo);
     }
 }

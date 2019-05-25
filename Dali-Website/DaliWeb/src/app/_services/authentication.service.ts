@@ -2,6 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { User, UserType } from '../_models';
 import { Router } from '@angular/router';
+import { RestService } from './rest.service';
 
 declare const gapi: any;
 const SESSION_USER_KEY: string = 'currentUser';
@@ -21,8 +22,7 @@ export class AuthenticationService {
 
   public isLogin: boolean = false;
 
-  constructor(private router: Router, private ngZone: NgZone) {
-    console.log("IN SERVICE CONSTRUCTOR!!!");
+  constructor(private router: Router, private rest: RestService, private ngZone: NgZone) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(sessionStorage.getItem(SESSION_USER_KEY)));
     this.currentUser = this.currentUserSubject.asObservable();
 
@@ -42,8 +42,6 @@ export class AuthenticationService {
         cookiepolicy: 'single_host_origin',
         scope: 'profile email'
       });
-      console.log("END: googleInit");
-      //this.attachSignin(document.getElementById('googleBtn'));
     });
   }
 
@@ -55,12 +53,15 @@ export class AuthenticationService {
 
   private onGoogleSignIn(googleUser: any) {
     let user = new User(googleUser, UserType.GOOGLE);
-    sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(user));
-    this.currentUserSubject.next(user);
-
-    this.isLogin = true;
-    this.ngZone.run( _ => {
-      this.router.navigate(['/profile']);
+    this.rest.signIn(user).subscribe(res => {
+      console.log("SignInSub: " + res);
+      sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(user));
+      this.currentUserSubject.next(user);
+  
+      this.isLogin = true;
+      this.ngZone.run( _ => {
+        this.router.navigate(['/profile']);
+      });
     });
   }
 

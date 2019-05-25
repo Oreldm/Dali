@@ -6,6 +6,7 @@ export class User {
     public username: string;
     public email: string;
     public type: UserType;
+    public pictureUrl: string;
 
     constructor(userInfo: any, userType: UserType) {
         switch(userType) {
@@ -23,6 +24,6 @@ export class User {
         this.token = userInfo.getAuthResponse().id_token;
         this.username = profile.getName();
         this.email = profile.getEmail();
-        console.log(profile.getImageUrl());
+        this.pictureUrl = profile.getImageUrl();
     }
 }

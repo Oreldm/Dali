@@ -102,8 +102,11 @@ public class ProfileActivity extends AppCompatActivity {
 
         switch(profileType) {
             case USER_PROFILE:
+
+
+
                 ListTabFragment likedArtworkTabFragment = new ListTabFragment();
-                //ListTabFragment notificationTabFragment = new ListTabFragment();
+                ListTabFragment notificationTabFragment = new ListTabFragment();
 
                 Bundle likeBundle = new Bundle();
                 Bundle notificationBundle = new Bundle();
@@ -112,8 +115,8 @@ public class ProfileActivity extends AppCompatActivity {
                 likeBundle.putSerializable(LIST_TYPE_KEY, ListTabFragment.TabType.USER_LIKES);
                 likedArtworkTabFragment.setArguments(likeBundle);
 
-                /*notificationBundle.putParcelableArrayList();
-                notificationTabFragment.setArguments(notificationBundle);*/
+                notificationBundle.putParcelableArrayList();
+                notificationTabFragment.setArguments(notificationBundle);
 
                 tabAdapter.addFragment(likedArtworkTabFragment, "Likes");
                 //tabAdapter.addFragment(notificationTabFragment, "Notifications");

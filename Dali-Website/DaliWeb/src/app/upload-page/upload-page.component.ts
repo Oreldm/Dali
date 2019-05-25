@@ -50,8 +50,8 @@ export class UploadPageComponent implements OnInit {
     formData.append('artistId', '1');
     formData.append('tagId', '1');
     formData.append('info', this.uploadForm.get('info').value);
-    formData.append('xPosition', this.placedMarker.lat);
-    formData.append('yPosition', this.placedMarker.lng);
+    formData.append('lat', this.placedMarker.lat);
+    formData.append('lng', this.placedMarker.lng);
 
     console.log(this.auth.currentUserValue().id.toString());
 
