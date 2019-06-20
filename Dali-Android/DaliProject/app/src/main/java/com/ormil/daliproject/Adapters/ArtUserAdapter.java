@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.ormil.daliproject.Models.ArtUserModel;
 import com.ormil.daliproject.Models.ArtworkModel;
 import com.ormil.daliproject.Models.ListModel;
 import com.ormil.daliproject.Models.UserProfileModel;

@@ -13,11 +13,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.Task;
 import com.ormil.daliproject.R;
 import com.ormil.daliproject.Services.HttpService;
-import com.ormil.daliproject.activities.MapsActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -99,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
         String name = googleSignInAccount.getDisplayName();
         String pictureUrl = googleSignInAccount.getPhotoUrl().toString();
         try {
-            HttpService.get(HttpService.endPoint + HttpService.userPath + "/signInApp" + "?id=" + id + "&name=" + name + "&picture=" + pictureUrl);
+            HttpService.signInApp(id, name, pictureUrl);
         } catch (Exception e) {
             Log.e(TAG, "Error while sign in");
 

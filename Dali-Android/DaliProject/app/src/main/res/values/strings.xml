@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Dali Project</string>
+    <string name="app_name">Dali-Demo</string>
     <string name="title_activity_maps">Map</string>
     <string name="artist_name_placeholder">Artist name</string>
     <string name="info_tab_artwork_name_placeholder">Artwork name</string>
@@ -16,6 +16,6 @@
     <string name="item_main_text">Sir Waffles</string>
     <string name="item_sub_text">Round flat</string>
     <string name="app_info">Sign in now and start watching\n Augmented Reality Art</string>
-    <string name="server_client_id">177095784706-8nc396600bdl9vdpavqgb15n7ri0m2s7.apps.googleusercontent.com</string>
+    <string name="server_client_id">146644312889-ne4pmsn93v7a0f04q6scsomde5rrc083.apps.googleusercontent.com </string>
     <string name="search_hint">Search</string>
 </resources>

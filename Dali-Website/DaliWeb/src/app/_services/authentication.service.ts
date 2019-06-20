@@ -10,8 +10,6 @@ const SESSION_USER_KEY: string = 'currentUser';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
 
-  
-
   //GoogleAPI
   public  auth2: any;
 

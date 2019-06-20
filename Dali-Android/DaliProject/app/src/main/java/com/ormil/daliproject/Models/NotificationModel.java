@@ -3,9 +3,6 @@ package com.ormil.daliproject.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
-import java.util.Optional;
-
 public class NotificationModel extends ListModel implements Parcelable {
     //private String imageSrc;
     private String notificationInfo;

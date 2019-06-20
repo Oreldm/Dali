@@ -3,7 +3,6 @@ package com.ormil.daliproject.Services;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -24,14 +23,13 @@ public class ExitService extends Service {
         System.out.println("onTaskRemoved called");
         super.onTaskRemoved(rootIntent);
 
-        String url="http://project-dali.com:5000/system/updateTask?"; //taskCompleted= & taskUndertaken=
         //do something you want before app closes.
         int taskUndertaken=0;
         int taskCompleted=0;
         if(UserMonitorHelper.screens.size()<2){
             //USER IS IN THE PROFILE PAGE AND WENT OUT
             taskUndertaken=1;
-            sendRequest(url,taskCompleted,taskUndertaken);
+            sendRequest(taskCompleted,taskUndertaken);
             this.stopSelf();
             return;
         }
@@ -54,16 +52,14 @@ public class ExitService extends Service {
         }
         taskCompleted+=TaskCompletedGlobal;
 
-        sendRequest(url,taskCompleted,taskUndertaken);
+        sendRequest(taskCompleted,taskUndertaken);
         //stop service
         this.stopSelf();
     }
 
-    private void sendRequest(String url, int taskCompleted, int taskUndertaken){
-        url=url+"taskCompleted="+taskCompleted+"&taskUndertaken="+taskUndertaken;
-        Log.d("URL_RE",url);
+    private void sendRequest(int taskCompleted, int taskUndertaken){
         try {
-            HttpService.get(url);
+            HttpService.updateTask(taskCompleted, taskUndertaken);
         }catch (Exception e){
             e.printStackTrace();
         }

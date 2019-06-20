@@ -14,11 +14,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ormil.daliproject.Models.ArtworkModel;
-import com.ormil.daliproject.Models.CardModel;
 import com.ormil.daliproject.R;
+import com.ormil.daliproject.Services.HttpService;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import static android.support.constraint.Constraints.TAG;
 
 public class CardAdapter extends PagerAdapter {
 
@@ -45,39 +47,32 @@ public class CardAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.artwork_item, container, false);
-        view.setTag("Tag" + position);
+        View itemView = layoutInflater.inflate(R.layout.artwork_item, container, false);
+        itemView.setTag("Tag" + position);
 
         ImageView profileImage;
-        ImageButton likeButton, infoButton;
+        ImageButton likeButton, infoButton, closeInfo;
         TextView artworkName, infoTabArtwokName, infoTabArtistName, infoTabBio;
 
-        LinearLayout parentLayout = view.findViewById(R.id.tabs_parent);
-        RelativeLayout brief = view.findViewById(R.id.brief_card);
-        RelativeLayout infoTab = view.findViewById(R.id.info_tab);
+        LinearLayout parentLayout = itemView.findViewById(R.id.tabs_parent);
+        RelativeLayout brief = itemView.findViewById(R.id.brief_card);
+        RelativeLayout infoTab = itemView.findViewById(R.id.info_tab);
 
-        profileImage = view.findViewById(R.id.item_profile_picture);
-        artworkName = view.findViewById(R.id.artwork_name);
-        likeButton = view.findViewById(R.id.like_button);
-        infoButton = view.findViewById(R.id.info_button);
+        profileImage = itemView.findViewById(R.id.item_profile_picture);
+        artworkName = itemView.findViewById(R.id.artwork_name);
+        likeButton = itemView.findViewById(R.id.like_button);
+        infoButton = itemView.findViewById(R.id.info_button);
+        closeInfo = itemView.findViewById(R.id.close_info);
 
-        infoTabArtwokName = view.findViewById(R.id.info_tab_artwork_name);
-        infoTabArtistName = view.findViewById(R.id.info_tab_artist_name);
-        infoTabBio = view.findViewById(R.id.info_tab_bio);
+        infoTabArtwokName = itemView.findViewById(R.id.info_tab_artwork_name);
+        infoTabArtistName = itemView.findViewById(R.id.info_tab_artist_name);
+        infoTabBio = itemView.findViewById(R.id.info_tab_bio);
 
-        infoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showArtworkInfo(parentLayout ,brief, infoTab);
-            }
-        });
+        infoButton.setOnClickListener(view -> showArtworkInfo(parentLayout ,brief, infoTab));
 
-        likeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                likeArtwork(position);
-            }
-        });
+        closeInfo.setOnClickListener(view -> closeArtworkInfo(parentLayout, brief, infoTab));
+
+        likeButton.setOnClickListener(view -> likeArtwork(position));
 
         ArtworkModel artworkModel = artworkModels.get(position);
 
@@ -93,9 +88,9 @@ public class CardAdapter extends PagerAdapter {
         else
             likeButton.setBackground(null);
 
-        container.addView(view, 0);
+        container.addView(itemView, 0);
 
-        return view;
+        return itemView;
     }
 
     @Override
@@ -110,7 +105,12 @@ public class CardAdapter extends PagerAdapter {
     }
 
     private void likeArtwork(int position) {
-        //artworkModels.get(position).likeArt();
+        ArtworkModel artworkModel = artworkModels.get(position);
+        try {
+            HttpService.likeArtwork(artworkModel.getId());
+        } catch (Exception e) {
+            Log.e(TAG, "likeArtwork: Error while liking art.");
+        }
         Log.e("LIKE", " " + position);
         notifyDataSetChanged();
     }
@@ -118,6 +118,12 @@ public class CardAdapter extends PagerAdapter {
     private void showArtworkInfo(LinearLayout parentLayout, RelativeLayout brief, RelativeLayout infoTab){
         brief.setVisibility(View.GONE);
         infoTab.setVisibility(View.VISIBLE);
+        parentLayout.invalidate();
+    }
+
+    private void closeArtworkInfo(LinearLayout parentLayout, RelativeLayout brief, RelativeLayout infoTab) {
+        brief.setVisibility(View.VISIBLE);
+        infoTab.setVisibility(View.GONE);
         parentLayout.invalidate();
     }
 

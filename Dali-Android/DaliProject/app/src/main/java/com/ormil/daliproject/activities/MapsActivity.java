@@ -17,6 +17,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,7 +25,6 @@ import com.ormil.daliproject.Helpers.UserMonitorHelper;
 import com.ormil.daliproject.Models.ArtworkModel;
 import com.ormil.daliproject.R;
 import com.ormil.daliproject.Services.ExitService;
-import com.ormil.daliproject.Services.HttpService;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -92,21 +92,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_json));
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
                         PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        }
-        else {
+        } else {
             gpsActions();
         }
-
-
     }
 
     private void gpsActions(){
+
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         mLocationListener = new LocationListener() {
             @Override
@@ -130,9 +130,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         };
-        mMap.setMyLocationEnabled(true);
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3, 3, mLocationListener);
-        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3, 3, mLocationListener);
+        try {
+            mMap.setMyLocationEnabled(true);
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3, 3, mLocationListener);
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3, 3, mLocationListener);
+        } catch (SecurityException e) {
+            Log.e(TAG, "No permissions");
+        }
     }
 
     @Override
@@ -160,7 +164,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             Log.d(TAG, "Lat: " + location.getLatitude() + " Lng: " + location.getLongitude());
 
-            String response = HttpService.get(HttpService.endPoint + HttpService.userPath + "/getArtsByLocation?" + "lat=" + location.getLatitude() + "&lng=" + location.getLongitude());
+            //String response = HttpService.getArtworkByLocation(currentLocation.latitude, currentLocation.longitude);
+            String response = "[{\"id\":22,\"path\":\"project-dali.com/data/files/115528235345908255360/rhetorician.glb\",\"name\":\"Rhetorician\",\"artistId\":\"115528235345908255360\",\"lat\":32.1132,\"lng\":34.8179,\"dt_created\":\"2019-05-28 22:28:48\",\"generes\":[\"classic\"],\"generesIds\":[1],\"info\":\"Bust of the Rhetorician\",\"artistName\":\"Or Milis\",\"artistPicture\":\"https://twistedsifter.files.wordpress.com/2012/09/trippy-profile-pic-portrait-head-on-and-from-side-angle.jpg\"}," +
+                    "{\"id\":23,\"path\":\"project-dali.com/data/files/115528235345908255360/past Gud.glb\",\"name\":\"Past Gud\",\"artistId\":\"115528235345908255360\",\"lat\":32.1131,\"lng\":34.818,\"dt_created\":\"2019-05-28 22:32:28\",\"generes\":[\"classic\"],\"generesIds\":[1],\"info\":\"The fall of past gud\",\"artistName\":\"Or Milis\",\"artistPicture\":\"https://twistedsifter.files.wordpress.com/2012/09/trippy-profile-pic-portrait-head-on-and-from-side-angle.jpg\"}," +
+                    "{\"id\":24,\"path\":\"project-dali.com/data/files/115528235345908255360/high_priestess.glb\",\"name\":\"High priestess\",\"artistId\":\"115528235345908255360\",\"lat\":32.113,\"lng\":34.8179,\"dt_created\":\"2019-05-28 22:33:51\",\"generes\":[\"classic\"],\"generesIds\":[1],\"info\":\"Kindness of the priestess\",\"artistName\":\"Or Milis\",\"artistPicture\":\"https://twistedsifter.files.wordpress.com/2012/09/trippy-profile-pic-portrait-head-on-and-from-side-angle.jpg\"}]";
+
             Type listType = new TypeToken<ArrayList<ArtworkModel>>() {}.getType();
             artworkModels = new Gson().fromJson(response, listType);
 

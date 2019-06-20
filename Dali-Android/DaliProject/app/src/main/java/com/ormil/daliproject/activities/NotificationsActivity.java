@@ -3,10 +3,9 @@ package com.ormil.daliproject.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
-import com.ormil.daliproject.Adapters.ArtUserAdapter;
-import com.ormil.daliproject.Helpers.UserMonitorHelper;
 import com.ormil.daliproject.Models.ArtUserModel;
 import com.ormil.daliproject.R;
 import com.ormil.daliproject.Services.ExitService;
@@ -25,6 +24,9 @@ public class NotificationsActivity extends AppCompatActivity {
         startService(intent);
 
         ListView mListView = findViewById(R.id.notification_list);
+        ImageButton backBtn = findViewById(R.id.notification_back_button);
+
+        backBtn.setOnClickListener(view -> onBackPressed());
 
         /*ArrayList<NotificationModel> notificationModels = new ArrayList<>();
 

@@ -9,7 +9,7 @@ public class ArtworkModel extends ListModel implements Parcelable {
     private int id;
     private String path;
     private String name;
-    private int artistId;
+    private String artistId;
     private double lat;
     private double lng;
     private String dt_created;
@@ -24,7 +24,7 @@ public class ArtworkModel extends ListModel implements Parcelable {
         id = in.readInt();
         path = in.readString();
         name = in.readString();
-        artistId = in.readInt();
+        artistId = in.readString();
         lat = in.readDouble();
         lng = in.readDouble();
         dt_created = in.readString();
@@ -70,11 +70,11 @@ public class ArtworkModel extends ListModel implements Parcelable {
         this.name = name;
     }
 
-    public int getArtistId() {
+    public String getArtistId() {
         return artistId;
     }
 
-    public void setArtistId(int artistId) {
+    public void setArtistId(String artistId) {
         this.artistId = artistId;
     }
 
@@ -159,7 +159,7 @@ public class ArtworkModel extends ListModel implements Parcelable {
         parcel.writeInt(this.id);
         parcel.writeString(this.path);
         parcel.writeString(this.name);
-        parcel.writeInt(this.artistId);
+        parcel.writeString(this.artistId);
         parcel.writeDouble(this.lat);
         parcel.writeDouble(this.lng);
         parcel.writeString(this.dt_created);

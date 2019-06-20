@@ -14,14 +14,11 @@ import android.widget.Toast;
 
 import com.ormil.daliproject.Adapters.ArtUserAdapter;
 import com.ormil.daliproject.Adapters.NotificationAdapter;
-import com.ormil.daliproject.Models.ArtUserModel;
-import com.ormil.daliproject.Models.ArtworkModel;
 import com.ormil.daliproject.Models.ListModel;
 import com.ormil.daliproject.R;
 import com.ormil.daliproject.activities.ProfileActivity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ListTabFragment extends Fragment {
 
@@ -41,6 +38,7 @@ public class ListTabFragment extends Fragment {
         Log.e(TAG, "setArguments() called with: args = [" + args + "]");
 
         try {
+            assert args != null;
             dataSetModels = args.getParcelableArrayList(ProfileActivity.LIST_DATASET_KEY);
             tabType = (TabType) args.getSerializable(ProfileActivity.LIST_TYPE_KEY);
         } catch (NullPointerException e) {

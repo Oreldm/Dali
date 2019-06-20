@@ -6,27 +6,20 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.ormil.daliproject.Helpers.UserMonitorHelper;
-import com.ormil.daliproject.Models.ArtUserModel;
 import com.ormil.daliproject.Fragments.ListTabFragment;
 import com.ormil.daliproject.Fragments.MapTabFragment;
 import com.ormil.daliproject.Adapters.ProfileTabAdapter;
-import com.ormil.daliproject.Models.ArtworkModel;
 import com.ormil.daliproject.Models.UserProfileModel;
 import com.ormil.daliproject.R;
 import com.ormil.daliproject.Services.ExitService;
 import com.ormil.daliproject.Services.HttpService;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity {
     /**
@@ -70,15 +63,18 @@ public class ProfileActivity extends AppCompatActivity {
         TextView userGenre = findViewById(R.id.profile_sub_text);
         TextView userBio = findViewById(R.id.profile_bio);
         ImageView userPicture = findViewById(R.id.profile_picture);
+        ImageButton backBtn = findViewById(R.id.profile_top_bar_back_button);
 
         ViewPager viewPager = findViewById(R.id.profile_viewpager);
         TabLayout tabLayout = findViewById(R.id.profile_tabs);
 
         ProfileTabAdapter tabAdapter = new ProfileTabAdapter(getSupportFragmentManager());
 
+        backBtn.setOnClickListener(view -> onBackPressed());
+
         String id = bundle.getString(PROFILE_USER_ID);
         try {
-            String profileJson = HttpService.get(HttpService.endPoint + HttpService.userPath + "/getProfileById" + "?id=" + id);
+            String profileJson = HttpService.getProfileById(id);
             Gson g = new Gson();
             profileModel = g.fromJson(profileJson, UserProfileModel.class);
         }
@@ -103,7 +99,22 @@ public class ProfileActivity extends AppCompatActivity {
         switch(profileType) {
             case USER_PROFILE:
 
-
+                /*ArrayList<String> followNotification = new ArrayList<>();
+                ArrayList<UserProfileModel> artistRecommend = new ArrayList<>();
+                try {
+                    String notificationArray = HttpService.getNotificationById("2");
+                    JSONArray jsonArray = new JSONArray(notificationArray);
+                    for(int i = 0; i < jsonArray.length(); i++) {
+                        String temp = jsonArray.getString(i);
+                        try {
+                            artistRecommend.add((UserProfileModel) new Gson().fromJson(temp, UserProfileModel.class));
+                        } catch (Exception e) {
+                            followNotification.add(temp);
+                        }
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Could not fetch notifications");
+                }*/
 
                 ListTabFragment likedArtworkTabFragment = new ListTabFragment();
                 //ListTabFragment notificationTabFragment = new ListTabFragment();

@@ -1,22 +1,19 @@
 package com.ormil.daliproject.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ormil.daliproject.Adapters.ArtUserAdapter;
 import com.ormil.daliproject.Helpers.UserMonitorHelper;
-import com.ormil.daliproject.Models.ArtworkModel;
 import com.ormil.daliproject.Models.ListModel;
 import com.ormil.daliproject.Models.UserProfileModel;
 import com.ormil.daliproject.R;
@@ -45,6 +42,7 @@ public class SearchActivity extends AppCompatActivity {
 
         EditText editText = findViewById(R.id.search_edit_text);
         ListView listView = findViewById(R.id.search_list);
+        ImageButton backBtn = findViewById(R.id.profile_top_bar_back_button);
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -66,7 +64,7 @@ public class SearchActivity extends AppCompatActivity {
                                 {
                                     try {
                                         Log.d(TAG, "run() called");
-                                        String profileJson = HttpService.get(HttpService.endPoint + HttpService.userPath + "/search" + "?str=" + charSequence);
+                                        String profileJson = HttpService.searchProfiles(charSequence);
                                         Gson g = new Gson();
                                         Type listType = new TypeToken<ArrayList<UserProfileModel>>() {
                                         }.getType();
@@ -92,6 +90,8 @@ public class SearchActivity extends AppCompatActivity {
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
             onListItemClick(i);
         });
+
+        backBtn.setOnClickListener(view -> onBackPressed());
 
         adapter = new ArtUserAdapter(this, userProfileModels, ArtUserAdapter.AdapterType.USER_FOCUS);
         listView.setAdapter(adapter);

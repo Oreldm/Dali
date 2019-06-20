@@ -23,7 +23,6 @@ import com.google.ar.core.Plane;
 import com.google.ar.core.Trackable;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.assets.RenderableSource;
-import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.Renderable;
 import com.google.ar.sceneform.ux.ArFragment;
@@ -33,13 +32,14 @@ import com.google.gson.reflect.TypeToken;
 import com.ormil.daliproject.Helpers.UserMonitorHelper;
 import com.ormil.daliproject.Adapters.CardAdapter;
 import com.ormil.daliproject.Models.ArtworkModel;
-import com.ormil.daliproject.Models.CardModel;
+import com.ormil.daliproject.Models.GenreMonitorModel;
 import com.ormil.daliproject.R;
 import com.ormil.daliproject.Services.ExitService;
 import com.ormil.daliproject.Services.HttpService;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ArActivity extends AppCompatActivity {
@@ -64,6 +64,9 @@ public class ArActivity extends AppCompatActivity {
     //private List<CardModel> cardModels;
     private ArrayList<ArtworkModel> artworksModels;
 
+    private GenreMonitorModel monitorModel;
+    private long startTime = 0;
+    private long endTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +84,8 @@ public class ArActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ar);
 
         try {
-            String artworksJson = HttpService.get(HttpService.endPoint + HttpService.userPath + "/getArtsByLocation?" + "lat=" + currentLocation.latitude + "&lng=" + currentLocation.longitude);
+            String artworksJson = HttpService.getArtworkByLocation(currentLocation.latitude, currentLocation.longitude);
+
             Gson g = new Gson();
             Type listType = new TypeToken<ArrayList<ArtworkModel>>() {}.getType();
             artworksModels = g.fromJson(artworksJson,  listType);
@@ -107,6 +111,16 @@ public class ArActivity extends AppCompatActivity {
                 Log.e(TAG, "Page Changed to: " + i);
                 isArtChanged = true;
                 selectedArt = i;
+
+                endTime = new Date().getTime();
+                monitorModel.setTime((endTime - startTime) /1000f);
+                if(startTime >= 0 && monitorModel != null) {
+                    UserMonitorHelper.genreMonitorModels.add(monitorModel);
+                    Log.d(TAG, "Switch: " + monitorModel);
+                }
+                startTime = 0;
+                endTime = 0;
+                monitorModel = null;
             }
 
             @Override
@@ -175,10 +189,14 @@ public class ArActivity extends AppCompatActivity {
         TransformableNode modelTransform = new TransformableNode(arFragment.getTransformationSystem());
         modelTransform.setParent(anchorNode);
         modelTransform.setRenderable(renderable);
-        modelTransform.getScaleController().setMaxScale(0.8f);
+        modelTransform.getScaleController().setMaxScale(0.6f);
         modelTransform.getScaleController().setMinScale(0.2f);
         arFragment.getArSceneView().getScene().addChild(anchorNode);
         modelTransform.select();
+
+        startTime = new Date().getTime();
+        ArtworkModel artworkModel = artworksModels.get(selectedArt);
+        monitorModel = new GenreMonitorModel(artworkModel.getId(), artworkModel.getGeneres().get(0));
     }
 
     private Point getScreenCenter() {
