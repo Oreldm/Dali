@@ -92,6 +92,9 @@ public class ArActivity extends AppCompatActivity {
             Log.d(TAG, "artworkList: " + artworksModels.toString() );
         }
         catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG,e.toString());
+            Log.e(TAG,e.getMessage());
             Log.e(TAG, "Error while looking for artworks");
         }
 
