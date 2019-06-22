@@ -79,7 +79,9 @@ public class ProfileActivity extends AppCompatActivity {
             profileModel = g.fromJson(profileJson, UserProfileModel.class);
         }
         catch (Exception e) {
+            Log.e(TAG,e.toString());
             Log.e(TAG, "Error while looking for artworks");
+            e.printStackTrace();
         }
 
         userName.setText(profileModel.getName());

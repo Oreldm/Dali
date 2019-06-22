@@ -20,8 +20,13 @@ public class HttpService {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
     }
+    private static void allowNetworkOnMainThread(){
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+    }
 
     private static String get(String urlStr) throws Exception{
+        allowNetworkOnMainThread();
         URL url = new URL(urlStr);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
@@ -35,36 +40,44 @@ public class HttpService {
     }
 
     public static String signInApp(String id, String name, String pictureUrl) throws Exception {
+        allowNetworkOnMainThread();
         userID = id;
         return get(endPoint + userPath + "/signInApp?" + "id=" + id + "&name=" + name + "&picture=" + pictureUrl);
     }
 
     public static String getArtworkByLocation(double latitude, double longitude) throws Exception {
+        allowNetworkOnMainThread();
         return get(endPoint + userPath + "/getArtsByLocation?" + "lat=" + latitude + "&lng=" + longitude);
     }
 
     public static String getProfileById(String id) throws Exception {
+        allowNetworkOnMainThread();
         return get(HttpService.endPoint + HttpService.userPath + "/getProfileById?" + "id=" + id);
     }
 
     public static String getNotificationById(String id) throws Exception {
+        allowNetworkOnMainThread();
         return get(endPoint + userPath + "/getNotification?" + "id=" + id);
     }
 
     public static String searchProfiles(CharSequence charSequence) throws Exception {
+        allowNetworkOnMainThread();
         return get(endPoint + userPath + "/search?" + "str=" + charSequence);
     }
 
     public static String updateTask(int taskCompleted, int taskUndertaken) throws Exception {
+        allowNetworkOnMainThread();
         return get(endPoint + systemPath + "/updateTask?" + "taskCompleted=" + taskCompleted + "&taskUndertaken=" + taskUndertaken);
     }
 
     public static String likeArtwork(int artworkId) throws Exception {
+        allowNetworkOnMainThread();
         return get(endPoint + userPath + "/likeArtwork?" + "userId=" + userID + "&artworkId=" + artworkId);
     }
 
     //Machine Learning
     public static String postScore(int genereId, String viewerId, long score) throws Exception {
+        allowNetworkOnMainThread();
         return get(endPoint + mlPath + "/postScore?" + "viewerId=" + viewerId + "&genereId=" + genereId + "&score="
                 + score);
     }
@@ -72,6 +85,7 @@ public class HttpService {
 
 
     private static String readStream(BufferedInputStream in) throws Exception{
+        allowNetworkOnMainThread();
         String response ="";
         byte[] contents = new byte[1024];
 
