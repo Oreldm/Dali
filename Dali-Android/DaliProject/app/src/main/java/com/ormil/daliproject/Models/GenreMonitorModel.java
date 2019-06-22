@@ -2,13 +2,13 @@ package com.ormil.daliproject.Models;
 
 public class GenreMonitorModel {
     private int artworkId;
-    private String genre;
+    private int genreId;
     private float time;
     private long score;
 
-    public GenreMonitorModel(int artworkId, String genre) {
+    public GenreMonitorModel(int artworkId, int genreId) {
         this.artworkId = artworkId;
-        this.genre = genre;
+        this.genreId = genreId;
     }
 
     public int getArtworkId() {
@@ -19,12 +19,12 @@ public class GenreMonitorModel {
         this.artworkId = artworkId;
     }
 
-    public String getGenre() {
-        return genre;
+    public int getGenreId() {
+        return genreId;
     }
 
     public void setGenre(String genre) {
-        this.genre = genre;
+        this.genreId = genreId;
     }
 
     public float getTime() {
@@ -46,7 +46,7 @@ public class GenreMonitorModel {
     public String toString() {
         return "GenreMonitorModel{" +
                 "artworkId=" + artworkId +
-                ", genre='" + genre + '\'' +
+                ", genre='" + genreId + '\'' +
                 ", time=" + time +
                 ", score=" + score +
                 '}';

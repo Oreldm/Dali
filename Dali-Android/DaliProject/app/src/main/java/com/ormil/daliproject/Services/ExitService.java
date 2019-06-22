@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.ormil.daliproject.Helpers.UserMonitorHelper;
+import com.ormil.daliproject.Models.GenreMonitorModel;
 
 public class ExitService extends Service {
     public static int TaskCompletedGlobal=0;
@@ -24,6 +25,10 @@ public class ExitService extends Service {
         super.onTaskRemoved(rootIntent);
 
         //do something you want before app closes.
+
+
+
+        //Sending data about screens
         int taskUndertaken=0;
         int taskCompleted=0;
         if(UserMonitorHelper.screens.size()<2){
@@ -53,6 +58,24 @@ public class ExitService extends Service {
         taskCompleted+=TaskCompletedGlobal;
 
         sendRequest(taskCompleted,taskUndertaken);
+
+
+        //Sending data about generes
+        if(UserMonitorHelper.genreMonitorModels!=null)
+            for(GenreMonitorModel model : UserMonitorHelper.genreMonitorModels){
+                //calculate score
+                long score = UserMonitorHelper.calculateScore(model.getTime());
+                //post to server
+                try {
+                    HttpService.postScore(model.getGenreId(),HttpService.userID,score);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Log.e("Exception", "Unable to send score");
+                }
+            }
+
+
+
         //stop service
         this.stopSelf();
     }

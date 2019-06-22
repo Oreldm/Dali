@@ -196,7 +196,7 @@ public class ArActivity extends AppCompatActivity {
 
         startTime = new Date().getTime();
         ArtworkModel artworkModel = artworksModels.get(selectedArt);
-        monitorModel = new GenreMonitorModel(artworkModel.getId(), artworkModel.getGeneres().get(0));
+        monitorModel = new GenreMonitorModel(artworkModel.getId(), artworkModel.getGeneresIds().get(0));
     }
 
     private Point getScreenCenter() {

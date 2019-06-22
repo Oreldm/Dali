@@ -9,12 +9,11 @@ import java.net.URL;
 
 public class HttpService {
 
-    public static HttpService INSTANCE = new HttpService();
     public static String userID = "";
     public static final String endPoint = "http://project-dali.com:5000";
-    public static final String androidPath = "/android";
     public static final String userPath = "/user";
     public static final String systemPath = "/system";
+    public static final String mlPath = "/ML";
     public static String response;
 
     private HttpService(){
@@ -63,6 +62,14 @@ public class HttpService {
     public static String likeArtwork(int artworkId) throws Exception {
         return get(endPoint + userPath + "/likeArtwork?" + "userId=" + userID + "&artworkId=" + artworkId);
     }
+
+    //Machine Learning
+    public static String postScore(int genereId, String viewerId, long score) throws Exception {
+        return get(endPoint + mlPath + "/postScore?" + "viewerId=" + viewerId + "&genereId=" + genereId + "&score="
+                + score);
+    }
+
+
 
     private static String readStream(BufferedInputStream in) throws Exception{
         String response ="";

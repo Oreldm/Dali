@@ -1,7 +1,9 @@
 package com.ormil.daliproject.activities;
 
+import android.Manifest;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,12 +30,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
-                .requestIdToken("146644312889-omcthjokcqf9qts63mbijevfokgrbag2.apps.googleusercontent.com")
                 .build();
-
+//.requestIdToken("177095784706-kkv8qlul5cakah5fr0hkbkjf2shkf26v.apps.googleusercontent.com")
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         SignInButton signInButton = findViewById(R.id.sign_in_button);
