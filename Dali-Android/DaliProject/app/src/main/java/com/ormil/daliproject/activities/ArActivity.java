@@ -117,15 +117,7 @@ public class ArActivity extends AppCompatActivity {
                 isArtChanged = true;
                 selectedArt = i;
 
-                endTime = new Date().getTime();
-                monitorModel.setTime((endTime - startTime) /1000f);
-                if(startTime >= 0 && monitorModel != null) {
-                    UserMonitorHelper.genreMonitorModels.add(monitorModel);
-                    Log.d(TAG, "Switch: " + monitorModel);
-                }
-                startTime = 0;
-                endTime = 0;
-                monitorModel = null;
+                finishLookingAtArt();
             }
 
             @Override
@@ -135,7 +127,7 @@ public class ArActivity extends AppCompatActivity {
         });
 
         arFragment.getArSceneView().getScene().addOnUpdateListener(frameTime -> {
-            if(isArtChanged || !isArtPlaced)
+            if((isArtChanged || !isArtPlaced) && artworksModels.size() > 0)
                 addObject("http://" + artworksModels.get(selectedArt).getPath());
         });
     }
@@ -211,6 +203,25 @@ public class ArActivity extends AppCompatActivity {
         return new Point(size.x/2, size.y/2);
     }
 
+    private void finishLookingAtArt() {
+        if(artworksModels.size() > 0 && monitorModel != null) {
+            endTime = new Date().getTime();
+            monitorModel.setTime((endTime - startTime) / 1000f);
+            if (startTime >= 0 && monitorModel != null) {
+                UserMonitorHelper.genreMonitorModels.add(monitorModel);
+                Log.d(TAG, "Switch: " + monitorModel);
+            }
+            startTime = 0;
+            endTime = 0;
+            monitorModel = null;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishLookingAtArt();
+        super.onBackPressed();
+    }
 
     public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
