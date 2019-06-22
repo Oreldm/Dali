@@ -26,6 +26,7 @@ import com.ormil.daliproject.Helpers.UserMonitorHelper;
 import com.ormil.daliproject.Models.ArtworkModel;
 import com.ormil.daliproject.R;
 import com.ormil.daliproject.Services.ExitService;
+import com.ormil.daliproject.Services.HttpService;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -167,10 +168,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             Log.d(TAG, "Lat: " + location.getLatitude() + " Lng: " + location.getLongitude());
 
-            //String response = HttpService.getArtworkByLocation(currentLocation.latitude, currentLocation.longitude);
-            String response = "[{\"id\":22,\"path\":\"project-dali.com/data/files/115528235345908255360/rhetorician.glb\",\"name\":\"Rhetorician\",\"artistId\":\"115528235345908255360\",\"lat\":32.1132,\"lng\":34.8179,\"dt_created\":\"2019-05-28 22:28:48\",\"generes\":[\"classic\"],\"generesIds\":[1],\"info\":\"Bust of the Rhetorician\",\"artistName\":\"Or Milis\",\"artistPicture\":\"https://twistedsifter.files.wordpress.com/2012/09/trippy-profile-pic-portrait-head-on-and-from-side-angle.jpg\"}," +
-                    "{\"id\":23,\"path\":\"project-dali.com/data/files/115528235345908255360/past Gud.glb\",\"name\":\"Past Gud\",\"artistId\":\"115528235345908255360\",\"lat\":32.1131,\"lng\":34.818,\"dt_created\":\"2019-05-28 22:32:28\",\"generes\":[\"classic\"],\"generesIds\":[1],\"info\":\"The fall of past gud\",\"artistName\":\"Or Milis\",\"artistPicture\":\"https://twistedsifter.files.wordpress.com/2012/09/trippy-profile-pic-portrait-head-on-and-from-side-angle.jpg\"}," +
-                    "{\"id\":24,\"path\":\"project-dali.com/data/files/115528235345908255360/high_priestess.glb\",\"name\":\"High priestess\",\"artistId\":\"115528235345908255360\",\"lat\":32.113,\"lng\":34.8179,\"dt_created\":\"2019-05-28 22:33:51\",\"generes\":[\"classic\"],\"generesIds\":[1],\"info\":\"Kindness of the priestess\",\"artistName\":\"Or Milis\",\"artistPicture\":\"https://twistedsifter.files.wordpress.com/2012/09/trippy-profile-pic-portrait-head-on-and-from-side-angle.jpg\"}]";
+            String response = HttpService.getArtworkByLocation(currentLocation.latitude, currentLocation.longitude);
 
             Type listType = new TypeToken<ArrayList<ArtworkModel>>() {}.getType();
             artworkModels = new Gson().fromJson(response, listType);
