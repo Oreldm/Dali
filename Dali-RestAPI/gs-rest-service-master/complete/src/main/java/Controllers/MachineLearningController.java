@@ -16,7 +16,7 @@ public class MachineLearningController {
 	public boolean postScore(@RequestParam(value = "viewerId") String viewerId,
 			@RequestParam(value = "genereId") int genereId,
 			@RequestParam(value = "score") int score) throws SQLException {
-		String command = "UPDATE ML_Viewer_Tag_Score SET score = score + "+score+" WHERE tagId = "+genereId+" AND userId='"+viewerId+"'";
+		String command = "INSERT INTO `ML_Viewer_Tag_Score` (`score`, `tagId`, `userId`)  VALUES ("+score+","+genereId+","+viewerId+")";
 		DALService.sendCommandDataManipulation(command);
 		
 		return true;
