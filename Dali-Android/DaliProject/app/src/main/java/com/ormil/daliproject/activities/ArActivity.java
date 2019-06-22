@@ -99,7 +99,9 @@ public class ArActivity extends AppCompatActivity {
         }
 
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ar_fragment);
-
+        if(artworksModels==null){
+            artworksModels=new ArrayList<ArtworkModel>();
+        }
         cardAdapter = new CardAdapter(artworksModels, this);
         viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(cardAdapter);

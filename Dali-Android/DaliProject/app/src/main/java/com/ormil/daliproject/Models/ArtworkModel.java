@@ -18,7 +18,6 @@ public class ArtworkModel extends ListModel implements Parcelable {
     private String artistPicture;
     private String artistName;
 
-
     protected ArtworkModel(Parcel in) {
         super(in);
         id = in.readInt();
